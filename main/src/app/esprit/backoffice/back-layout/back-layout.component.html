@@ -1,0 +1,33 @@
+<!-- back-layout.component.html -->
+<div class="layout-container">
+    <nav class="navbar">
+      <div class="navbar-content">
+        <a class="logo" routerLink="/backoffice">Admin Dashboard</a>
+        
+        <ul class="nav-links">
+          <li class="nav-item">
+            <a routerLink="/backoffice/offers" routerLinkActive="active">Offers</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/backoffice/quizzes" routerLinkActive="active">Quizzes</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/backoffice/applications" routerLinkActive="active">Applications</a>
+          </li>
+        </ul>
+        
+        <div class="profile-section">
+          <button class="profile-button">
+            <div class="avatar">
+              <span>A</span>
+            </div>
+            <span>Admin</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>

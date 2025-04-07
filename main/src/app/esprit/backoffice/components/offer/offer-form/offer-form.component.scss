@@ -1,0 +1,81 @@
+// Import variables from a shared file or declare again if needed
+$primary-color: #3f51b5;
+$secondary-color: #6c757d;
+$danger-color: #dc3545;
+$mid-gray: #e9ecef;
+$dark-gray: #343a40;
+$border-radius: 4px;
+$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+.form-container {
+  flex: 1;
+  background-color: white;
+  border-radius: $border-radius;
+  padding: 20px;
+  box-shadow: $box-shadow;
+  
+  h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: $dark-gray;
+    border-bottom: 1px solid $mid-gray;
+    padding-bottom: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+    
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: $dark-gray;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid $mid-gray;
+      border-radius: $border-radius;
+      font-size: 16px;
+      
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+      }
+    }
+    
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .error-text {
+      color: $danger-color;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 16px;
+    
+    .half-width {
+      flex: 1;
+    }
+    
+    @media (max-width: 576px) {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 24px;
+  }
+}

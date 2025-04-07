@@ -1,0 +1,52 @@
+// Import variables from a shared file or declare again if needed
+$primary-color: #3f51b5;
+$mid-gray: #e9ecef;
+$dark-gray: #343a40;
+$border-radius: 4px;
+$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+.details-container {
+  flex: 1;
+  background-color: white;
+  border-radius: $border-radius;
+  padding: 20px;
+  box-shadow: $box-shadow;
+  
+  h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: $dark-gray;
+    border-bottom: 1px solid $mid-gray;
+    padding-bottom: 10px;
+  }
+  
+  .detail-item {
+    margin-bottom: 12px;
+    
+    strong {
+      color: $dark-gray;
+    }
+    
+    .description-text {
+      margin-top: 8px;
+      white-space: pre-wrap;
+    }
+  }
+  
+  .quiz-section, .applications-section {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid $mid-gray;
+    
+    h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+  }
+  
+  .detail-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+}
