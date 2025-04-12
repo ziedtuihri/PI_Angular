@@ -12,5 +12,5 @@ export const PagesRoutes: Routes = [
         { title: 'Starter' },
       ],
     },
-  },
+  }
 ];
