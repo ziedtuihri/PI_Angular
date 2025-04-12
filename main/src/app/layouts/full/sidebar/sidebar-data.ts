@@ -8,7 +8,7 @@ export const navItems: NavItem[] = [
     displayName: 'Dashboard',
     iconName: 'solar:atom-line-duotone',
     route: '/dashboard',
-  },
+  },/*
   {
     displayName: 'Analytics',
     iconName: 'solar:widget-add-line-duotone',
@@ -139,7 +139,7 @@ export const navItems: NavItem[] = [
     external: true,
     chipClass: 'bg-secondary text-white',
     chipContent: 'PRO',
-  },
+  },*//*
   {
     displayName: 'Invoice',
     iconName: 'solar:bill-list-line-duotone',
@@ -215,7 +215,7 @@ export const navItems: NavItem[] = [
         chipContent: 'PRO',
       },
     ],
-  },
+  },*/
 
   {
     navCap: 'Ui Components',
@@ -255,7 +255,7 @@ export const navItems: NavItem[] = [
     displayName: 'Tables',
     iconName: 'solar:tablet-line-duotone',
     route: '/ui-components/tables',
-  },
+  },/*
   {
     displayName: 'Expansion Panel',
     iconName: 'solar:inbox-archive-line-duotone',
@@ -471,7 +471,7 @@ export const navItems: NavItem[] = [
         chipContent: 'PRO',
       },
     ],
-  },
+  },*/
 
   {
     navCap: 'Extra',
@@ -487,7 +487,7 @@ export const navItems: NavItem[] = [
     iconName: 'solar:planet-3-line-duotone',
     route: '/extra/sample-page',
   },
-
+/*
   {
     divider: true,
     navCap: 'Forms',
@@ -829,7 +829,7 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     chipContent: 'PRO',
   },
-
+*/
   {
     divider: true,
     navCap: 'Auth',
@@ -948,7 +948,7 @@ export const navItems: NavItem[] = [
     chip: true,
     chipClass: 'bg-secondary text-white',
     chipContent: 'PRO',
-  },
+  },/*
   {
     displayName: 'Maintenance',
     iconName: 'solar:settings-line-duotone',
@@ -957,6 +957,6 @@ export const navItems: NavItem[] = [
     chip: true,
     chipClass: 'bg-secondary text-white',
     chipContent: 'PRO',
-  },
+  },*/
   
 ];
