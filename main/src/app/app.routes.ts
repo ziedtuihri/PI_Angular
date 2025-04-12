@@ -4,13 +4,15 @@ import { FullComponent } from './layouts/full/full.component';
 
 import { SpritnComponent } from './pages/spritn/spritn.component';
 
+
+
 import { AuthGuard } from './services/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
     component: FullComponent,
-
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
