@@ -1,6 +1,6 @@
 <div class="offer-management-container">
     <div class="header">
-      <h1>Offer Management</h1>
+      <h1>Offer Management</h1>hello
       <button class="btn-primary" (click)="openCreateForm()">Create New Offer</button>
     </div>
   
@@ -125,7 +125,7 @@
             <p>No quiz attached to this offer.</p>
             <button class="btn-secondary" (click)="manageQuiz(selectedOffer)">Create Quiz</button>
           </ng-template>
-        </div>
+        </div>        
   
         <div class="applications-section" *ngIf="selectedOffer.applications?.length">
           <h3>Applications ({{ selectedOffer.applications!.length }})</h3>

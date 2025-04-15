@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Route, Router, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Offer } from 'src/app/shared/models/offer';
 import { OfferService } from 'src/app/shared/services/offer.service';
@@ -24,7 +24,8 @@ export class AllofferComponent {
   
   constructor(
     private offerService: OfferService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.offerForm = this.createOfferForm();
   }
@@ -164,6 +165,7 @@ export class AllofferComponent {
       .subscribe({
         next: (detailedOffer) => {
           this.selectedOffer = detailedOffer;
+          console.log('the selected offer '+this.selectedOffer.id)
           this.showForm = false;
         },
         error: (error) => {
@@ -172,12 +174,20 @@ export class AllofferComponent {
       });
   }
 
-  manageQuiz(offer: Offer): void {
-    // Navigate to quiz management component with offer ID
-    // You would implement this with Angular Router
+  /* manageQuiz(offer: Offer){
     console.log(`Navigate to quiz management for offer ${offer.id}`);
-    // Example: this.router.navigate(['/offers', offer.id, 'quiz']);
-  }
+    this.router.navigate([`/backoffice/offers/${offer.id}/quiz`]);
+  } */
+
+    manageQuiz(offer: Offer): void {
+      if (offer.quiz && offer.quiz.id) {
+        // Redirect to quiz update
+        this.router.navigate(['/backoffice/offers', offer.id, 'quizzes', 'update', offer.quiz.id]);
+      } else {
+        // Redirect to quiz creation
+        this.router.navigate(['/backoffice/offers', offer.id, 'quizzes', 'create']);
+      }
+    }
 
   resetForm(): void {
     this.offerForm.reset();
