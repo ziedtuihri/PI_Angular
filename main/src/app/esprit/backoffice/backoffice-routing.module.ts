@@ -8,6 +8,7 @@ import { QuestionManagementComponent } from './components/question-management/qu
 import { AnswerManagementComponent } from './components/answer-management/answer-management.component';
 import { ApplicationReviewComponent } from './components/application-review/application-review.component';
 import { AllofferComponent } from './components/offer/alloffer/alloffer.component';
+import { UpdateQuizComponent } from './components/update-quiz/update-quiz.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'offers', pathMatch: 'full' },
       { path: 'offers', component: AllofferComponent },
+      { path: 'offers/:offerId/quizzes/create', component: QuizManagementComponent },
+      { path: 'offers/:offerId/quizzes/update/:quizId', component: UpdateQuizComponent },
       { path: 'quizzes', component: QuizManagementComponent },
       { path: 'applications', component: ApplicationReviewComponent }
     ],
