@@ -1,0 +1,161 @@
+.reunions-list-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+button {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Ajout de style pour garantir la bonne visibilité du badge */
+.badge {
+    display: inline-block;
+    padding: 0.8rem 1rem;
+    width: 100%;
+    height: 150px;
+    font-size: 20%;
+    /* taille de police légèrement plus grande */
+    font-weight: 400;
+    border-radius: 9999px;
+    /* bords arrondis */
+    color: #fff;
+    /* texte blanc */
+    text-transform: uppercase;
+    /* texte en majuscules */
+}
+
+.bg-blue-600 {
+    background-color: #a1b7e7;
+}
+
+.bg-green-600 {
+    background-color: #b5d1bf;
+}
+
+.bg-yellow-500 {
+    background-color: #ddba7c;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: flex-start; /* Aligner vers le haut */
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    padding-top: 5rem; /* Décale vers le bas */
+    z-index: 9998;
+  }
+  
+  .modal-content {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 50%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    transform: translateX(20%);
+    max-height: 90vh;
+    overflow-y: auto; 
+    padding-right: 15px; 
+  }
+  
+.reunion-form-container {
+    padding: 1rem;
+}
+
+.form-card {
+    background: #e7e7e7;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-card:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.form-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #536198;
+    margin-bottom: 1.5rem;
+}
+
+
+input,
+textarea,
+select {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #4c6ef5;
+    box-shadow: 0 0 5px rgba(76, 110, 245, 0.3);
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    gap: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #3b82f6;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #2563eb;
+}
+
+button[type="button"] {
+    background-color: #374e7d;
+    color: #f7f7f7;
+}
+
+button[type="button"]:hover {
+    background-color: #d1d5db;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
