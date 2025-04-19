@@ -49,6 +49,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
 import { LoginService } from './services/login.service'; // Adjust the path as necessary
+import { SpritnComponent } from './pages/spritn/spritn.component';
 
 
 @NgModule({
