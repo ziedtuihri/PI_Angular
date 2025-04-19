@@ -1,0 +1,26 @@
+<mat-toolbar class="topbar gap-8">
+  <!-- Mobile Menu -->
+  @if(!showToggle) {
+  <button mat-icon-button (click)="toggleMobileNav.emit()" class="d-flex justify-content-center">
+    <i class="iconify icon-20 d-flex" data-icon="solar:hamburger-menu-line-duotone"></i>
+  </button>
+  }
+  <!-- --------------------------------------------------------------- -->
+  <!-- Notification Dropdown -->
+  <!-- --------------------------------------------------------------- -->
+  <div class="d-flex justify-content-end">
+    <button mat-icon-button aria-label="Notifications" [matMenuTriggerFor]="menu" class="d-flex align-items-center justify-content-center">
+      <div matBadge="2" matBadgeSize="small" matBadgeOverlap="false" class="demo-section">
+        <i class="iconify icon-20 d-flex" data-icon="solar:bell-line-duotone"></i>
+      </div>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  </div>
+  
+  <span class="flex-1-auto"></span>
+
+
+</mat-toolbar>
