@@ -1,0 +1,96 @@
+// Import variables from a shared file or declare again if needed
+$primary-color: #3f51b5;
+$secondary-color: #6c757d;
+$dark-gray: #343a40;
+$light-gray: #f8f9fa;
+$mid-gray: #e9ecef;
+$border-radius: 4px;
+$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+
+.list-container {
+  flex: 1;
+  
+  h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: $dark-gray;
+  }
+}
+
+.offers-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.offer-card {
+  background-color: white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  padding: 16px;
+  transition: $transition;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: $primary-color;
+  }
+  
+  .offer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+    
+    span {
+      font-size: 14px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background-color: $light-gray;
+    }
+    
+    .company {
+      background-color: rgba($primary-color, 0.1);
+      color: $primary-color;
+    }
+    
+    .location {
+      background-color: rgba($secondary-color, 0.1);
+      color: $secondary-color;
+    }
+    
+    .type {
+      background-color: rgba($dark-gray, 0.1);
+      color: $dark-gray;
+    }
+  }
+  
+  .truncate-text {
+    margin: 0 0 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: $secondary-color;
+  }
+  
+  .offer-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: $light-gray;
+  border-radius: $border-radius;
+  color: $secondary-color;
+}

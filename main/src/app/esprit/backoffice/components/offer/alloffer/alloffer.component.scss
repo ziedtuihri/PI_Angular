@@ -1,0 +1,348 @@
+// Variables
+$primary-color: #3f51b5;
+$secondary-color: #6c757d;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$light-gray: #f8f9fa;
+$mid-gray: #e9ecef;
+$dark-gray: #343a40;
+$border-radius: 4px;
+$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+
+.offer-management-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    
+    h1 {
+      margin: 0;
+      color: $dark-gray;
+    }
+  }
+  
+  .message-container {
+    margin-bottom: 20px;
+    
+    .error-message, .success-message {
+      padding: 12px 16px;
+      border-radius: $border-radius;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .error-message {
+      background-color: rgba($danger-color, 0.1);
+      color: darken($danger-color, 10%);
+      border-left: 4px solid $danger-color;
+    }
+    
+    .success-message {
+      background-color: rgba($success-color, 0.1);
+      color: darken($success-color, 10%);
+      border-left: 4px solid $success-color;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: inherit;
+      padding: 0 6px;
+    }
+  }
+  
+  .loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba($primary-color, 0.2);
+      border-radius: 50%;
+      border-top-color: $primary-color;
+      animation: spin 1s linear infinite;
+    }
+    
+    p {
+      margin-top: 16px;
+      color: $dark-gray;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  }
+  
+  .content-container {
+    display: flex;
+    gap: 24px;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+  
+  .form-container, .details-container {
+    flex: 1;
+    background-color: white;
+    border-radius: $border-radius;
+    padding: 20px;
+    box-shadow: $box-shadow;
+    
+    h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: $dark-gray;
+      border-bottom: 1px solid $mid-gray;
+      padding-bottom: 10px;
+    }
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+    
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: $dark-gray;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid $mid-gray;
+      border-radius: $border-radius;
+      font-size: 16px;
+      
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+      }
+    }
+    
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .error-text {
+      color: $danger-color;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 16px;
+    
+    .half-width {
+      flex: 1;
+    }
+    
+    @media (max-width: 576px) {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  
+  .detail-item {
+    margin-bottom: 12px;
+    
+    strong {
+      color: $dark-gray;
+    }
+    
+    .description-text {
+      margin-top: 8px;
+      white-space: pre-wrap;
+    }
+  }
+  
+  .quiz-section, .applications-section {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid $mid-gray;
+    
+    h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+  }
+  
+  .detail-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  
+  .list-container {
+    flex: 1;
+    
+    h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: $dark-gray;
+    }
+  }
+  
+  .offers-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  
+  .offer-card {
+    background-color: white;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    padding: 16px;
+    transition: $transition;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: $primary-color;
+    }
+    
+    .offer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+      
+      span {
+        font-size: 14px;
+        padding: 2px 8px;
+        border-radius: 12px;
+        background-color: $light-gray;
+      }
+      
+      .company {
+        background-color: rgba($primary-color, 0.1);
+        color: $primary-color;
+      }
+      
+      .location {
+        background-color: rgba($secondary-color, 0.1);
+        color: $secondary-color;
+      }
+      
+      .type {
+        background-color: rgba($dark-gray, 0.1);
+        color: $dark-gray;
+      }
+    }
+    
+    .truncate-text {
+      margin: 0 0 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      color: $secondary-color;
+    }
+    
+    .offer-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: $light-gray;
+    border-radius: $border-radius;
+    color: $secondary-color;
+  }
+  
+  // Buttons
+  .btn-primary, .btn-secondary, .btn-danger, .btn-link {
+    padding: 8px 16px;
+    border-radius: $border-radius;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: $transition;
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  
+  .btn-primary {
+    background-color: $primary-color;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+  
+  .btn-secondary {
+    background-color: $light-gray;
+    color: $secondary-color;
+    border: 1px solid $secondary-color;
+    
+    &:hover:not(:disabled) {
+      background-color: $mid-gray;
+    }
+  }
+  
+  .btn-danger {
+    background-color: $danger-color;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: darken($danger-color, 10%);
+    }
+  }
+  
+  .btn-link {
+    background: none;
+    color: $primary-color;
+    padding: 4px 8px;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+    
+    &.warning {
+      color: $danger-color;
+    }
+  }
+}

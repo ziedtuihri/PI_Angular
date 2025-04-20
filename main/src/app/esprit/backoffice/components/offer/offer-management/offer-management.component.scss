@@ -1,0 +1,158 @@
+// Variables
+$primary-color: #3f51b5;
+$secondary-color: #6c757d;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$light-gray: #f8f9fa;
+$mid-gray: #e9ecef;
+$dark-gray: #343a40;
+$border-radius: 4px;
+$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+
+.offer-management-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    
+    h1 {
+      margin: 0;
+      color: $dark-gray;
+    }
+  }
+  
+  .message-container {
+    margin-bottom: 20px;
+    
+    .error-message, .success-message {
+      padding: 12px 16px;
+      border-radius: $border-radius;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .error-message {
+      background-color: rgba($danger-color, 0.1);
+      color: darken($danger-color, 10%);
+      border-left: 4px solid $danger-color;
+    }
+    
+    .success-message {
+      background-color: rgba($success-color, 0.1);
+      color: darken($success-color, 10%);
+      border-left: 4px solid $success-color;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: inherit;
+      padding: 0 6px;
+    }
+  }
+  
+  .loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba($primary-color, 0.2);
+      border-radius: 50%;
+      border-top-color: $primary-color;
+      animation: spin 1s linear infinite;
+    }
+    
+    p {
+      margin-top: 16px;
+      color: $dark-gray;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  }
+  
+  .content-container {
+    display: flex;
+    gap: 24px;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+  
+  // Common button styles
+  .btn-primary, .btn-secondary, .btn-danger, .btn-link {
+    padding: 8px 16px;
+    border-radius: $border-radius;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: $transition;
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  
+  .btn-primary {
+    background-color: $primary-color;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+  
+  .btn-secondary {
+    background-color: $light-gray;
+    color: $secondary-color;
+    border: 1px solid $secondary-color;
+    
+    &:hover:not(:disabled) {
+      background-color: $mid-gray;
+    }
+  }
+  
+  .btn-danger {
+    background-color: $danger-color;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: darken($danger-color, 10%);
+    }
+  }
+  
+  .btn-link {
+    background: none;
+    color: $primary-color;
+    padding: 4px 8px;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+    
+    &.warning {
+      color: $danger-color;
+    }
+  }
+}

@@ -1,0 +1,168 @@
+<div class="offer-management-container">
+    <div class="header">
+      <h1>Offer Management</h1>hello
+      <button class="btn-primary" (click)="openCreateForm()">Create New Offer</button>
+    </div>
+  
+    <div class="message-container">
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+        <button class="close-btn" (click)="clearMessages()">×</button>
+      </div>
+      <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+        <button class="close-btn" (click)="clearMessages()">×</button>
+      </div>
+    </div>
+  
+    <div class="loading-spinner" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  
+    <div class="content-container" *ngIf="!isLoading">
+      <!-- Offer Form -->
+      <div class="form-container" *ngIf="showForm">
+        <h2>{{ isEditing ? 'Edit Offer' : 'Create New Offer' }}</h2>
+        <form [formGroup]="offerForm" (ngSubmit)="saveOffer()">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" formControlName="title" class="form-control">
+            <div class="error-text" *ngIf="hasError('title', 'required')">Title is required</div>
+            <div class="error-text" *ngIf="hasError('title', 'minlength')">Title must be at least 3 characters</div>
+          </div>
+  
+          <div class="form-group">
+            <label for="company">Company</label>
+            <input type="text" id="company" formControlName="company" class="form-control">
+            <div class="error-text" *ngIf="hasError('company', 'required')">Company is required</div>
+          </div>
+  
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" formControlName="location" class="form-control">
+            <div class="error-text" *ngIf="hasError('location', 'required')">Location is required</div>
+          </div>
+  
+          <div class="form-group">
+            <label for="type">Type</label>
+            <select id="type" formControlName="type" class="form-control">
+              <option value="">Select a type</option>
+              <option value="Stage">Stage</option>
+              <option value="CDI">CDI</option>
+              <option value="CDD">CDD</option>
+              <option value="Freelance">Freelance</option>
+              <option value="Internship">Internship</option>
+            </select>
+            <div class="error-text" *ngIf="hasError('type', 'required')">Type is required</div>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group half-width">
+              <label for="startDate">Start Date</label>
+              <input type="date" id="startDate" formControlName="startDate" class="form-control">
+            </div>
+  
+            <div class="form-group half-width">
+              <label for="endDate">End Date</label>
+              <input type="date" id="endDate" formControlName="endDate" class="form-control">
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" formControlName="description" rows="5" class="form-control"></textarea>
+            <div class="error-text" *ngIf="hasError('description', 'required')">Description is required</div>
+            <div class="error-text" *ngIf="hasError('description', 'minlength')">Description must be at least 10 characters</div>
+          </div>
+  
+          <input type="hidden" formControlName="companyId">
+  
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="resetForm()">Cancel</button>
+            <button type="submit" class="btn-primary" [disabled]="offerForm.invalid">
+              {{ isEditing ? 'Update' : 'Create' }} Offer
+            </button>
+          </div>
+        </form>
+      </div>
+  
+      <!-- Offer Details -->
+      <div class="details-container" *ngIf="selectedOffer && !showForm">
+        <h2>{{ selectedOffer.title }}</h2>
+        <div class="detail-item">
+          <strong>Company:</strong> {{ selectedOffer.company }}
+        </div>
+        <div class="detail-item">
+          <strong>Location:</strong> {{ selectedOffer.location }}
+        </div>
+        <div class="detail-item">
+          <strong>Type:</strong> {{ selectedOffer.type }}
+        </div>
+        <div class="detail-item" *ngIf="selectedOffer.startDate">
+          <strong>Start Date:</strong> {{ selectedOffer.startDate | date:'mediumDate' }}
+        </div>
+        <div class="detail-item" *ngIf="selectedOffer.endDate">
+          <strong>End Date:</strong> {{ selectedOffer.endDate | date:'mediumDate' }}
+        </div>
+        <div class="detail-item">
+          <strong>Description:</strong>
+          <p class="description-text">{{ selectedOffer.description }}</p>
+        </div>
+  
+        <div class="quiz-section">
+          <h3>Quiz</h3>
+          <div *ngIf="selectedOffer.quiz; else noQuiz">
+            <div class="detail-item">
+              <strong>Title:</strong> {{ selectedOffer.quiz.title }}
+            </div>
+            <div class="detail-item">
+              <strong>Questions:</strong> {{ selectedOffer.quiz.questions?.length || 0 }}
+            </div>
+            <button class="btn-secondary" (click)="manageQuiz(selectedOffer)">Manage Quiz</button>
+          </div>
+          <ng-template #noQuiz>
+            <p>No quiz attached to this offer.</p>
+            <button class="btn-secondary" (click)="manageQuiz(selectedOffer)">Create Quiz</button>
+          </ng-template>
+        </div>        
+  
+        <div class="applications-section" *ngIf="selectedOffer.applications?.length">
+          <h3>Applications ({{ selectedOffer.applications!.length }})</h3>
+          <!-- You could add a link to view applications here -->
+        </div>
+  
+        <div class="detail-actions">
+          <button class="btn-secondary" (click)="resetForm()">Back</button>
+          <button class="btn-primary" (click)="openEditForm(selectedOffer)">Edit</button>
+          <button class="btn-danger" (click)="deleteOffer(selectedOffer)">Delete</button>
+        </div>
+      </div>
+  
+      <!-- Offers List -->
+      <div class="list-container" *ngIf="!selectedOffer || showForm">
+        <h2>Available Offers</h2>
+        <div class="offers-list" *ngIf="offers.length; else noOffers">
+          <div class="offer-card" *ngFor="let offer of offers">
+            <h3>{{ offer.title }}</h3>
+            <div class="offer-meta">
+              <span class="company">{{ offer.company }}</span>
+              <span class="location" *ngIf="offer.location">{{ offer.location }}</span>
+              <span class="type" *ngIf="offer.type">{{ offer.type }}</span>
+            </div>
+            <p class="truncate-text">{{ offer.description }}</p>
+            <div class="offer-actions">
+              <button class="btn-link" (click)="viewDetails(offer)">View Details</button>
+              <button class="btn-link" (click)="openEditForm(offer)">Edit</button>
+              <button class="btn-link warning" (click)="deleteOffer(offer)">Delete</button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noOffers>
+          <div class="empty-state">
+            <p>No offers available. Create your first offer.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>

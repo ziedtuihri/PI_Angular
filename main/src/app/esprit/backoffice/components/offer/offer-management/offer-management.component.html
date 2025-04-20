@@ -1,0 +1,52 @@
+<div class="offer-management-container">
+  <div class="header">
+    <h1>Offer Management</h1>
+    <button class="btn-primary" (click)="openCreateForm()">Create New Offer</button>
+  </div>
+  
+  <div class="message-container">
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+      <button class="close-btn" (click)="clearMessages()">×</button>
+    </div>
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+      <button class="close-btn" (click)="clearMessages()">×</button>
+    </div>
+  </div>
+  
+  <div class="loading-spinner" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+  
+  <div class="content-container" *ngIf="!isLoading">
+    <!-- Form Component -->
+    <app-offer-form 
+      *ngIf="showForm"
+      [isEditing]="isEditing"
+      [offerToEdit]="selectedOffer"
+      (formSubmit)="handleFormSubmit($event)"
+      (formCancel)="resetForm()">
+    </app-offer-form>
+    
+    <!-- Details Component -->
+    <app-offer-details
+      *ngIf="selectedOffer && !showForm"
+      [offer]="selectedOffer"
+      (back)="resetForm()"
+      (edit)="openEditForm($event)"
+      (delete)="deleteOffer($event)"
+      (manageQuiz)="navigateToQuiz($event)">
+    </app-offer-details>
+    
+    <!-- List Component -->
+    <app-offer-list
+      *ngIf="!selectedOffer || showForm"
+      [offers]="offers"
+      (viewDetails)="viewDetails($event)"
+      (editOffer)="openEditForm($event)"
+      (deleteOffer)="deleteOffer($event)">
+    </app-offer-list>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="list-container">
+    <h2>Available Offers</h2>
+    <div class="offers-list" *ngIf="offers.length; else noOffers">
+      <div class="offer-card" *ngFor="let offer of offers">
+        <h3>{{ offer.title }}</h3>
+        <div class="offer-meta">
+          <span class="company">{{ offer.company }}</span>
+          <span class="location" *ngIf="offer.location">{{ offer.location }}</span>
+          <span class="type" *ngIf="offer.type">{{ offer.type }}</span>
+        </div>
+        <p class="truncate-text">{{ offer.description }}</p>
+        <div class="offer-actions">
+          <button class="btn-link" (click)="onViewDetails(offer)">View Details</button>
+          <button class="btn-link" (click)="onEditOffer(offer)">Edit</button>
+          <button class="btn-link warning" (click)="onDeleteOffer(offer)">Delete</button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noOffers>
+      <div class="empty-state">
+        <p>No offers available. Create your first offer.</p>
+      </div>
+    </ng-template>
+  </div>

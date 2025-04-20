@@ -7,6 +7,7 @@ import { FullComponent } from './layouts/full/full.component';
 
 
 import { AuthGuard } from './services/auth.guard';
+import { EntryComponent } from './esprit/entry/entry.component';
 
 export const routes: Routes = [
   {
@@ -40,20 +41,17 @@ export const routes: Routes = [
     ],
   },
   {
-    path: '',
-    component: BlankComponent,
-    children: [
-      {
-        path: 'authentication',
-        loadChildren: () =>
-          import('./pages/authentication/authentication.routes').then(
-            (m) => m.AuthenticationRoutes
-          ),
-      },
-    ],
+    path: 'frontoffice',
+    loadChildren: () =>
+      import('./esprit/frontoffice/frontoffice.module').then((m) => m.FrontofficeModule),
+  },
+  {
+    path: 'backoffice',
+    loadChildren: () =>
+      import('./esprit/backoffice/backoffice.module').then((m) => m.BackofficeModule),
   },
   {
     path: '**',
-    redirectTo: 'authentication/error',
+    redirectTo: '',
   },
 ];

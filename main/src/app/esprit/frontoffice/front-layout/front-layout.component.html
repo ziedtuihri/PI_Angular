@@ -1,0 +1,50 @@
+<div class="layout-container">
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <a class="logo" routerLink="/frontoffice">
+            <span class="logo-text">Student Portal</span>
+          </a>
+          
+          <nav class="main-nav">
+            <ul class="nav-list">
+              <li class="nav-item">
+                <a routerLink="/frontoffice/offers" routerLinkActive="active">Browse Offers</a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="/frontoffice/my-applications" routerLinkActive="active">My Applications</a>
+              </li>
+            </ul>
+          </nav>
+          
+          <div class="user-section">
+            <button class="user-button">
+              <div class="user-avatar">
+                <span>S</span>
+              </div>
+              <span class="username">Student</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <main class="main-content">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+    
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>&copy; 2025 Student Portal. All rights reserved.</p>
+          <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
