@@ -1,0 +1,37 @@
+<div class="salles-container">
+    <div class="header">
+        <h2>Salles Disponibles</h2>
+        <p>Voici les salles disponibles pour vos réunions</p>
+    </div>
+
+    <div *ngFor="let reunion of reunionDetails" class="reunion-card">
+        <h3>{{ reunion.titre }}</h3> <!-- Si tu veux afficher le titre de la réunion -->
+
+        <div class="card-container">
+            <div *ngFor="let salle of reunion.salles" class="card">
+                <div class="card-header">
+                    <h4>{{ salle.nom }}</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Affichage des détails de la réunion pour chaque salle -->
+                    <p><strong>Date:</strong> {{ reunion.date }}</p>
+                    <p><strong>Heure:</strong> {{ reunion.heure }}</p>
+                    <p><strong>Durée:</strong> {{ reunion.duree }} minutes</p>
+
+                    <!-- Vérification de la disponibilité de la salle -->
+                    <p *ngIf="salle.disponible; else nonDisponible">
+                        Salle disponible
+                    </p>
+                    <ng-template #nonDisponible>
+                        <p>Salle non disponible (Réservée)</p>
+                    </ng-template>
+                </div>
+                <div class="card-footer">
+                    <button class="btn"
+                        (click)="reserveSalle(salle, reunion, reunion.date, reunion.heure, reunion.duree)"
+                        [disabled]="!salle.disponible">Réserver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

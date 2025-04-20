@@ -71,8 +71,14 @@ export class ReunionListComponent implements OnInit {
     });
 
     this.reunionService.getReunions().subscribe({
-      next: (data: any) => this.reunions = Array.isArray(data) ? data : [],
+      next: (data: any) => {
+        this.reunions = Array.isArray(data) ? data : [];
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des réunions', err);
+      }
     });
+    
 
     this.reunionService.getParticipants().subscribe({
       next: (data: any) => this.participants = Array.isArray(data) ? data : []
@@ -88,13 +94,10 @@ export class ReunionListComponent implements OnInit {
   }
 
   onEdit(reunion: any): void {
-
-    console.log('reunion', reunion)
     this.isModalOpen = true;
     this.selectedReunion = reunion;
     this.selectedType = reunion.type;
     const selectedParticipants = reunion.participants?.map((p: any) => p.id) ?? [];
-    console.log('Participants extraits:', selectedParticipants);
     this.reunionForm.patchValue({
       titre: reunion.titre,
       description: reunion.description,
@@ -131,7 +134,7 @@ export class ReunionListComponent implements OnInit {
 
   isParticipantChecked(id: number): boolean {
     const participants = this.reunionForm.get('participants')?.value ?? [];
-    return participants.includes(id);  
+    return participants.includes(id);
   }
 
 
@@ -211,12 +214,11 @@ export class ReunionListComponent implements OnInit {
           alert('Réunion supprimée avec succès.');
         },
         error: (err) => {
-          const errorMessage = err?.error?.message || 'Erreur lors de la suppression.';
+          const errorMessage = err?.error?.message ?? 'Erreur lors de la suppression.';
           alert('Erreur : ' + errorMessage);
         }
       });
     }
   }
-
 
 }

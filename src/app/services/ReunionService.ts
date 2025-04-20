@@ -60,6 +60,19 @@ export class ReunionService {
         return this.http.delete(url, this.httpOptions);
     }
 
+    createSalle(salle: any) {
+        const url = `${this.apiUrl}/salle`;
+        return this.http.post(url, salle, this.httpOptions);
+    }
+    getSallesDisponibles(date: string, heure: string, duree: string) {
+        const url = `${this.apiUrl}/salles-disponibles?date=${date}&heure=${heure}&duree=${duree}`;
+        return this.http.get(url, this.httpOptions);
+    }
 
-
+    reserveSalle(reunionId: number, salleId: number, date: string, heure: string, duree: string) {
+        const url = `http://localhost:8081/api/reserve/${reunionId}?salleId=${salleId}&date=${date}&heure=${heure}&duree=${duree}`;
+        return this.http.post(url, {});
+      }
+      
+      
 }
