@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 // Material Form Controls
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -51,6 +53,7 @@ import { MatTableModule } from '@angular/material/table';
 import { LoginService } from './services/login.service'; // Adjust the path as necessary
 import { SpritnComponent } from './pages/spritn/spritn.component';
 
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [],
@@ -97,6 +100,7 @@ import { SpritnComponent } from './pages/spritn/spritn.component';
     MatBottomSheetModule,
     MatDialogModule,
     MatSnackBarModule,
+
     MatTooltipModule,
 
     // Material Data tables
