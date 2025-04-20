@@ -1,8 +1,14 @@
 import { Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
-
+import { ProjetComponent } from './pages/admin/projet/projet.component';
+import {ProjetDetailComponent} from './pages/admin/projet/projet-detail.component';
+import {SprintEtudiantsComponent} from './pages/admin/sprint/sprint-etudiants.component'
 import { AuthGuard } from './services/auth.guard';
+import { ProjetFormComponent } from './pages/admin/projet/form.component';
+import {SprintListComponent} from './pages/admin/sprint/sprint-list.component';
+import { SprintFormComponent } from './pages/admin/sprint/sprint-form.component';
+import { SprintDetailsComponent} from './pages/admin/sprint/sprint-details.component'
 
 export const routes: Routes = [
   {
@@ -14,6 +20,44 @@ export const routes: Routes = [
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',
+      },
+      {
+        path: 'projet', 
+        component :ProjetComponent,
+      },
+      {
+        path: 'projet/form', 
+        component: ProjetFormComponent,
+      },
+      {
+        path: 'projet/form/:id', 
+        component: ProjetFormComponent,
+      },
+      {
+        path: 'projet/detail/:id', 
+        component: ProjetDetailComponent, 
+      },
+      {
+        path: 'sprints/details/:id', 
+        component: SprintDetailsComponent, 
+      },
+
+      {
+        path: 'sprints', 
+        component: SprintListComponent,
+      },
+      {
+        path: 'sprints/add',
+        component: SprintFormComponent,
+      },
+
+      {
+        path: 'sprints/:id/edit',
+        component: SprintFormComponent,
+      },
+      {
+        path: 'sprints/:id/etudiants/manage', // Ajout de la route pour la gestion des étudiants du sprint
+        component: SprintEtudiantsComponent,
       },
       {
         path: 'dashboard',
