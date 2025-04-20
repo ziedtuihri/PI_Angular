@@ -50,13 +50,17 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
+import { ForgotPasswordComponent } from './pages/authentication/forgot-password/forgot-password.component'
+
 import { LoginService } from './services/login.service'; // Adjust the path as necessary
-import { SpritnComponent } from './pages/spritn/spritn.component';
+
 
 import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    
+  ],
   imports: [
     CommonModule,
 

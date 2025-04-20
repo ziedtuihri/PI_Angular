@@ -9,11 +9,6 @@ export const navItems: NavItem[] = [
     iconName: 'solar:atom-line-duotone',
     route: '/dashboard',
   },
-  {
-      displayName: "Sprint",
-      iconName: "solar:file-text-line-duotone",
-      route: '/sprint',
-  },
   /*
   {
     displayName: 'Analytics',

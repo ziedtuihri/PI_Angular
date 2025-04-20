@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { HttpClient } from  '@angular/common/http';
 import { Observable, of, BehaviorSubject, map, catchError } from 'rxjs';
-
+import { User } from '../models/user';
 
 import { jwtDecode } from 'jwt-decode';
 
@@ -23,12 +23,13 @@ export class LoginService {
     return this.http.post<any>('http://localhost:8082/auth/authenticate', { email, password })
       .pipe(
         map(response => {
-          console.log("working");
+          console.log(response)
+          if(response.token == 'Invalid account!') {
+            return {isOK: false}
+          }
           localStorage.setItem('token', response.token);
-          console.log(response.token)
           this.isAuthenticatedSubject.next(true);
-          this.router.navigate(['/dashboard']);
-          return { success: true, message: 'WELCOM TO PI DEV' };;
+          return { isOK: true };
         }),
         catchError(error => {
           console.log("error");
@@ -58,6 +59,20 @@ export class LoginService {
       }
     }
     return false;
+  }
+
+
+  signUp(user: User): Observable<any> {
+    return this.http.post<any>(`http://localhost:8082/auth/register`, user)
+    .pipe(
+      map(response => {
+        // this.router.navigate(['/verify-email']);
+        return { isOk: true };
+      }),
+      catchError(error => {
+        return of({ isOk: false, message: "Failed to create account" });
+      })
+    );
   }
 
 }

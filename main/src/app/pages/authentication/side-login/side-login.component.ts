@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParseSourceFile } from '@angular/compiler';
 import { LoginService } from '../../../services/login.service';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-side-login',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
@@ -18,10 +20,33 @@ export class AppSideLoginComponent {
   loginForm: FormGroup;
   // authService: LoginService;
 
-  constructor(private router: Router, private fb: FormBuilder, private authService: LoginService ) {
+  constructor(
+    private router: Router,
+     private fb: FormBuilder,
+      private authService: LoginService,
+          private snackBar: MatSnackBar,  
+     ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
+    });
+  }
+
+  showSuccessSnackbar() {
+    this.snackBar.open('Loing Successful', 'Close', {
+      duration: 1000,
+      panelClass: 'app-notification-success',
+      verticalPosition: 'top',
+      horizontalPosition: 'right',
+    });
+  }
+
+  showErrorSnackbar() {
+    this.snackBar.open('Invalid account', 'Close', {
+      duration: 1000,
+      panelClass: 'app-notification-error',
+      horizontalPosition: 'right',
+      verticalPosition: 'top'
     });
   }
 
@@ -33,7 +58,12 @@ export class AppSideLoginComponent {
       // console.log(loginData.email, loginData.password);
 
       this.authService.logIn(email, password).subscribe(response => {
-        if (!response.success) {
+        console.log(response)
+        if (response.isOK == true) {
+          this.showSuccessSnackbar();
+          this.router.navigate(['/dashboard']);
+        } else if (response.isOK == false) {
+          this.showErrorSnackbar();
         }
       });
     }

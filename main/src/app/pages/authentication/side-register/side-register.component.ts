@@ -9,6 +9,7 @@ import { MaterialModule } from 'src/app/material.module';
 
 
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-side-register',
@@ -18,6 +19,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AppSideRegisterComponent {
 
+  selected = 'USER';
+
   signupForm: FormGroup;
 
   options = this.settings.getOptions();
@@ -26,15 +29,17 @@ export class AppSideRegisterComponent {
     private settings: CoreService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: LoginService,
   ) {}
 
   ngOnInit() {
     this.signupForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['', Validators.required],
 
     });
   }
@@ -61,10 +66,42 @@ export class AppSideRegisterComponent {
     });
   }
 
+  errorSnackbarEmail() {
+    this.snackBar.open('Email already exists', 'Close', {
+      duration: 1000,
+      panelClass: 'app-notification-error',
+      horizontalPosition: 'right',
+      verticalPosition: 'top'
+    });
+  }
+
   onSubmit() {
+    if (this.signupForm.invalid) {
+      // Mark all fields as touched to show validation errors
+      this.signupForm.markAllAsTouched();
+      return;
+    }
     if (this.signupForm.valid) {
       // Handle form submission logic here
-      this.showSuccessSnackbar();
+      const signupData = this.signupForm.value;
+
+      console.log(signupData)
+
+      this.authService.signUp(signupData).subscribe(
+        response => {
+          console.log('Successfully created account:', response);
+          if(response.isOk == false){
+              this.errorSnackbarEmail();
+          }else if (response.isOk == true) {
+            this.showSuccessSnackbar();
+          }
+        },
+        error => {
+          console.error('Erreur d\'inscription : ', error);
+          this.showErrorSnackbar();
+        }
+      )
+
     } else {
       this.showErrorSnackbar();
     }

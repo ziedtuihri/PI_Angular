@@ -29,12 +29,12 @@
 
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">First Name</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="text" id="firstName" formControlName="firstName"/>
+              <input matInput type="text" id="firstName" formControlName="firstname"/>
             </mat-form-field>
 
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Last Name</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="text" id="lastName" formControlName="lastName"/>
+              <input matInput type="text" id="lastName" formControlName="lastname"/>
             </mat-form-field>
 
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Email Adddress</mat-label>
@@ -49,13 +49,14 @@
 
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Role</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <mat-select placeholder="Select Role">
+              <mat-select formControlName="role" [(value)]="selected">
                 <mat-option value="USER">Student</mat-option>
                 <mat-option value="TEACHER">Teacher</mat-option>
-                <mat-option value="company">Company</mat-option>
+                <mat-option value="HR_COMPANY">Company</mat-option>
               </mat-select>
             </mat-form-field>
-            <button type="submit"  mat-flat-button color="primary" class="w-100">S'inscrire</button>
+
+            <button type="submit"  mat-flat-button color="primary" class="w-100">Sign Up</button>
             <!-- input -->
           </form>
           <span class="d-block f-w-500 text-center m-t-24">Already have an Account?
