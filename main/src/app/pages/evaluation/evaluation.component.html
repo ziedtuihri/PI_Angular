@@ -1,0 +1,27 @@
+<div class="container mt-4">
+    <h2 class="mb-3">Liste de toutes les évaluations</h2>
+  
+    <div *ngIf="evaluations.length === 0">
+      <p class="text-muted">Aucune évaluation trouvée.</p>
+    </div>
+  
+    <table *ngIf="evaluations.length > 0" class="table table-striped table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Commentaire</th>
+          <th>Note</th>
+          <th>Date d'évaluation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let eval of evaluations">
+          <td>{{ eval.idEvaluation }}</td>
+          <td>{{ eval.commentaire }}</td>
+          <td>{{ eval.note }}</td>
+          <td>{{ eval.dateEvaluation | date: 'yyyy-MM-dd' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

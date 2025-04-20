@@ -9,6 +9,18 @@ export const navItems: NavItem[] = [
     iconName: 'solar:atom-line-duotone',
     route: '/dashboard',
   },
+<<<<<<< Updated upstream
+=======
+  
+  
+  { displayName: "Evaluation", 
+    iconName: "solar:file-text-line-duotone", 
+    route: '/evaluation', },
+  
+  
+  
+  /*
+>>>>>>> Stashed changes
   {
     displayName: 'Analytics',
     iconName: 'solar:widget-add-line-duotone',

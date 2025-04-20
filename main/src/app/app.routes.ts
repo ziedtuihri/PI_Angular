@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
+import { EvaluationComponent } from './pages/evaluation/evaluation.component';
+
+
 
 import { AuthGuard } from './services/auth.guard';
 
@@ -20,6 +23,19 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./pages/pages.routes').then((m) => m.PagesRoutes),
       },
+
+
+      {
+        path: 'evaluation',
+        component: EvaluationComponent,
+      },
+
+
+  
+   
+  
+      
+      
       {
         path: 'ui-components',
         loadChildren: () =>
