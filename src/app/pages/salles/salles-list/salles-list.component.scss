@@ -1,0 +1,76 @@
+.salles-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h2 {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .header p {
+    font-size: 1.1rem;
+    color: #777;
+  }
+  
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .card-header {
+    background-color: #007bff;
+    padding: 10px;
+    color: white;
+    text-align: center;
+  }
+  
+  .card-body {
+    padding: 15px;
+    color: #333;
+  }
+  
+  .card-body p {
+    font-size: 1rem;
+    margin: 5px 0;
+  }
+  
+  .card-footer {
+    padding: 10px;
+    text-align: center;
+    background-color: #f7f7f7;
+  }
+  
+  .btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+  }
+  
