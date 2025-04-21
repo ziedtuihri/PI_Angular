@@ -1,1 +1,25 @@
-<p>quiz-attempt works!</p>
+<div class="quiz-attempt-container" *ngIf="quiz">
+    <h2>{{ quiz.title }}</h2>
+  
+    <form (ngSubmit)="submitQuiz()">
+      <div *ngFor="let question of quiz.questions">
+        <p><strong>{{ question.content }}</strong></p>
+  
+        <div *ngFor="let answer of question.answers">
+          <label>
+            <input
+              type="radio"
+              [name]="'question_' + question.id"
+              [value]="answer.id"
+              (change)="selectAnswer(question.id!, answer.id!)"
+              [checked]="selectedAnswers.get(question.id!) === answer.id"
+            />
+            {{ answer.content }}
+          </label>
+        </div>
+      </div>
+  
+      <button type="submit">Submit Quiz</button>
+    </form>
+  </div>
+  

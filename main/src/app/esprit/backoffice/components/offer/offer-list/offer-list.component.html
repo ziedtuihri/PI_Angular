@@ -1,4 +1,26 @@
-<div class="list-container">
+<div class="offer-list-container">
+  <div class="header">
+    <h1>Offer Management</h1>
+    <button class="btn-primary" (click)="navigateToCreateForm()">Create New Offer</button>
+  </div>
+  
+  <div class="message-container">
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+      <button class="close-btn" (click)="clearMessages()">×</button>
+    </div>
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+      <button class="close-btn" (click)="clearMessages()">×</button>
+    </div>
+  </div>
+  
+  <div class="loading-spinner" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+  
+  <div class="content-container" *ngIf="!isLoading">
     <h2>Available Offers</h2>
     <div class="offers-list" *ngIf="offers.length; else noOffers">
       <div class="offer-card" *ngFor="let offer of offers">
@@ -8,11 +30,11 @@
           <span class="location" *ngIf="offer.location">{{ offer.location }}</span>
           <span class="type" *ngIf="offer.type">{{ offer.type }}</span>
         </div>
-        <p class="truncate-text">{{ offer.description }}</p>
+        <p class="truncate-text">{{ offer.description | truncate:15 }}</p>
         <div class="offer-actions">
-          <button class="btn-link" (click)="onViewDetails(offer)">View Details</button>
-          <button class="btn-link" (click)="onEditOffer(offer)">Edit</button>
-          <button class="btn-link warning" (click)="onDeleteOffer(offer)">Delete</button>
+          <button class="btn-link" (click)="viewDetails(offer)">View Details</button>
+          <button class="btn-link" (click)="editOffer(offer)">Edit</button>
+          <button class="btn-link warning" (click)="deleteOffer(offer)">Delete</button>
         </div>
       </div>
     </div>
@@ -22,3 +44,4 @@
       </div>
     </ng-template>
   </div>
+</div>

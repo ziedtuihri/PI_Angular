@@ -9,9 +9,9 @@ import { Answer } from '../models/answer';
   providedIn: 'root'
 })
 export class QuizService {
-   private quizApiUrl = 'http://localhost:8080/api/quizzes';
-    private questionApiUrl = 'http://localhost:8080/api/questions';
-    private answerApiUrl = 'http://localhost:8080/api/answers';
+   private quizApiUrl = 'http://localhost:8082/api/quizzes';
+    private questionApiUrl = 'http://localhost:8082/api/questions';
+    private answerApiUrl = 'http://localhost:8082/api/answers';
   
     constructor(private http: HttpClient) {}
   

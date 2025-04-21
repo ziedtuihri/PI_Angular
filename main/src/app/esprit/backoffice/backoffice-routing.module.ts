@@ -1,26 +1,28 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { BackLayoutComponent } from './back-layout/back-layout.component';
-import { OfferManagementComponent } from './components/offer/offer-management/offer-management.component';
-import { QuizManagementComponent } from './components/quiz-management/quiz-management.component';
-import { QuestionManagementComponent } from './components/question-management/question-management.component';
-import { AnswerManagementComponent } from './components/answer-management/answer-management.component';
-import { ApplicationReviewComponent } from './components/application-review/application-review.component';
-import { AllofferComponent } from './components/offer/alloffer/alloffer.component';
-import { UpdateQuizComponent } from './components/update-quiz/update-quiz.component';
+import { UpdateQuizComponent } from './components/quiz/update-quiz/update-quiz.component';
+import { OfferListComponent } from './components/offer/offer-list/offer-list.component';
+import { OfferFormComponent } from './components/offer/offer-form/offer-form.component';
+import { OfferDetailsComponent } from './components/offer/offer-details/offer-details.component';
+import { CreateQuizComponent } from './components/quiz/create-quiz/create-quiz.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: '', // /dashboard/backoffice
     component: BackLayoutComponent,
     children: [
       { path: '', redirectTo: 'offers', pathMatch: 'full' },
-      { path: 'offers', component: AllofferComponent },
-      { path: 'offers/:offerId/quizzes/create', component: QuizManagementComponent },
-      { path: 'offers/:offerId/quizzes/update/:quizId', component: UpdateQuizComponent },
-      { path: 'quizzes', component: QuizManagementComponent },
-      { path: 'applications', component: ApplicationReviewComponent }
+      // Offer routes
+      { path: 'offers', component: OfferListComponent },
+      { path: 'offers/create', component: OfferFormComponent },
+      { path: 'offers/details/:id', component: OfferDetailsComponent },
+      { path: 'offers/edit/:id', component: OfferFormComponent },
+      // Quiz Routes
+      { path: 'quiz/create/offer/:offerId', component: CreateQuizComponent },
+      { path: 'quiz/update/:quizId/offer/:offerId', component: UpdateQuizComponent },
+      // Application Routes
+      //{ path: 'applications', component: ApplicationReviewComponent }
     ],
   },
 ];

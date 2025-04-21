@@ -11,14 +11,17 @@ import { StudentApplicationsComponent } from './components/student-applications/
 
 const routes: Routes = [
   {
-    path: '',
+    path: '', // /dashboard/frontoffice
     component: FrontLayoutComponent,
     children: [
       { path: '', redirectTo: 'offers', pathMatch: 'full' },
+      // offer Routes
       { path: 'offers', component: OfferListComponent },
       { path: 'offers/:id', component: OfferDetailsComponent },
-      { path: 'apply/:offerId', component: ApplyFormComponent },
-      { path: 'quiz/:quizId', component: QuizAttemptComponent },
+      // Quiz Routes
+      { path: 'quiz-attempt/:quizId/offer/:offerId', component: QuizAttemptComponent },
+      // Applications Routes
+      { path: 'apply/:offerId/quiz/:quizId', component: ApplyFormComponent },
       { path: 'my-applications', component: StudentApplicationsComponent }
     ],
   },

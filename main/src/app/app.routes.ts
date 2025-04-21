@@ -40,6 +40,7 @@ export const routes: Routes = [
 
     ],
   },
+  {path: "entry", component: EntryComponent},
   {
     path: 'frontoffice',
     loadChildren: () =>

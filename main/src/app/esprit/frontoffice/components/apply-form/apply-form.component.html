@@ -1,1 +1,37 @@
-<p>apply-form works!</p>
+<div class="apply-form-container">
+    <h2>Apply for Offer #{{ offerId }}</h2>
+  
+    <form (ngSubmit)="onSubmit()" *ngIf="application">
+      <div>
+        <label>LinkedIn URL:</label>
+        <input [(ngModel)]="application.linkedinUrl" name="linkedinUrl" type="url" />
+      </div>
+  
+      <div>
+        <label>Portfolio URL:</label>
+        <input [(ngModel)]="application.portfolioUrl" name="portfolioUrl" type="url" />
+      </div>
+  
+      <!-- <div>
+        <label>Certificates URLs (comma-separated):</label>
+        <input
+          [(ngModel)]="application.certificateUrls"
+          name="certificateUrls"
+          type="text"
+          [ngModel]="application.certificateUrls?.join(', ')"
+          (ngModelChange)="application.certificateUrls = $event.split(',').map(url => url.trim())"
+        />
+      </div> -->
+  
+      <div *ngIf="!scoreCollected">
+        <p>Please complete the quiz before submitting your application.</p>
+        <button type="button" (click)="startQuiz()">Start Quiz</button>
+      </div>
+  
+      <div *ngIf="scoreCollected">
+        <p><strong>Quiz Score:</strong> {{ application.quizScore }}</p>
+        <button type="submit">Submit Application</button>
+      </div>
+    </form>
+  </div>
+  

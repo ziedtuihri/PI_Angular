@@ -1,7 +1,7 @@
 import { Offer } from './offer';
 
 export interface JobApplication {
-  id: number;
+  id?: number;
   studentId: number;
   offer?: Offer; // Reference to Offer
   cvPath?: string;
@@ -11,4 +11,5 @@ export interface JobApplication {
   portfolioUrl?: string;
   certificateUrls?: string[]; // Array of certificate URLs
   appliedAt?: Date; // Application date
+  quizScore?: number;
 }
