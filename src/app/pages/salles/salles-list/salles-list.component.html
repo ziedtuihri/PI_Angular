@@ -1,37 +1,79 @@
 <div class="salles-container">
-    <div class="header">
-        <h2>Salles Disponibles</h2>
-        <p>Voici les salles disponibles pour vos réunions</p>
-    </div>
+  <div class="header">
+    <h2>Salles Disponibles</h2>
+    <p>Voici toutes les salles disponibles et les salles occupées pour vos réunions à venir.</p>
+  </div>
 
-    <div *ngFor="let reunion of reunionDetails" class="reunion-card">
-        <h3>{{ reunion.titre }}</h3> <!-- Si tu veux afficher le titre de la réunion -->
-
-        <div class="card-container">
-            <div *ngFor="let salle of reunion.salles" class="card">
-                <div class="card-header">
-                    <h4>{{ salle.nom }}</h4>
-                </div>
-                <div class="card-body">
-                    <!-- Affichage des détails de la réunion pour chaque salle -->
-                    <p><strong>Date:</strong> {{ reunion.date }}</p>
-                    <p><strong>Heure:</strong> {{ reunion.heure }}</p>
-                    <p><strong>Durée:</strong> {{ reunion.duree }} minutes</p>
-
-                    <!-- Vérification de la disponibilité de la salle -->
-                    <p *ngIf="salle.disponible; else nonDisponible">
-                        Salle disponible
-                    </p>
-                    <ng-template #nonDisponible>
-                        <p>Salle non disponible (Réservée)</p>
-                    </ng-template>
-                </div>
-                <div class="card-footer">
-                    <button class="btn"
-                        (click)="reserveSalle(salle, reunion, reunion.date, reunion.heure, reunion.duree)"
-                        [disabled]="!salle.disponible">Réserver</button>
-                </div>
-            </div>
+  <div class="all-salles">
+    <h4>Liste des salles :</h4>
+    <div class="salles-wrapper">
+      <div *ngFor="let salle of allSalles" class="card" [ngClass]="salle.reservations && salle.reservations.length === 0 ? 'available' : 'used-salle'">
+        <div class="card-header">
+          <h4>{{ salle.nom }}</h4>
         </div>
+      
+        <div class="card-body">
+          <ng-container *ngIf="!salle.reservations || salle.reservations.length === 0; else reservedSalle">
+            <p class="available">Salle disponible</p>
+            <button class="btn btn-primary" (click)="modifierSalle(salle)">Réserver</button>
+          </ng-container>
+      
+          <ng-template #reservedSalle>
+            <p class="unavailable">Salle réservée</p>
+            <div *ngFor="let res of salle.reservations">
+              <ng-container *ngIf="res.reunion">
+                <small>
+                  Réunion : {{ res.reunion.titre }}<br>
+                  Le {{ res.reunion?.date }} à {{ res.reunion?.heure }} ({{ res.reunion?.duree }} min)
+                </small>
+              </ng-container>
+              <ng-container *ngIf="!res.reunion">
+                <p>Pas de réunion associée</p>
+              </ng-container>
+            </div>
+          </ng-template>
+          
+        </div>
+      </div>
+      
+
+
     </div>
+  </div>
+</div>
+
+<div *ngIf="isModalOpen" class="modal-overlay">
+  <div class="modal-content">
+    <div class="reunion-form-container">
+      <h2 class="form-title">Modifier la réservation de la salle</h2>
+
+      <form [formGroup]="salleForm" (ngSubmit)="updateReservation()" class="salle-form">
+        <div class="form-group">
+          <label>Salle</label>
+          <select formControlName="salle" (change)="onSalleChange($event)">
+            <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input id="date" type="date" formControlName="date" required />
+        </div>
+
+        <div class="form-group">
+          <label for="heure">Heure</label>
+          <input id="heure" type="time" formControlName="heure" required />
+        </div>
+
+        <div class="form-group">
+          <label for="duree">Durée (en minutes)</label>
+          <input id="duree" type="number" formControlName="duree" min="1" required />
+        </div>
+
+        <div class="form-buttons">
+          <button type="submit" class="btn btn-primary">Mettre à jour la réservation</button>
+          <button type="button" class="btn btn-secondary" (click)="fermerModal()">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

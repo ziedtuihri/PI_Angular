@@ -1,0 +1,98 @@
+<div class="reunion-form-container">
+    <div class="form-card">
+      <h2 class="form-title"> <i class="fas fa-calendar-plus"></i> Créer une Réunion
+      </h2>
+  
+      <form [formGroup]="reunionForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Titre</label>
+            <input type="text" formControlName="titre" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea formControlName="description" class="custom-textarea"></textarea>
+          </div>
+  
+          <div class="form-group">
+            <label>Créateur</label>
+            <select formControlName="createur">
+              <option value="" disabled selected>-- Sélectionner un créateur --</option>
+              <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.nom }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" formControlName="date" />
+          </div>
+  
+          <div class="form-group">
+            <label>Heure</label>
+            <input type="time" formControlName="heure" />
+          </div>
+  
+          <div class="form-group">
+            <label>Durée</label>
+            <input type="text" formControlName="duree" />
+          </div>
+  
+          <div class="form-group">
+            <label>Type</label>
+            <select formControlName="type" (change)="onTypeChange()">
+              <option *ngFor="let t of typesReunion" [value]="t.value">{{ t.label }}</option>
+            </select>
+          </div>
+  
+  
+          <div *ngIf="selectedType === 'EN_LIGNE'" class="form-group">
+            <label>Plateforme :</label>
+            <select formControlName="plateforme">
+              <option value="zoom">Zoom</option>
+              <option value="teams">Teams</option>
+              <option value="autre">Autre</option>
+            </select>
+  
+            <label>Lien de réunion :</label>
+            <input type="text" formControlName="lien" />
+          </div>
+  
+  
+  
+  
+          <div *ngIf="selectedType === 'PRESENTIEL'" class="form-group">
+            <label>Salle</label>
+            <select formControlName="salle" (change)="onSalleChange($event)">
+              <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
+            </select>
+          </div>
+  
+          <div *ngIf="selectedType === 'PRESENTIEL' && selectedSalle" class="form-group">
+            <label>Capacité</label>
+            <input type="number" formControlName="capacite" [value]="selectedSalle?.capacite" readonly />
+          </div>
+          
+  
+  
+  
+  
+          <div class="form-group">
+            <label>Participants</label>
+            <div *ngFor="let participant of participants; let i = index">
+              <label>
+                <input type="checkbox" [value]="participant.id" (change)="onCheckboxChange($event)"
+                  [checked]="participantsFormArray.value.includes(participant.id)">
+                {{ participant.email }}
+              </label>
+            </div>
+          </div>
+  
+  
+  
+        </div>
+  
+        <div class="form-actions">
+          <button type="submit" [disabled]="reunionForm.invalid" (click)="onSubmit()">Créer</button>
+        </div>
+      </form>
+    </div>
+  </div>
