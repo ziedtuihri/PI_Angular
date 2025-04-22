@@ -77,6 +77,11 @@ export class ReunionCreateFormComponent implements OnInit {
       lienControl?.clearValidators();
       plateformeControl?.clearValidators();
     } else {
+      // Réinitialiser salle et capacité
+      salleControl?.setValue(null);
+      this.selectedSalle = null;
+      this.reunionForm.get('capacite')?.setValue(null);
+
       salleControl?.clearValidators();
       plateformeControl?.setValidators(Validators.required);
       lienControl?.setValidators([Validators.required, Validators.pattern('https?://.+')]);
@@ -86,6 +91,7 @@ export class ReunionCreateFormComponent implements OnInit {
     lienControl?.updateValueAndValidity();
     plateformeControl?.updateValueAndValidity();
   }
+
 
   setDefaultLien(platforme: string): void {
     let defaultLien = '';
@@ -141,7 +147,7 @@ export class ReunionCreateFormComponent implements OnInit {
           participants: value.participants.map((id: any) => ({
             id,
             nom: this.participants.find(p => p.id === id)?.nom,
-            email: this.participants.find(p => p.id === id)?.email
+            email: this.participants.find(p => p.id === id)?.email ?? ''
           })),
           lienZoom: value.lien
         };

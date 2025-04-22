@@ -53,6 +53,10 @@ export class ReunionService {
         return this.http.put(url, reunion, this.httpOptions);
     }
 
+    updateParticipant(updatedParticipant: any) {
+        const url = `${this.apiUrl}/participant/${updatedParticipant.id}`;
+        return this.http.put(url, updatedParticipant, this.httpOptions);
+    }
 
 
     deleteReunion(id: number) {
@@ -60,19 +64,70 @@ export class ReunionService {
         return this.http.delete(url, this.httpOptions);
     }
 
+
+    deleteParticipant(id: number) {
+        const url = `${this.apiUrl}/participant/${id}`;
+        return this.http.delete(url, this.httpOptions);
+    }
+
+
     createSalle(salle: any) {
         const url = `${this.apiUrl}/salle`;
         return this.http.post(url, salle, this.httpOptions);
     }
+
+
+    createParticipant(participant: any) {
+        const url = `${this.apiUrl}/participant`;
+        return this.http.post(url, participant, this.httpOptions);
+    }
+
     getSallesDisponibles(date: string, heure: string, duree: string) {
         const url = `${this.apiUrl}/salles-disponibles?date=${date}&heure=${heure}&duree=${duree}`;
         return this.http.get(url, this.httpOptions);
     }
 
-    reserveSalle(reunionId: number, salleId: number, date: string, heure: string, duree: string) {
-        const url = `http://localhost:8081/api/reserve/${reunionId}?salleId=${salleId}&date=${date}&heure=${heure}&duree=${duree}`;
-        return this.http.post(url, {});
+    updateReservation(reservation: any) {
+
+        console.log('reservation', reservation)
+        const url = `${this.apiUrl}/reservation/${reservation.id}`;
+        return this.http.put(url, reservation, this.httpOptions);
+    }
+
+    getSalleAvecReservation() {
+        const url = `${this.apiUrl}/salles-avec-reservations`;
+        return this.http.get(url, this.httpOptions);
       }
       
-      
+    reserverSalle(
+        salleId: number,
+        date: string,
+        heure: string,
+        duree: string,
+        reunionId: number
+    ) {
+        // Créez l'objet avec les paramètres nécessaires pour la requête
+        const params = {
+            salleId: salleId.toString(),
+            date: date,
+            heure: heure,
+            duree: duree,
+            reunionId: reunionId.toString(),
+        };
+
+        // Effectuer la requête POST
+        return this.http.post(`${this.apiUrl}/reserver-salle`, null, {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            params: params,
+        });
+    }
+
+
+    getSallesDisponiblesUniquement() {
+        const url = `${this.apiUrl}/salles-disponibles-uniques`; // L'URL de la nouvelle méthode
+        return this.http.get(url, this.httpOptions);
+    }
+
 }

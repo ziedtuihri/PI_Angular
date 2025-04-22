@@ -1,0 +1,31 @@
+<form [formGroup]="participantForm" (ngSubmit)="onSubmit()" class="p-4 max-w-md mx-auto bg-white rounded-2xl shadow-md space-y-4">
+    <h2 class="text-xl font-bold text-center text-blue-800">Ajouter un Participant</h2>
+  
+    <div>
+      <label for="nom" class="block font-medium text-gray-700">Nom</label>
+      <input id="nom" type="text" formControlName="nom" class="w-full border border-gray-300 rounded p-2" placeholder="Nom du participant" />
+      <div *ngIf="participantForm.get('nom')?.invalid && participantForm.get('nom')?.touched" class="text-red-600 text-sm">
+        Le nom est requis.
+      </div>
+    </div>
+  
+    <div>
+      <label for="email" class="block font-medium text-gray-700">Email</label>
+      <input id="email" type="email" formControlName="email" class="w-full border border-gray-300 rounded p-2" placeholder="Email" />
+      <div *ngIf="participantForm.get('email')?.invalid && participantForm.get('email')?.touched" class="text-red-600 text-sm">
+        Email invalide ou requis.
+      </div>
+    </div>
+  
+    <div>
+      <label for="user" class="block font-medium text-gray-700">Utilisateur</label>
+      <select id="user" formControlName="userId" class="w-full border border-gray-300 rounded p-2">
+        <option *ngFor="let user of users" [value]="user.id">{{ user.nom }}</option>
+      </select>
+    </div>
+  
+    <button type="submit" [disabled]="participantForm.invalid" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl">
+      Ajouter
+    </button>
+  </form>
+  

@@ -66,10 +66,11 @@
             </select>
           </div>
   
-          <div *ngIf="selectedSalle" class="form-group">
+          <div *ngIf="selectedType === 'PRESENTIEL' && selectedSalle" class="form-group">
             <label>Capacité</label>
             <input type="number" formControlName="capacite" [value]="selectedSalle?.capacite" readonly />
           </div>
+          
   
   
   

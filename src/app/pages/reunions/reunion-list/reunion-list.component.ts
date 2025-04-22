@@ -73,6 +73,8 @@ export class ReunionListComponent implements OnInit {
     this.reunionService.getReunions().subscribe({
       next: (data: any) => {
         this.reunions = Array.isArray(data) ? data : [];
+
+        console.log('reunions',this.reunions)
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des réunions', err);

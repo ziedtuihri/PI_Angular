@@ -47,10 +47,10 @@
               <a [href]="reunion.lienZoom" target="_blank" class="text-blue-600 underline ml-2">{{ reunion.lienZoom }}</a>
             </div>
   
-            <div *ngIf="reunion.type === 'PRESENTIEL' && reunion.salle.nom"
+            <div *ngIf="reunion.type === 'PRESENTIEL' && reunion?.salle?.nom"
               class="flex items-center mr-4 mt-2 border-l-2 pl-4" style="margin-top: 1em; margin-left: 1em;">
               <strong> <i class="fa fa-building text-indigo-600 mr-2"></i> Salle:</strong>
-              <span   class="text-blue-600 underline ml-2">{{ reunion.salle.nom }}</span>
+              <span   class="text-blue-600 underline ml-2">{{ reunion?.salle?.nom }}</span>
             </div>
           </div>
   

@@ -526,18 +526,24 @@ export const navItems: NavItem[] = [
     iconName: 'fa-list', route: '/salles/salles-list',
   }
   ,
-
   {
-    displayName: 'Réunions Passées (Historique)',
-    iconName: 'solar:history-line-duotone',
-    route: '/ui-components/menu',
+    navCap: 'Gestion des participants',
+    divider: true,
+  },
+  {
+    displayName: "Ajout d'un participant",
+    iconName: 'material-symbols:meeting-room-outline-rounded',
+    route: '/participants/participant-form',
   },
 
   {
-    displayName: 'Notifications & Rappels',
-    iconName: 'solar:bell-line-duotone',
-    route: '/ui-components/forms',
-  },
+    displayName: 'Liste des participants',
+    iconName: 'fa-list', route: '/participants/participants-list',
+  }
+  ,
+
+ 
+ 
   /*
     {
       divider: true,

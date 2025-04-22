@@ -43,6 +43,12 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./pages/salles/salles.routes').then((m) => m.SallesRoutes),
       },
+
+      {
+        path: 'participants',
+        loadChildren: () =>
+          import('./pages/participants/participants.routes').then((m) => m.ParticipantsRoutes),
+      },
     ],
   },
   {

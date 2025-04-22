@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReunionService } from 'src/app/services/ReunionService';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'salles-list',
@@ -10,69 +10,126 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
 })
 export class SallesListComponent implements OnInit {
+
   sallesDisponibles: any[] = [];
   reunionDetails: any[] = [];
+  salles: any[] = [];
+  allSalles: any[] = [];
+  salleId: number = 0;
+  date: string = '';
+  heure: string = '';
+  duree: string = '';
+  reunionId: number = 0;
+  salleForm!: FormGroup;
+  isModalOpen = false;
+  selectedReunion: any = null;
+  selectedSalle: any;
 
-  constructor(private readonly reunionService: ReunionService) {}
+  constructor(private readonly fb: FormBuilder, private readonly reunionService: ReunionService) { }
 
   ngOnInit(): void {
-    this.reunionService.getReunions().subscribe({
-      next: (reunions: any) => {
-        this.reunionDetails = reunions;
+    this.salleForm = this.fb.group({
+      date: ['', Validators.required],
+      heure: ['', Validators.required],
+      duree: ['', Validators.required],
+      salle: [undefined],
+    });
 
-        this.reunionDetails.forEach((reunion) => {
-          const { date, heure, duree } = reunion;
-
-          this.reunionService.getSallesDisponibles(date, heure, duree).subscribe({
-            next: (data: any) => {
-              reunion.salles = data;
-
-              reunion.salles.forEach((salle: any) => {
-                salle.reunionReseree = reunion.titre; 
-              });
-            },
-            error: (error) => {
-              console.error(`Erreur lors de la récupération des salles disponibles pour la réunion ${reunion.titre}:`, error);
-            },
-            complete: () => {
-              console.log(`Récupération des salles pour la réunion ${reunion.titre} terminée.`);
-            }
-          });
-        });
+    this.reunionService.getSalleAvecReservation().subscribe({
+      next: (data: any) => {
+        console.log('Données reçues:', data);
+        try {
+          this.salles = Array.isArray(data) ? data : [];
+        } catch (e) {
+          console.error('Erreur lors du traitement des données:', e);
+        }
       },
-      error: (error) => {
-        console.error('Erreur lors de la récupération des réunions', error);
-      },
-      complete: () => {
-        console.log('La récupération des réunions est terminée.');
+      error: (err) => {
+        console.error('Erreur lors de la récupération des salles:', err);
+        alert('Une erreur est survenue lors de la récupération des salles. Vérifiez les logs du serveur.');
       }
     });
+
+    this.reunionService.getSalles().subscribe({
+      next: (data: any) => this.allSalles = Array.isArray(data) ? data : []
+    });
   }
-  reserveSalle(salle: any, reunion: any, date: string, heure: string, duree: string) {
-    const dureeNumber = Number(duree);
-  
-    if (isNaN(dureeNumber)) {
-      console.error("La durée n'est pas un nombre valide:", duree);
-      return;
-    }
-  
-    if (salle.disponible) {
-      // Appeler l'API pour réserver la salle
-      this.reunionService.reserveSalle(reunion.id, salle.id, date, heure, dureeNumber.toString()).subscribe({
-        next: (response: any) => {
-          console.log(`Salle ${salle.nom} réservée avec succès`);
-          salle.disponible = false;
-          salle.reunionReseree = reunion.titre;  // Mettre à jour le statut de la salle
+
+  modifierSalle(reunion: any) {
+    this.selectedReunion = reunion;
+    this.salleForm.patchValue({
+      date: reunion.date,
+      heure: reunion.heure,
+      duree: reunion.duree,
+      salle: reunion.salle?.id ?? null,
+    });
+    this.isModalOpen = true;
+  }
+
+  onSalleChange(event: any): void {
+    const selectedSalleId = event.target.value;
+    this.selectedSalle = this.salles.find(salle => salle.id.toString() === selectedSalleId.toString());
+  }
+
+  updateReservation(): void {
+    if (this.salleForm.valid) {
+      const { date, heure, duree, salle } = this.salleForm.value;
+
+      if (!salle) {
+        alert('Veuillez sélectionner une salle pour la réservation.');
+        return;
+      }
+
+      const updatedReservation = {
+        id: this.selectedReunion.id,
+        date: date,
+        heure: heure,
+        duree: duree,
+        salleId: salle.id,
+      };
+
+      this.reunionService.updateReservation(updatedReservation).subscribe({
+        next: (response) => {
+          alert('Réservation mise à jour avec succès');
+          this.fermerModal();
         },
-        error: (error: any) => {
-          console.error(`Erreur lors de la réservation de la salle ${salle.nom}:`, error);
+        error: (error) => {
+          console.error('Erreur lors de la mise à jour de la réservation:', error);
+          alert('Erreur lors de la mise à jour de la réservation');
         }
       });
     } else {
-      console.log(`La salle ${salle.nom} n'est pas disponible pour la réunion ${reunion.titre}`);
+      alert('Veuillez remplir tous les champs obligatoires.');
     }
+  }
+
+  reserveSalle(salle: any): void {
+    // Récupérer les informations nécessaires à la réservation
+    const date = this.salleForm.get('date')?.value;
+    const heure = this.salleForm.get('heure')?.value;
+    const duree = this.salleForm.get('duree')?.value;
+  
+    if (!date || !heure || !duree) {
+      alert('Veuillez remplir les informations de la réunion (date, heure, durée).');
+      return;
+    }
+  
+    // Appeler le service pour effectuer la réservation
+    this.reunionService.reserverSalle(salle.id, date, heure, duree, this.reunionId).subscribe({
+      next: (response) => {
+        alert('Salle réservée avec succès');
+        this.salleForm.reset(); // Optionnel : réinitialiser le formulaire après réservation
+      },
+      error: (error) => {
+        alert('Erreur lors de la réservation de la salle');
+      }
+    });
   }
   
   
+  fermerModal() {
+    this.isModalOpen = false;
+    this.selectedReunion = null;
+  }
 
 }
