@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Projet {
@@ -60,6 +60,10 @@ export class SprintService {
 
   getEtudiantsDuSprint(sprintId: number): Observable<string[]> {
     return this.http.get<string[]>(`${this.apiUrl}/${sprintId}/etudiants`);
+  }
+  searchSprints(nom: string): Observable<Sprint[]> {
+    const params = new HttpParams().set('nom', nom);
+    return this.http.get<Sprint[]>(`${this.apiUrl}/search`, { params });
   }
  
 }

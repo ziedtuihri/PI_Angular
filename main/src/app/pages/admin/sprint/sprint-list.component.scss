@@ -1,0 +1,17 @@
+.search-and-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Aligne le titre à gauche et la recherche à droite */
+    gap: 16px; /* Espacement entre les éléments */
+  }
+  
+  .search-container {
+    /* Vous pouvez ajuster la largeur maximale ici */
+    max-width: 300px;
+    width: 30%; /* Prend une partie de la largeur disponible */
+  }
+  
+  /* Ajustements pour le titre si nécessaire */
+  .search-and-title .mat-card-title {
+    /* flex-grow: 1; Permet au titre de prendre l'espace restant */
+  }

@@ -1,0 +1,23 @@
+<div *ngIf="loading" class="spinner-container">
+    <p>Chargement des tâches...</p>
+  </div>
+  
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage">
+    <h2>Liste des Tâches</h2>
+    <ul *ngIf="taches.length > 0; else noTasks">
+      <li *ngFor="let tache of taches">
+        <strong>Nom:</strong> {{ tache.nom }}<br>
+        <small>ID: {{ tache.idTache }}</small><br>
+        <span>Statut: {{ tache.statut }}</span><br>
+        <p *ngIf="tache.description">Description: {{ tache.description }}</p>
+        <hr>
+      </li>
+    </ul>
+    <ng-template #noTasks>
+      <p>Aucune tâche à afficher pour le moment.</p>
+    </ng-template>
+  </div>

@@ -9,6 +9,7 @@ import { ProjetFormComponent } from './pages/admin/projet/form.component';
 import {SprintListComponent} from './pages/admin/sprint/sprint-list.component';
 import { SprintFormComponent } from './pages/admin/sprint/sprint-form.component';
 import { SprintDetailsComponent} from './pages/admin/sprint/sprint-details.component'
+import { ListtacheComponent } from './pages/admin/tache/listtache.component';
 
 export const routes: Routes = [
   {
@@ -58,6 +59,10 @@ export const routes: Routes = [
       {
         path: 'sprints/:id/etudiants/manage', // Ajout de la route pour la gestion des étudiants du sprint
         component: SprintEtudiantsComponent,
+      },
+      {
+        path: 'taches', 
+        component: ListtacheComponent,
       },
       {
         path: 'dashboard',

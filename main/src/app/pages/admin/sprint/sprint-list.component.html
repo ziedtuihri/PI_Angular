@@ -1,6 +1,13 @@
 <mat-card class="cardWithShadow theme-card">
-  <mat-card-header>
+  <mat-card-header class="search-and-title">
     <mat-card-title class="m-b-0">Liste des Sprints</mat-card-title>
+    <div class="search-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Rechercher par nom</mat-label>
+        <input matInput [formControl]="searchControl" placeholder="Entrez un nom de sprint">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
   </mat-card-header>
   <mat-card-content class="b-t-1">
     <div *ngIf="loading" class="spinner-container">
