@@ -75,4 +75,19 @@ export class LoginService {
     );
   }
 
+  checkEmail(email: string): Observable<any> {
+    return this.http.post<any>('http://localhost:8082/auth/forgotPassword',  { email } )
+      .pipe(
+        map(response => {
+          console.log(response);
+          return { response };
+        }),
+        catchError(error => {
+          const message = `${error?.error?.text || 'Unknown error'}`;
+          console.error('Error:', message);
+          return of({ message });
+        })
+      );
+  }
+
 }

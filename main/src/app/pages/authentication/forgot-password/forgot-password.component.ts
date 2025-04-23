@@ -23,18 +23,56 @@ export class ForgotPasswordComponent {
          private fb: FormBuilder,
           private authService: LoginService,
               private snackBar: MatSnackBar,  
+              
          ) {
           this.forgotPasswordForm = this.fb.group({
             email: ['', [Validators.required, Validators.email]]
           });
       }
 
-
+      showSuccessSnackbar(msg: string) {
+        this.snackBar.open(msg, 'Close', {
+          duration: 2000,
+          panelClass: 'app-notification-success',
+          horizontalPosition: 'right',
+          verticalPosition: 'top'
+        });
+      }
+    
+      showErrorSnackbar(msg: string) {
+        this.snackBar.open(msg, 'Close', {
+          duration: 2000,
+          panelClass: 'app-notification-error',
+          horizontalPosition: 'right',
+          verticalPosition: 'top'
+        });
+      }
 
       onSubmit() {
         if (this.forgotPasswordForm.valid) {
-          const email = this.forgotPasswordForm.value;
-          console.log('Email:', email);
+
+          const { email } =  this.forgotPasswordForm.value;
+          //const email = this.forgotPasswordForm.value;
+          console.log(email);
+          
+          this.authService.checkEmail(email).subscribe(response => {
+            
+            if(response.message == "Invalid email"){
+              this.showErrorSnackbar("Invalid Mail");
+            }
+
+            if(response.message == "Activate your account") {
+              this.showErrorSnackbar("Activate your account");
+            }
+
+            if(response.message == "Code sent") {
+              this.showSuccessSnackbar("Check your mail code sent");
+            }
+
+          }
+            
+          )
+
           // Proceed with further processing or API call
         }
       }
