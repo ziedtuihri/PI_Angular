@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
   selector: 'salles-list',
   templateUrl: './salles-list.component.html',
   styleUrls: ['./salles-list.component.scss'],
+  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
 })
 export class SallesListComponent implements OnInit {
@@ -22,27 +23,21 @@ export class SallesListComponent implements OnInit {
   reunionId: number = 0;
   salleForm!: FormGroup;
   isModalOpen = false;
-  selectedReunion: any = null;
-  selectedSalle: any;
+  selectedSalle: any = null;
 
   constructor(private readonly fb: FormBuilder, private readonly reunionService: ReunionService) { }
 
   ngOnInit(): void {
     this.salleForm = this.fb.group({
-      date: ['', Validators.required],
-      heure: ['', Validators.required],
-      duree: ['', Validators.required],
-      salle: [undefined],
+      nom: ['', [Validators.required, Validators.minLength(3)]],
+      capacite: [1, [Validators.required, Validators.min(1)]],
+      disponible: [undefined]
     });
 
     this.reunionService.getSalleAvecReservation().subscribe({
       next: (data: any) => {
         console.log('Données reçues:', data);
-        try {
-          this.salles = Array.isArray(data) ? data : [];
-        } catch (e) {
-          console.error('Erreur lors du traitement des données:', e);
-        }
+        this.salles = Array.isArray(data) ? data : [];
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des salles:', err);
@@ -55,81 +50,91 @@ export class SallesListComponent implements OnInit {
     });
   }
 
-  modifierSalle(reunion: any) {
-    this.selectedReunion = reunion;
-    this.salleForm.patchValue({
-      date: reunion.date,
-      heure: reunion.heure,
-      duree: reunion.duree,
-      salle: reunion.salle?.id ?? null,
+  modifieSalle(salle: any): void {
+    this.selectedSalle = salle;
+    
+    // Vérifier si la salle a des réservations actives
+    const hasActiveReservation = salle.reservations.some((reservation:any) => {
+      const reservationDate = new Date(`${reservation.reunion.date} ${reservation.reunion.heure}`);
+      return reservationDate > new Date(); // La réservation est dans le futur
     });
+  
+    // Si la salle a des réservations actives, elle sera considérée comme non disponible
+    const isAvailable = salle.disponible && !hasActiveReservation; 
+  
+    this.salleForm.patchValue({
+      nom: salle.nom,
+      capacite: salle.capacite,
+      disponible: isAvailable, // Mettez à jour la disponibilité en fonction des réservations
+    });
+    
     this.isModalOpen = true;
   }
-
-  onSalleChange(event: any): void {
-    const selectedSalleId = event.target.value;
-    this.selectedSalle = this.salles.find(salle => salle.id.toString() === selectedSalleId.toString());
-  }
-
-  updateReservation(): void {
-    if (this.salleForm.valid) {
-      const { date, heure, duree, salle } = this.salleForm.value;
-
-      if (!salle) {
-        alert('Veuillez sélectionner une salle pour la réservation.');
-        return;
-      }
-
-      const updatedReservation = {
-        id: this.selectedReunion.id,
-        date: date,
-        heure: heure,
-        duree: duree,
-        salleId: salle.id,
+  
+  updateSalle(): void {
+    if (this.salleForm.valid && this.selectedSalle) {
+      const nouvelleSalle = {
+        ...this.selectedSalle,
+        ...this.salleForm.value
       };
 
-      this.reunionService.updateReservation(updatedReservation).subscribe({
-        next: (response) => {
-          alert('Réservation mise à jour avec succès');
-          this.fermerModal();
+      this.reunionService.updateSalle(nouvelleSalle).subscribe({
+        next: () => {
+          this.salleForm.reset({ disponible: true, capacite: 1 });
+          this.isModalOpen = false;
+          this.selectedSalle = null;
+
+          // Refresh salles
+          this.reunionService.getSalleAvecReservation().subscribe({
+            next: (data: any) => {
+              this.salles = Array.isArray(data) ? data : [];
+            }
+          });
         },
-        error: (error) => {
-          console.error('Erreur lors de la mise à jour de la réservation:', error);
-          alert('Erreur lors de la mise à jour de la réservation');
+        error: () => {
+          alert('Erreur lors de la mise à jour de la salle.');
         }
       });
-    } else {
-      alert('Veuillez remplir tous les champs obligatoires.');
+    }
+  }
+
+  supprimerSalle(id: number): void {
+    if (confirm('Voulez-vous vraiment supprimer ce participant ?')) {
+      this.reunionService.deleteSalle(id).subscribe({
+        next: () => {
+          alert('Salle supprimé avec succès');
+          this.allSalles = this.allSalles.filter(s => s.id !== id); // Mise à jour du tableau local
+        },
+        error: err => console.error('Erreur lors de la suppression :', err)
+      });
     }
   }
 
   reserveSalle(salle: any): void {
-    // Récupérer les informations nécessaires à la réservation
-    const date = this.salleForm.get('date')?.value;
-    const heure = this.salleForm.get('heure')?.value;
-    const duree = this.salleForm.get('duree')?.value;
-  
+    const date = this.date;
+    const heure = this.heure;
+    const duree = this.duree;
+
     if (!date || !heure || !duree) {
       alert('Veuillez remplir les informations de la réunion (date, heure, durée).');
       return;
     }
-  
-    // Appeler le service pour effectuer la réservation
+
     this.reunionService.reserverSalle(salle.id, date, heure, duree, this.reunionId).subscribe({
-      next: (response) => {
+      next: () => {
         alert('Salle réservée avec succès');
-        this.salleForm.reset(); // Optionnel : réinitialiser le formulaire après réservation
+        this.salleForm.reset({ disponible: true, capacite: 1 });
       },
-      error: (error) => {
+      error: () => {
         alert('Erreur lors de la réservation de la salle');
       }
     });
   }
-  
-  
-  fermerModal() {
+
+  fermerModal(): void {
     this.isModalOpen = false;
-    this.selectedReunion = null;
+    this.selectedSalle = null;
+    this.salleForm.reset({ disponible: true, capacite: 1 });
   }
 
 }

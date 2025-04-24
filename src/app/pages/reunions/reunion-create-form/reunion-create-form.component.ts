@@ -29,23 +29,28 @@ export class ReunionCreateFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.reunionForm = this.fb.group({
-      titre: [undefined, Validators.required],
-      description: [undefined],
+      titre: ['', [Validators.required, Validators.pattern(/\S+/)]],
+      description: ['', [Validators.pattern(/\S+/)]], 
       date: [undefined, Validators.required],
       heure: [undefined, Validators.required],
       duree: [undefined, Validators.required],
       type: ['PRESENTIEL', Validators.required],
-      salle: [undefined],
-      capacite: [undefined],
+      salle: [''],
+      capacite: [undefined, Validators.min(1)], 
       createur: [undefined, Validators.required],
       participants: this.fb.array([], Validators.required),
       plateforme: ['zoom'],
-      lien: ['']
+      lien: ['', Validators.pattern(/^(https?:\/\/)?([\w-]+\.)*[\w-]+(\/[\w- ./?%&=]*)?$/)]
     });
-
+  
+  
     this.reunionService.getParticipants().subscribe({
-      next: (data: any) => this.participants = Array.isArray(data) ? data : []
+      next: (data: any) => {
+        this.participants = Array.isArray(data) ? data : [];
+        console.log('Participants chargés:', this.participants);
+      }
     });
+    
 
     this.reunionService.getUsers().subscribe({
       next: (data: any) => this.utilisateurs = Array.isArray(data) ? data : []
@@ -71,26 +76,40 @@ export class ReunionCreateFormComponent implements OnInit {
     const salleControl = this.reunionForm.get('salle');
     const lienControl = this.reunionForm.get('lien');
     const plateformeControl = this.reunionForm.get('plateforme');
-
+    const participantsControl = this.reunionForm.get('participants');
+  
     if (this.selectedType === 'PRESENTIEL') {
       salleControl?.setValidators(Validators.required);
       lienControl?.clearValidators();
       plateformeControl?.clearValidators();
-    } else {
-      // Réinitialiser salle et capacité
+  
+      // Réinitialiser la salle et la capacité
       salleControl?.setValue(null);
       this.selectedSalle = null;
       this.reunionForm.get('capacite')?.setValue(null);
-
+  
+      // En cas de type "PRESENTIEL", on ne garde pas les participants
+      participantsControl?.setValue([]);  // On réinitialise la liste des participants
+      participantsControl?.clearValidators();  // Supprimer les validations des participants
+    } else {
+      // Pour les réunions en ligne, on applique les validations sur les autres champs
       salleControl?.clearValidators();
       plateformeControl?.setValidators(Validators.required);
       lienControl?.setValidators([Validators.required, Validators.pattern('https?://.+')]);
+  
+      // Réinitialiser salle et capacité dans le cas de réunion en ligne
+      salleControl?.setValue(null);
+      this.selectedSalle = null;
+      this.reunionForm.get('capacite')?.setValue(null);
     }
-
+  
+    // Mettre à jour la validité des champs
     salleControl?.updateValueAndValidity();
     lienControl?.updateValueAndValidity();
     plateformeControl?.updateValueAndValidity();
+    participantsControl?.updateValueAndValidity();
   }
+  
 
 
   setDefaultLien(platforme: string): void {
@@ -117,8 +136,8 @@ export class ReunionCreateFormComponent implements OnInit {
 
   onCheckboxChange(event: any): void {
     const formArray = this.participantsFormArray;
-    const value = +event.target.value;
-
+    const value = event.target.value; // string id
+  
     if (event.target.checked) {
       formArray.push(this.fb.control(value));
     } else {
@@ -128,13 +147,15 @@ export class ReunionCreateFormComponent implements OnInit {
       }
     }
   }
+  
 
   onSubmit(): void {
     if (this.reunionForm.valid) {
       const value = this.reunionForm.value;
       let formatted: any;
-
+  
       if (value.type === 'EN_LIGNE') {
+        // Si la réunion est en ligne, on garde les participants filtrés
         formatted = {
           titre: value.titre,
           description: value.description,
@@ -144,11 +165,13 @@ export class ReunionCreateFormComponent implements OnInit {
           type: value.type,
           salle: null,
           createur: { id: value.createur },
-          participants: value.participants.map((id: any) => ({
-            id,
-            nom: this.participants.find(p => p.id === id)?.nom,
-            email: this.participants.find(p => p.id === id)?.email ?? ''
-          })),
+          participants: value.participants
+            .filter((id: any) => id != null) 
+            .map((id: any) => ({
+              id,
+              nom: this.participants.find(p => p.id === id)?.nom,
+              email: this.participants.find(p => p.id === id)?.email ?? ''
+            })),
           lienZoom: value.lien
         };
       } else {
@@ -161,11 +184,19 @@ export class ReunionCreateFormComponent implements OnInit {
           type: value.type,
           salle: value.salle ? { id: value.salle, capacite: value.capacite } : null,
           createur: { id: value.createur },
-          participants: value.participants.map((id: any) => ({ id })),
+          participants: value.participants && value.participants.length > 0 
+            ? value.participants
+                .filter((id: any) => id != null) // Filtre les nulls
+                .map((id: any) => ({
+                  id,
+                  nom: this.participants.find(p => p.id === id)?.nom,
+                  email: this.participants.find(p => p.id === id)?.email ?? ''
+                }))
+            : null, 
           lienZoom: value.lien
         };
       }
-
+  
       this.reunionService.createReunion(formatted).subscribe({
         next: res => {
           alert('Réunion créée avec succès!');
@@ -182,6 +213,6 @@ export class ReunionCreateFormComponent implements OnInit {
       });
     }
   }
-
+  
 }
 

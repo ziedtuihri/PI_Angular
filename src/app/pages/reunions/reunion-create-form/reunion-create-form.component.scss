@@ -110,3 +110,10 @@
   button:hover:not(:disabled) {
     background-color: #2563eb;
   }
+
+  .error {
+    color: #d9534f;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+  

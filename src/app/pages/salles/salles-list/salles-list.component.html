@@ -3,21 +3,25 @@
     <h2>Salles Disponibles</h2>
     <p>Voici toutes les salles disponibles et les salles occupées pour vos réunions à venir.</p>
   </div>
-
   <div class="all-salles">
-    <h4>Liste des salles :</h4>
     <div class="salles-wrapper">
-      <div *ngFor="let salle of allSalles" class="card" [ngClass]="salle.reservations && salle.reservations.length === 0 ? 'available' : 'used-salle'">
+      <div *ngFor="let salle of allSalles" class="card"
+        [ngClass]="salle.reservations && salle.reservations.length === 0 ? 'available' : 'used-salle'">
         <div class="card-header">
-          <h4>{{ salle.nom }}</h4>
-        </div>
-      
+          <div class="card-title-with-icon">
+            <h4 class="salle-nom">{{ salle.nom }}</h4>
+            <div class="icon-actions">
+              <span class="edit-icon" (click)="modifieSalle(salle)" title="Modifier">✏️</span>
+              <span class="delete-icon" (click)="supprimerSalle(salle.id)" title="Supprimer">🗑️</span>
+            </div>
+          </div>
+        
         <div class="card-body">
           <ng-container *ngIf="!salle.reservations || salle.reservations.length === 0; else reservedSalle">
             <p class="available">Salle disponible</p>
-            <button class="btn btn-primary" (click)="modifierSalle(salle)">Réserver</button>
+            <button class="btn btn-primary" (click)="modifieSalle(salle)">Réserver</button>
           </ng-container>
-      
+        </div>
           <ng-template #reservedSalle>
             <p class="unavailable">Salle réservée</p>
             <div *ngFor="let res of salle.reservations">
@@ -32,45 +36,45 @@
               </ng-container>
             </div>
           </ng-template>
-          
+
         </div>
       </div>
-      
+
 
 
     </div>
   </div>
-</div>
 
 <div *ngIf="isModalOpen" class="modal-overlay">
   <div class="modal-content">
     <div class="reunion-form-container">
       <h2 class="form-title">Modifier la réservation de la salle</h2>
 
-      <form [formGroup]="salleForm" (ngSubmit)="updateReservation()" class="salle-form">
+      <form [formGroup]="salleForm" (ngSubmit)="updateSalle()" class="salle-form">
+       
         <div class="form-group">
-          <label>Salle</label>
-          <select formControlName="salle" (change)="onSalleChange($event)">
-            <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="date">Date</label>
-          <input id="date" type="date" formControlName="date" required />
+          <label for="nom">Nom</label>
+          <input id="nom" type="nom" formControlName="nom" required />
         </div>
 
         <div class="form-group">
-          <label for="heure">Heure</label>
-          <input id="heure" type="time" formControlName="heure" required />
+          <label for="capacite">Capacité</label>
+          <input id="capacite" type="capacite" formControlName="capacite" required />
         </div>
 
-        <div class="form-group">
-          <label for="duree">Durée (en minutes)</label>
-          <input id="duree" type="number" formControlName="duree" min="1" required />
+        <div class="mb-4 form-check form-switch">
+          <label for="disponibleSwitch">Disponibilité</label>
+          <input
+            type="checkbox"
+            id="disponibleSwitch"
+            formControlName="disponible"
+          />
         </div>
+        
+        
 
         <div class="form-buttons">
-          <button type="submit" class="btn btn-primary">Mettre à jour la réservation</button>
+          <button type="submit" class="btn btn-primary">Mettre à jour la salle</button>
           <button type="button" class="btn btn-secondary" (click)="fermerModal()">Annuler</button>
         </div>
       </form>

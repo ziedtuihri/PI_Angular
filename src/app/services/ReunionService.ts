@@ -70,7 +70,10 @@ export class ReunionService {
         return this.http.delete(url, this.httpOptions);
     }
 
-
+    deleteSalle(id: number) {
+        const url = `${this.apiUrl}/salle/${id}`;
+        return this.http.delete(url, this.httpOptions);
+    }
     createSalle(salle: any) {
         const url = `${this.apiUrl}/salle`;
         return this.http.post(url, salle, this.httpOptions);
@@ -88,17 +91,21 @@ export class ReunionService {
     }
 
     updateReservation(reservation: any) {
-
-        console.log('reservation', reservation)
         const url = `${this.apiUrl}/reservation/${reservation.id}`;
         return this.http.put(url, reservation, this.httpOptions);
+    }
+
+
+    updateSalle(salle: any) {
+        const url = `${this.apiUrl}/salle/${salle.id}`;
+        return this.http.put(url, salle, this.httpOptions);
     }
 
     getSalleAvecReservation() {
         const url = `${this.apiUrl}/salles-avec-reservations`;
         return this.http.get(url, this.httpOptions);
-      }
-      
+    }
+
     reserverSalle(
         salleId: number,
         date: string,
