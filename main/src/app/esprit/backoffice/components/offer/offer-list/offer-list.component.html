@@ -4,16 +4,12 @@
     <button class="btn-primary" (click)="navigateToCreateForm()">Create New Offer</button>
   </div>
   
-  <div class="message-container">
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-      <button class="close-btn" (click)="clearMessages()">×</button>
-    </div>
-    <div *ngIf="successMessage" class="success-message">
-      {{ successMessage }}
-      <button class="close-btn" (click)="clearMessages()">×</button>
-    </div>
-  </div>
+  <app-message-display
+    [errorMessage]="errorMessage"
+    [successMessage]="successMessage"
+    (clear)="clearMessages()">
+  </app-message-display>
+
   
   <div class="loading-spinner" *ngIf="isLoading">
     <div class="spinner"></div>

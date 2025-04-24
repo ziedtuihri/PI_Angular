@@ -11,6 +11,10 @@ export class JobApplicationService {
 
   constructor(private http: HttpClient) {}
 
+  getAllApplications() : Observable<JobApplication[]>{
+    return this.http.get<JobApplication[]>(`${this.apiUrl}`)
+  }
+
   apply(application: JobApplication): Observable<JobApplication> {
     return this.http.post<JobApplication>(this.apiUrl, application);
   }
@@ -27,9 +31,30 @@ export class JobApplicationService {
     return this.http.post(`${this.apiUrl}/${applicationId}/upload`, formData, { responseType: 'text' });
   }
 
-  downloadFile(path: string): Observable<Blob> {
+  // Updated download method to use the new secure endpoint
+  downloadFile(applicationId: number, fileType: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${applicationId}/download/${fileType}`, {
+      responseType: 'blob'
+    });
+  }
+
+  // Keep this for backward compatibility if needed
+  downloadFileByPath(path: string): Observable<Blob> {
+    console.warn('Using deprecated download method');
     return this.http.get(`${this.apiUrl}/download?path=${encodeURIComponent(path)}`, {
       responseType: 'blob'
     });
+  }
+
+
+  // debug upload download 
+  // Add this method to get a single application by ID
+  getApplicationById(id: number): Observable<JobApplication> {
+    return this.http.get<JobApplication>(`${this.apiUrl}/${id}`);
+  }
+  
+  // Add a method to update just the score
+  updateScore(applicationId: number, score: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${applicationId}/score`, { score });
   }
 }

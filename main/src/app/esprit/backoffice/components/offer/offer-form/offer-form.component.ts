@@ -99,7 +99,7 @@ export class OfferFormComponent implements OnInit {
         .pipe(finalize(() => this.isLoading = false))
         .subscribe({
           next: (updated) => {
-            this.router.navigate(['/offers', updated.id], { 
+            this.router.navigate(['/dashboard/backoffice/offers/details', updated.id], { 
               queryParams: { success: 'updated' } 
             });
           },
@@ -114,7 +114,7 @@ export class OfferFormComponent implements OnInit {
         .pipe(finalize(() => this.isLoading = false))
         .subscribe({
           next: (created) => {
-            this.router.navigate(['/offers'], { 
+            this.router.navigate(['/dashboard/backoffice/offers'], { 
               queryParams: { success: 'created' } 
             });
           },

@@ -1,4 +1,5 @@
-@import 'src/app/shared/styles/variables.scss';
+@use 'sass:color';
+@use 'src/app/shared/styles/variables.scss' as vars;
 .offer-list-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -13,21 +14,21 @@
     
     h1 {
       margin: 0;
-      color: $dark-gray;
+      color: vars.$dark-gray;
     }
     
     .btn-primary {
       padding: 8px 16px;
-      border-radius: $border-radius;
+      border-radius: vars.$border-radius;
       font-size: 16px;
-      background-color: $primary-color;
+      background-color: vars.$primary-color;
       color: white;
       border: none;
       cursor: pointer;
-      transition: $transition;
+      transition: vars.$transition;
       
       &:hover {
-        background-color: darken($primary-color, 10%);
+        background-color: color.adjust(vars.$primary-color, $lightness: -10%);
       }
     }
   }
@@ -37,7 +38,7 @@
     
     .error-message, .success-message {
       padding: 12px 16px;
-      border-radius: $border-radius;
+      border-radius: vars.$border-radius;
       position: relative;
       display: flex;
       justify-content: space-between;
@@ -46,15 +47,15 @@
     }
     
     .error-message {
-      background-color: rgba($danger-color, 0.1);
-      color: darken($danger-color, 10%);
-      border-left: 4px solid $danger-color;
+      background-color: rgba(vars.$danger-color, 0.1);
+      color: color.adjust(vars.$danger-color, $lightness: -10%);
+      border-left: 4px solid vars.$danger-color;
     }
     
     .success-message {
-      background-color: rgba($success-color, 0.1);
-      color: darken($success-color, 10%);
-      border-left: 4px solid $success-color;
+      background-color: rgba(vars.$success-color, 0.1);
+      color: color.adjust(vars.$success-color, $lightness: -10%);
+      border-left: 4px solid vars.$success-color;
     }
     
     .close-btn {
@@ -77,15 +78,15 @@
     .spinner {
       width: 40px;
       height: 40px;
-      border: 4px solid rgba($primary-color, 0.2);
+      border: 4px solid rgba(vars.$primary-color, 0.2);
       border-radius: 50%;
-      border-top-color: $primary-color;
+      border-top-color: vars.$primary-color;
       animation: spin 1s linear infinite;
     }
     
     p {
       margin-top: 16px;
-      color: $dark-gray;
+      color: vars.$dark-gray;
     }
     
     @keyframes spin {
@@ -96,14 +97,14 @@
   
   .content-container {
     background-color: white;
-    border-radius: $border-radius;
+    border-radius: vars.$border-radius;
     padding: 20px;
-    box-shadow: $box-shadow;
+    box-shadow: vars.$box-shadow;
     
     h2 {
       margin-top: 0;
       margin-bottom: 20px;
-      color: $dark-gray;
+      color: vars.$dark-gray;
     }
   }
   
@@ -115,11 +116,11 @@
   
   .offer-card {
     background-color: white;
-    border-radius: $border-radius;
-    box-shadow: $box-shadow;
+    border-radius: vars.$border-radius;
+    box-shadow: vars.$box-shadow;
     padding: 16px;
-    transition: $transition;
-    border: 1px solid $mid-gray;
+    transition: vars.$transition;
+    border: 1px solid vars.$mid-gray;
     
     &:hover {
       transform: translateY(-2px);
@@ -129,7 +130,7 @@
     h3 {
       margin-top: 0;
       margin-bottom: 10px;
-      color: $primary-color;
+      color: vars.$primary-color;
     }
     
     .offer-meta {
@@ -142,22 +143,22 @@
         font-size: 14px;
         padding: 2px 8px;
         border-radius: 12px;
-        background-color: $light-gray;
+        background-color: vars.$light-gray;
       }
       
       .company {
-        background-color: rgba($primary-color, 0.1);
-        color: $primary-color;
+        background-color: rgba(vars.$primary-color, 0.1);
+        color: vars.$primary-color;
       }
       
       .location {
-        background-color: rgba($secondary-color, 0.1);
-        color: $secondary-color;
+        background-color: rgba(vars.$secondary-color, 0.1);
+        color: vars.$secondary-color;
       }
       
       .type {
-        background-color: rgba($dark-gray, 0.1);
-        color: $dark-gray;
+        background-color: rgba(vars.$dark-gray, 0.1);
+        color: vars.$dark-gray;
       }
     }
     
@@ -167,7 +168,7 @@
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      color: $secondary-color;
+      color: vars.$secondary-color;
       line-height: 1.5;
     }
     
@@ -178,7 +179,7 @@
       
       .btn-link {
         background: none;
-        color: $primary-color;
+        color: vars.$primary-color;
         padding: 4px 8px;
         border: none;
         font-size: 14px;
@@ -189,7 +190,7 @@
         }
         
         &.warning {
-          color: $danger-color;
+          color: vars.$danger-color;
         }
       }
     }
@@ -198,9 +199,9 @@
   .empty-state {
     text-align: center;
     padding: 40px 20px;
-    background-color: $light-gray;
-    border-radius: $border-radius;
-    color: $secondary-color;
+    background-color: vars.$light-gray;
+    border-radius: vars.$border-radius;
+    color: vars.$secondary-color;
     
     p {
       margin: 0;

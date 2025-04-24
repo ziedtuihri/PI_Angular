@@ -149,7 +149,7 @@ export class CreateQuizComponent {
         next: () => {
           alert('Quiz created successfully!');
           // Optional: Navigate back to the offer details or list
-          this.router.navigate(['/dashboard/backoffice/offers', this.offerId]);
+          this.router.navigate(['/dashboard/backoffice/offers/details', this.offerId]);
         },
         error: (err) => {
           console.error('Error creating quiz:', err);

@@ -5,7 +5,6 @@ import { FrontLayoutComponent } from './front-layout/front-layout.component';
 import { OfferListComponent } from './components/offer-list/offer-list.component';
 import { OfferDetailsComponent } from './components/offer-details/offer-details.component';
 import { ApplyFormComponent } from './components/apply-form/apply-form.component';
-import { QuizAttemptComponent } from './components/quiz-attempt/quiz-attempt.component';
 import { StudentApplicationsComponent } from './components/student-applications/student-applications.component';
 
 
@@ -18,10 +17,8 @@ const routes: Routes = [
       // offer Routes
       { path: 'offers', component: OfferListComponent },
       { path: 'offers/:id', component: OfferDetailsComponent },
-      // Quiz Routes
-      { path: 'quiz-attempt/:quizId/offer/:offerId', component: QuizAttemptComponent },
       // Applications Routes
-      { path: 'apply/:offerId/quiz/:quizId', component: ApplyFormComponent },
+      { path: 'apply/:offerId/quiz/:quizId', component: ApplyFormComponent }, // /apply/:offerId/quiz/:quizId
       { path: 'my-applications', component: StudentApplicationsComponent }
     ],
   },

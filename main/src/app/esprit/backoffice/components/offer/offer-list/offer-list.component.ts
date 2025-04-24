@@ -6,13 +6,15 @@ import { finalize } from 'rxjs/operators';
 import { Offer } from 'src/app/shared/models/offer';
 import { OfferService } from 'src/app/shared/services/offer.service';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
+import { MessageDisplayComponent } from 'src/app/shared/components/message-display/message-display.component';
 
 @Component({
   selector: 'app-offer-list',
   standalone: true,
   imports: [
     CommonModule,
-    TruncatePipe],
+    TruncatePipe,
+    MessageDisplayComponent],
   templateUrl: './offer-list.component.html',
   styleUrls: ['./offer-list.component.scss']
 })

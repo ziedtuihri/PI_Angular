@@ -1,4 +1,5 @@
-@import 'src/app/shared/styles/variables.scss';
+@use 'sass:color';
+@use 'src/app/shared/styles/variables.scss' as vars;
 
 .quiz-management-container {
     max-width: 900px;
@@ -9,8 +10,8 @@
     h2 {
       margin-top: 0;
       margin-bottom: 20px;
-      color: $dark-gray;
-      border-bottom: 1px solid $mid-gray;
+      color: vars.$dark-gray;
+      border-bottom: 1px solid vars.$mid-gray;
       padding-bottom: 10px;
     }
     
@@ -19,7 +20,7 @@
       justify-content: center;
       align-items: center;
       padding: 40px 0;
-      color: $secondary-color;
+      color: vars.$secondary-color;
       
       p {
         margin: 0;
@@ -37,25 +38,25 @@
           display: block;
           margin-bottom: 6px;
           font-weight: bold;
-          color: $dark-gray;
+          color: vars.$dark-gray;
         }
         
         .form-control {
           width: 100%;
           padding: 10px;
-          border: 1px solid $mid-gray;
-          border-radius: $border-radius;
+          border: 1px solid vars.$mid-gray;
+          border-radius: vars.$border-radius;
           font-size: 16px;
           
           &:focus {
-            border-color: $primary-color;
+            border-color: vars.$primary-color;
             outline: none;
-            box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+            box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
           }
         }
         
         .error-message {
-          color: $danger-color;
+          color: vars.$danger-color;
           font-size: 14px;
           margin-top: 4px;
         }
@@ -64,29 +65,29 @@
     
     .questions-section {
       background-color: white;
-      border-radius: $border-radius;
+      border-radius: vars.$border-radius;
       padding: 20px;
       margin-top: 20px;
-      box-shadow: $box-shadow;
+      box-shadow: vars.$box-shadow;
       
       h3 {
         margin-top: 0;
         margin-bottom: 16px;
-        color: $dark-gray;
+        color: vars.$dark-gray;
       }
       
       .btn-outline-primary {
         background-color: white;
-        color: $primary-color;
-        border: 1px solid $primary-color;
+        color: vars.$primary-color;
+        border: 1px solid vars.$primary-color;
         padding: 6px 12px;
-        border-radius: $border-radius;
+        border-radius: vars.$border-radius;
         font-size: 14px;
         cursor: pointer;
-        transition: $transition;
+        transition: vars.$transition;
         
         &:hover {
-          background-color: rgba($primary-color, 0.1);
+          background-color: rgba(vars.$primary-color, 0.1);
         }
       }
     }
@@ -94,28 +95,28 @@
     .question-form {
       margin-bottom: 24px;
       padding: 16px;
-      border: 1px solid $mid-gray;
-      border-radius: $border-radius;
-      background-color: $light-gray;
+      border: 1px solid vars.$mid-gray;
+      border-radius: vars.$border-radius;
+      background-color: vars.$light-gray;
       
       h4 {
         margin-top: 0;
         margin-bottom: 12px;
-        color: $dark-gray;
+        color: vars.$dark-gray;
       }
       
       .btn-danger {
-        background-color: $danger-color;
+        background-color: vars.$danger-color;
         color: white;
         border: none;
         padding: 4px 8px;
-        border-radius: $border-radius;
+        border-radius: vars.$border-radius;
         font-size: 14px;
         cursor: pointer;
-        transition: $transition;
+        transition: vars.$transition;
         
         &:hover {
-          background-color: darken($danger-color, 10%);
+          background-color: color.adjust(vars.$danger-color, $lightness: -10%);
         }
       }
       
@@ -126,20 +127,20 @@
           display: block;
           margin-bottom: 6px;
           font-weight: bold;
-          color: $dark-gray;
+          color: vars.$dark-gray;
         }
         
         .form-control {
           width: 100%;
           padding: 10px;
-          border: 1px solid $mid-gray;
-          border-radius: $border-radius;
+          border: 1px solid vars.$mid-gray;
+          border-radius: vars.$border-radius;
           font-size: 16px;
           
           &:focus {
-            border-color: $primary-color;
+            border-color: vars.$primary-color;
             outline: none;
-            box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+            box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
           }
         }
         
@@ -149,7 +150,7 @@
         }
         
         .error-message {
-          color: $danger-color;
+          color: vars.$danger-color;
           font-size: 14px;
           margin-top: 4px;
         }
@@ -162,7 +163,7 @@
       h5 {
         margin-top: 0;
         margin-bottom: 12px;
-        color: $dark-gray;
+        color: vars.$dark-gray;
       }
       
       .answer-form {
@@ -174,14 +175,14 @@
         .form-control {
           flex: 1;
           padding: 8px;
-          border: 1px solid $mid-gray;
-          border-radius: $border-radius;
+          border: 1px solid vars.$mid-gray;
+          border-radius: vars.$border-radius;
           font-size: 14px;
           
           &:focus {
-            border-color: $primary-color;
+            border-color: vars.$primary-color;
             outline: none;
-            box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+            box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
           }
         }
         
@@ -197,39 +198,39 @@
           label {
             margin: 0;
             font-size: 14px;
-            color: $dark-gray;
+            color: vars.$dark-gray;
           }
         }
         
         .btn-outline-danger {
           background-color: white;
-          color: $danger-color;
-          border: 1px solid $danger-color;
+          color: vars.$danger-color;
+          border: 1px solid vars.$danger-color;
           padding: 4px 8px;
-          border-radius: $border-radius;
+          border-radius: vars.$border-radius;
           font-size: 14px;
           cursor: pointer;
-          transition: $transition;
+          transition: vars.$transition;
           
           &:hover {
-            background-color: rgba($danger-color, 0.1);
+            background-color: rgba(vars.$danger-color, 0.1);
           }
         }
       }
       
       .btn-outline-success {
         background-color: white;
-        color: $success-color;
-        border: 1px solid $success-color;
+        color: vars.$success-color;
+        border: 1px solid vars.$success-color;
         padding: 4px 8px;
-        border-radius: $border-radius;
+        border-radius: vars.$border-radius;
         font-size: 14px;
         cursor: pointer;
-        transition: $transition;
+        transition: vars.$transition;
         margin-top: 8px;
         
         &:hover {
-          background-color: rgba($success-color, 0.1);
+          background-color: rgba(vars.$success-color, 0.1);
         }
       }
     }
@@ -240,17 +241,17 @@
       margin-top: 24px;
       
       .btn-primary {
-        background-color: $primary-color;
+        background-color: vars.$primary-color;
         color: white;
         border: none;
         padding: 8px 16px;
-        border-radius: $border-radius;
+        border-radius: vars.$border-radius;
         font-size: 16px;
         cursor: pointer;
-        transition: $transition;
+        transition: vars.$transition;
         
         &:hover:not(:disabled) {
-          background-color: darken($primary-color, 10%);
+          background-color: color.adjust(vars.$primary-color, $lightness: -10%);
         }
         
         &:disabled {
@@ -302,11 +303,11 @@
     }
     
     .border {
-      border: 1px solid $mid-gray;
+      border: 1px solid vars.$mid-gray;
     }
     
     .rounded {
-      border-radius: $border-radius;
+      border-radius: vars.$border-radius;
     }
     
     .gap-2 {

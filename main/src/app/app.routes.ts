@@ -40,19 +40,21 @@ export const routes: Routes = [
 
     ],
   },
-  {path: "entry", component: EntryComponent},
   {
-    path: 'frontoffice',
-    loadChildren: () =>
-      import('./esprit/frontoffice/frontoffice.module').then((m) => m.FrontofficeModule),
-  },
-  {
-    path: 'backoffice',
-    loadChildren: () =>
-      import('./esprit/backoffice/backoffice.module').then((m) => m.BackofficeModule),
+    path: '',
+    component: BlankComponent,
+    children: [
+      {
+        path: 'authentication',
+        loadChildren: () =>
+          import('./pages/authentication/authentication.routes').then(
+            (m) => m.AuthenticationRoutes
+          ),
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'authentication/error',
   },
 ];

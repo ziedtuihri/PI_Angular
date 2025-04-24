@@ -175,6 +175,7 @@ export class UpdateQuizComponent {
     const updatedQuiz: Quiz = {
       id: this.quizId,
       title: this.quizForm.value.title,
+      description: this.quizForm.value.description,
       questions: this.questions.controls.map((qControl: AbstractControl) => ({
         id: qControl.value.id ?? null,
         content: qControl.value.content,
