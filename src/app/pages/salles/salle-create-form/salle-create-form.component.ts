@@ -7,17 +7,20 @@ import { ReunionService } from 'src/app/services/ReunionService';
   selector: 'salle-create-form',
   templateUrl: './salle-create-form.component.html',
   styleUrls: ['./salle-create-form.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule,],
-
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule]
 })
 export class SalleCreateFormComponent implements OnInit {
   salleForm!: FormGroup;
 
-  constructor(private readonly fb: FormBuilder, private readonly reunionService: ReunionService) { }
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly reunionService: ReunionService
+  ) {}
 
   ngOnInit(): void {
     this.salleForm = this.fb.group({
-      nom: ['', [Validators.required, Validators.minLength(3)]], 
+      nom: ['', [Validators.required, Validators.minLength(3)]],
       capacite: [1, [Validators.required, Validators.min(1)]],
       disponible: [true]
     });
@@ -30,6 +33,8 @@ export class SalleCreateFormComponent implements OnInit {
         alert('Salle ajoutée avec succès !');
         this.salleForm.reset({ disponible: true, capacite: 1 });
       });
+    } else {
+      this.salleForm.markAllAsTouched(); 
     }
   }
 }

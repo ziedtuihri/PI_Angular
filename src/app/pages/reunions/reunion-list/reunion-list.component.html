@@ -150,7 +150,7 @@
                 </div>
   
   
-                <div class="form-group md:col-span-2">
+                <div class="form-group md:col-span-2" *ngIf="reunionForm.get('type')?.value === 'EN_LIGNE'">
                   <label>Participants</label>
                   <div *ngFor="let participant of participants">
                     <label>
@@ -161,6 +161,8 @@
                     </label>
                   </div>
                 </div>
+                
+                
               </div>
               <!-- Actions -->
               <div class="form-actions flex justify-end gap-4 mt-6">
