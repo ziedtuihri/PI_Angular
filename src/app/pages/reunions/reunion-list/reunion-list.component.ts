@@ -12,6 +12,9 @@ import { ReunionService } from 'src/app/services/ReunionService';
 export class ReunionListComponent implements OnInit {
   constructor(private readonly fb: FormBuilder, private readonly reunionService: ReunionService) { }
   reunions: any[] = [];
+
+  filteredReunions: any[] = [];
+  selectedSearchType: string = '';
   reunionForm!: FormGroup;
 
   selectedReunion: any = null;
@@ -67,12 +70,13 @@ export class ReunionListComponent implements OnInit {
     this.reunionService.getReunions().subscribe({
       next: (data: any) => {
         this.reunions = Array.isArray(data) ? data : [];
-        console.log('reunions', this.reunions);
+        this.filteredReunions = [...this.reunions]; // Initialiser filteredReunions
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des réunions', err);
       }
     });
+    
   
     this.reunionService.getParticipants().subscribe({
       next: (data: any) => this.participants = Array.isArray(data) ? data : []
@@ -86,10 +90,19 @@ export class ReunionListComponent implements OnInit {
       next: (data: any) => this.salles = Array.isArray(data) ? data : []
     });
   }
+
+
+  filterReunionsByType(): void {
+    if (this.selectedSearchType) {
+      this.filteredReunions = this.reunions.filter(reunion => reunion.type === this.selectedSearchType);
+    } else {
+      this.filteredReunions = [...this.reunions]; 
+      
+    }
+  }
   
   onEdit(reunion: any) {
     if (reunion) {
-      console.log('selectedReunion', reunion); // Vérifie si reunion est correctement passé
       this.isModalOpen = true;
       this.selectedReunion = reunion;
       this.selectedType = reunion.type;
@@ -148,12 +161,11 @@ export class ReunionListComponent implements OnInit {
     if (this.reunionForm.valid) {
       const value = this.reunionForm.value;
   
-      // Vérifier la disponibilité de la salle si présentiel
       if (value.type === 'PRESENTIEL') {
         const selectedSalle = this.salles.find(s => s.id === value.salle);
         if (selectedSalle && selectedSalle.disponible === false) {
           alert("La salle sélectionnée n'est pas disponible.");
-          return; // On stoppe la sauvegarde
+          return; 
         }
       }
   
@@ -212,7 +224,12 @@ export class ReunionListComponent implements OnInit {
       });
     }
   }
-  
+
+   isReunionPassed(date: string): boolean {
+    const currentDate = new Date();
+    const reunionDate = new Date(date);
+    return reunionDate < currentDate;  
+  }
 
 
   onDelete(reunion: any): void {

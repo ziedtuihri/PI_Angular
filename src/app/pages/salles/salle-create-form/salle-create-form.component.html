@@ -8,7 +8,6 @@
         </div>
 
         <form [formGroup]="salleForm" (ngSubmit)="onSubmit()">
-          <!-- Nom de la salle -->
           <div class="mb-4">
             <label for="nom" class="form-label">Nom de la salle</label>
             <input
@@ -25,7 +24,6 @@
             </div>
           </div>
 
-          <!-- Capacité -->
           <div class="mb-4">
             <label for="capacite" class="form-label">Capacité</label>
             <input
@@ -42,7 +40,6 @@
             </div>
           </div>
 
-          <!-- Disponibilité -->
           <div class="mb-4 form-check form-switch">
             <input
               type="checkbox"
@@ -53,7 +50,6 @@
             <label class="form-check-label" for="disponibleSwitch">Disponible</label>
           </div>
 
-          <!-- Bouton de soumission -->
           <div class="mb-3">
             <button type="submit" class="btn btn-primary w-100 shadow-lg py-3" [disabled]="salleForm.invalid">
               <i class="fas fa-plus-circle me-2"></i> Ajouter la salle

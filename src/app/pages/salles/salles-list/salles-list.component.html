@@ -6,7 +6,7 @@
   <div class="all-salles">
     <div class="salles-wrapper">
       <div *ngFor="let salle of allSalles" class="card"
-        [ngClass]="salle.reservations && salle.reservations.length === 0 ? 'available' : 'used-salle'">
+        [ngClass]="salle.disponible && (!salle.reservations || salle.reservations.length === 0) ? 'available' : 'used-salle'">
         <div class="card-header">
           <div class="card-title-with-icon">
             <h4 class="salle-nom">{{ salle.nom }}</h4>
@@ -15,69 +15,64 @@
               <span class="delete-icon" (click)="supprimerSalle(salle.id)" title="Supprimer">🗑️</span>
             </div>
           </div>
-        
+        </div>
+
         <div class="card-body">
-          <ng-container *ngIf="!salle.reservations || salle.reservations.length === 0; else reservedSalle">
+          <ng-container *ngIf="salle.disponible && (!salle.reservations || salle.reservations.length === 0); else reservedSalle">
             <p class="available">Salle disponible</p>
             <button class="btn btn-primary" (click)="modifieSalle(salle)">Réserver</button>
           </ng-container>
         </div>
-          <ng-template #reservedSalle>
-            <p class="unavailable">Salle réservée</p>
-            <div *ngFor="let res of salle.reservations">
-              <ng-container *ngIf="res.reunion">
-                <small>
-                  Réunion : {{ res.reunion.titre }}<br>
-                  Le {{ res.reunion?.date }} à {{ res.reunion?.heure }} ({{ res.reunion?.duree }} min)
-                </small>
-              </ng-container>
-              <ng-container *ngIf="!res.reunion">
-                <p>Pas de réunion associée</p>
-              </ng-container>
-            </div>
-          </ng-template>
 
-        </div>
+        <ng-template #reservedSalle>
+          <p class="unavailable">Salle réservée</p>
+          <div *ngFor="let res of salle.reservations">
+            <ng-container *ngIf="res.reunion">
+              <small>
+                Réunion : {{ res.reunion.titre }}<br>
+                Le {{ res.reunion?.date }} à {{ res.reunion?.heure }} ({{ res.reunion?.duree }} min)
+              </small>
+            </ng-container>
+            <ng-container *ngIf="!res.reunion">
+              <p>Pas de réunion associée</p>
+            </ng-container>
+          </div>
+        </ng-template>
       </div>
-
-
-
     </div>
   </div>
 
-<div *ngIf="isModalOpen" class="modal-overlay">
-  <div class="modal-content">
-    <div class="reunion-form-container">
-      <h2 class="form-title">Modifier la réservation de la salle</h2>
+  <div *ngIf="isModalOpen" class="modal-overlay">
+    <div class="modal-content">
+      <div class="reunion-form-container">
+        <h2 class="form-title">Modifier la réservation de la salle</h2>
 
-      <form [formGroup]="salleForm" (ngSubmit)="updateSalle()" class="salle-form">
-       
-        <div class="form-group">
-          <label for="nom">Nom</label>
-          <input id="nom" type="nom" formControlName="nom" required />
-        </div>
+        <form [formGroup]="salleForm" (ngSubmit)="updateSalle()" class="salle-form">
+          <div class="form-group">
+            <label for="nom">Nom</label>
+            <input id="nom" type="text" formControlName="nom" required />
+          </div>
 
-        <div class="form-group">
-          <label for="capacite">Capacité</label>
-          <input id="capacite" type="capacite" formControlName="capacite" required />
-        </div>
+          <div class="form-group">
+            <label for="capacite">Capacité</label>
+            <input id="capacite" type="number" formControlName="capacite" required />
+          </div>
 
-        <div class="mb-4 form-check form-switch">
-          <label for="disponibleSwitch">Disponibilité</label>
-          <input
-            type="checkbox"
-            id="disponibleSwitch"
-            formControlName="disponible"
-          />
-        </div>
-        
-        
+          <div class="mb-4 form-check form-switch">
+            <label for="disponibleSwitch">Disponibilité</label>
+            <input
+              type="checkbox"
+              id="disponibleSwitch"
+              formControlName="disponible"
+            />
+          </div>
 
-        <div class="form-buttons">
-          <button type="submit" class="btn btn-primary">Mettre à jour la salle</button>
-          <button type="button" class="btn btn-secondary" (click)="fermerModal()">Annuler</button>
-        </div>
-      </form>
+          <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Mettre à jour la salle</button>
+            <button type="button" class="btn btn-secondary" (click)="fermerModal()">Annuler</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
