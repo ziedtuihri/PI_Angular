@@ -53,12 +53,11 @@ export class SallesListComponent implements OnInit {
   modifieSalle(salle: any): void {
     this.selectedSalle = salle;
     
-    // Vérifier si la salle a des réservations actives
-    const hasActiveReservation = salle.reservations.some((reservation:any) => {
+    const hasActiveReservation = Array.isArray(salle.reservations) && salle.reservations.some((reservation: any) => {
       const reservationDate = new Date(`${reservation.reunion.date} ${reservation.reunion.heure}`);
       return reservationDate > new Date(); // La réservation est dans le futur
     });
-  
+    
     // Si la salle a des réservations actives, elle sera considérée comme non disponible
     const isAvailable = salle.disponible && !hasActiveReservation; 
   

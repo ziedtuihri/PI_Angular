@@ -125,16 +125,71 @@ textarea {
     resize: vertical;
 }
 
-button {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    gap: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+
+
+
+
+
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Changer le style des boutons désactivés */
+button:disabled,
+button:disabled.bg-indigo-600,
+button:disabled.bg-gray-300,
+button:disabled.bg-gray-200,
+button:disabled.bg-gray-400,
+button:disabled.bg-gray-500 {
+    background-color: #d1d5db !important; /* Gris clair */
+    color: #9ca3af !important;  /* Texte gris */
+    cursor: not-allowed !important;  /* Curseur non autorisé */
+    box-shadow: none !important;  /* Aucune ombre pour les boutons désactivés */
+}
+
+/* Assurer que les boutons désactivés ne changent pas au survol ou lors du clic */
+button:disabled:hover,
+button:disabled:active {
+    background-color: #d1d5db !important;  /* Gris clair */
+}
+
+/* Garder le fond gris même en survol ou en actif pour les boutons désactivés */
+button.bg-indigo-600:disabled:hover,
+button.bg-gray-300:disabled:hover,
+button.bg-gray-200:disabled:hover,
+button.bg-gray-400:disabled:hover,
+button.bg-gray-500:disabled:hover {
+    background-color: #d1d5db !important;  /* Gris clair */
+}
+
+/* Garder le fond gris même en clic pour les boutons désactivés */
+button.bg-indigo-600:disabled:active,
+button.bg-gray-300:disabled:active,
+button.bg-gray-200:disabled:active,
+button.bg-gray-400:disabled:active,
+button.bg-gray-500:disabled:active {
+    background-color: #d1d5db !important;  /* Gris clair */
+}
+
+/* Assurer l'effet hover et active pour les boutons normaux */
 button:hover {
     background-color: #3b82f6;
     transform: scale(1.05);
@@ -153,9 +208,49 @@ button[type="button"]:hover {
     background-color: #d1d5db;
 }
 
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 2rem;
+
+
+/* Les boutons actifs (réunion non passée) */
+button.bg-indigo-600 {
+    background-color: #4c6ef5;
+    color: white;
+}
+
+button.bg-indigo-600:hover {
+    background-color: #3b82f6;
+}
+
+button.bg-gray-300 {
+    background-color: #d1d5db;
+    color: #6b7280;
+}
+
+button.bg-gray-200 {
+    background-color: #e5e7eb;
+    color: #9ca3af;
+}
+
+button.bg-gray-400 {
+    background-color: #9ca3af;
+    color: #f7f7f7;
+    cursor: not-allowed;
+}
+
+button.bg-gray-500 {
+    background-color: #6b7280;
+}
+
+.form-actions button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    gap: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.form-actions button:hover {
+    background-color: #3b82f6;
+    transform: scale(1.05);
 }
