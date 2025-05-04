@@ -20,7 +20,7 @@ export class LoginService {
   }
 
   logIn(email: string, password: string): Observable<any> {
-    return this.http.post<any>('http://localhost:8082/auth/authenticate', { email, password })
+    return this.http.post<any>('http://localhost:8081/auth/authenticate', { email, password })
       .pipe(
         map(response => {
           console.log(response)
@@ -36,7 +36,7 @@ export class LoginService {
           let message = 'Unknown error occurred';
           if (error.status === 404) {
             message = 'User not found';
-          } else if (error.status === 400) {
+          } else if (error.status == 400) {
             message = 'Invalid email or password, vérifier si vos coordonnées sont exactes';
           } else if (error.error.message === 'Invalid mot de passe') {
             message = 'Invalid password';
@@ -63,7 +63,7 @@ export class LoginService {
 
 
   signUp(user: User): Observable<any> {
-    return this.http.post<any>(`http://localhost:8082/auth/register`, user)
+    return this.http.post<any>(`http://localhost:8081/auth/register`, user)
     .pipe(
       map(response => {
         // this.router.navigate(['/verify-email']);
@@ -76,7 +76,7 @@ export class LoginService {
   }
 
   checkEmail(email: string): Observable<any> {
-    return this.http.post<any>('http://localhost:8082/auth/forgotPassword',  { email } )
+    return this.http.post<any>('http://localhost:8081/auth/forgotPassword',  { email } )
       .pipe(
         map(response => {
           console.log(response);
