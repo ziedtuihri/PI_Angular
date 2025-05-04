@@ -9,7 +9,7 @@ export const navItems: NavItem[] = [
     iconName: 'solar:atom-line-duotone',
     route: '/dashboard',
   },
-  /*
+  
   {
     displayName: 'Projet',
     iconName: 'solar:atom-line-duotone',

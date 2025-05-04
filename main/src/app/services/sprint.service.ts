@@ -26,7 +26,7 @@ export interface Sprint {
   providedIn: 'root',
 })
 export class SprintService {
-  private apiUrl = 'http://localhost:8081/pi/api/sprints'; // Adaptez l'URL de votre API
+  private apiUrl = 'http://localhost:8081/api/sprints'; // Adaptez l'URL de votre API
 
   constructor(private http: HttpClient) {}
 

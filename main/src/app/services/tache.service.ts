@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class TacheService {
-  private apiUrl = 'http://localhost:8081/pi/api/taches'; // Adaptez l'URL de votre API pour les tâches
+  private apiUrl = 'http://localhost:8081/api/taches'; // Adaptez l'URL de votre API pour les tâches
 
   constructor(private http: HttpClient) {}
 
