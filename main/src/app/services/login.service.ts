@@ -20,7 +20,7 @@ export class LoginService {
   }
 
   logIn(email: string, password: string): Observable<any> {
-    return this.http.post<any>('http://localhost:8082/auth/authenticate', { email, password })
+    return this.http.post<any>('http://localhost:8081/auth/authenticate', { email, password })
       .pipe(
         map(response => {
           localStorage.setItem('tokenClient', response.token);

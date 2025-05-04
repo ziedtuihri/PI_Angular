@@ -18,7 +18,7 @@ export interface Projet {
   providedIn: 'root',
 })
 export class ProjetService {
-  private baseUrl = 'http://localhost:8082/pi/api/projets'; // Vérifiez cette URL
+  private baseUrl = 'http://localhost:8081/pi/api/projets'; // Vérifiez cette URL
 
   constructor(private http: HttpClient) {}
 
