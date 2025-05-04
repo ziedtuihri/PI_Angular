@@ -22,7 +22,7 @@ interface StatusOption {
   selector: 'app-sprint-form',
   standalone: true,
   imports: [
-    CommonModule, // Import CommonModule pour les directives comme *ngIf et DatePipe
+    CommonModule, 
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -30,8 +30,8 @@ interface StatusOption {
     MatNativeDateModule,
     MatButtonModule,
     MatSelectModule,
-    MatIconModule, // Importez MatIconModule si vous utilisez <mat-icon>
-    ReactiveFormsModule, // Importez ReactiveFormsModule pour utiliser formGroup
+    MatIconModule, 
+    ReactiveFormsModule, 
   ],
   templateUrl: './sprint-form.component.html',
   styleUrls: ['./sprint-form.component.scss'],

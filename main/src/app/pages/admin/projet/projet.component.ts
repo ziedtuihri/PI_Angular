@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common'; // Import DatePipe ici
+import { CommonModule, DatePipe } from '@angular/common'; 
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,11 +23,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatProgressBarModule,
     RouterModule,
     MatTooltipModule,
-    // DatePipe est importé dans CommonModule, pas besoin de l'ajouter ici dans imports pour le template
   ],
   templateUrl: './projet.component.html',
   styleUrls: ['./projet.component.scss'],
-  providers: [DatePipe], // Ajoute DatePipe aux providers
+  providers: [DatePipe], 
 })
 export class ProjetComponent implements OnInit {
   projets: Projet[] = [];

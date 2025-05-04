@@ -1,1 +1,60 @@
-<p>tache-form-admin works!</p>
+<mat-card>
+    <mat-card-title>{{ editMode ? 'Modifier la Tâche' : 'Ajouter une Tâche' }}</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="tacheForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nom</mat-label>
+          <input matInput formControlName="nom" required>
+          <mat-error *ngIf="tacheForm.controls['nom'].hasError('required')">Le nom est requis.</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date de début</mat-label>
+          <input matInput [matDatepicker]="debutPicker" formControlName="dateDebut" required>
+          <mat-datepicker-toggle matSuffix [for]="debutPicker"></mat-datepicker-toggle>
+          <mat-datepicker #debutPicker></mat-datepicker>
+          <mat-error *ngIf="tacheForm.controls['dateDebut'].hasError('required')">La date de début est requise.</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date de fin</mat-label>
+          <input matInput [matDatepicker]="finPicker" formControlName="dateFin" required>
+          <mat-datepicker-toggle matSuffix [for]="finPicker"></mat-datepicker-toggle>
+          <mat-datepicker #finPicker></mat-datepicker>
+          <mat-error *ngIf="tacheForm.controls['dateFin'].hasError('required')">La date de fin est requise.</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Statut</mat-label>
+          <mat-select formControlName="statut" required>
+            <mat-option *ngFor="let status of statusOptions" [value]="status.value">
+              {{ status.viewValue }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="tacheForm.controls['statut'].hasError('required')">Le statut est requis.</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Sprint</mat-label>
+          <mat-select formControlName="sprintId">
+            <mat-option [value]="null">Aucun sprint</mat-option>
+            <mat-option *ngFor="let sprint of sprints" [value]="sprint.idSprint">
+              {{ sprint.nom }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <div class="actions">
+          <button mat-raised-button color="primary" type="submit">
+            {{ editMode ? 'Enregistrer' : 'Ajouter' }}
+          </button>
+          <button mat-button type="button" (click)="onCancel()">Annuler</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>

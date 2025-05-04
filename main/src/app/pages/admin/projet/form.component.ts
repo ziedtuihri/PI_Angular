@@ -51,13 +51,13 @@ export class ProjetFormComponent implements OnInit {
 
     this.projetForm = this.fb.group({
       nom: ['', Validators.required],
-      description: ['', Validators.maxLength(1000)], // Ajout de la validation maxlength
+      description: ['', Validators.maxLength(1000)],
       dateDebut: ['', Validators.required],
       dateFinPrevue: ['', Validators.required],
       dateFinReelle: [''],
       statut: ['', Validators.required],
       file: [null],
-      listeEtudiantsInput: ['', Validators.maxLength(500)], // Ajout de la validation maxlength
+      listeEtudiantsInput: ['', Validators.maxLength(500)], 
     });
 
     if (this.editMode) {

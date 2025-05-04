@@ -14,7 +14,7 @@
       <mat-spinner></mat-spinner>
     </div>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-    <div *ngIf="!loading && !errorMessage && sprints.length > 0" class="responsive-table">
+    <div *ngIf="!loading && !errorMessage && dataSource.data.length > 0" class="responsive-table">
       <table mat-table [dataSource]="dataSource" class="w-100">
 
         <ng-container matColumnDef="nom">
@@ -61,11 +61,22 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
-    <div *ngIf="!loading && !errorMessage && sprints.length === 0">
+    <div *ngIf="!loading && !errorMessage && dataSource.data.length === 0">
       Aucun sprint disponible.
     </div>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [length]="dataSource?.data?.length" [pageSize]="5" [pageIndex]="0"></mat-paginator>
+    <div class="pagination-container">
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        [length]="dataSource?.data?.length"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        (page)="handlePageEvent($event)"
+      ></mat-paginator>
+      <span class="page-size-indicator">Taille de page configurée : {{ pageSize }}</span>
+    </div>
+
 
     <div class="m-t-16">
       <button mat-raised-button color="primary" routerLink="/sprints/add">Ajouter un Sprint</button>

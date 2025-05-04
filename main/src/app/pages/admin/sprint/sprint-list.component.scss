@@ -1,17 +1,28 @@
 .search-and-title {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Aligne le titre à gauche et la recherche à droite */
-    gap: 16px; /* Espacement entre les éléments */
+    justify-content: space-between; 
+    gap: 16px; 
   }
   
   .search-container {
-    /* Vous pouvez ajuster la largeur maximale ici */
+   
     max-width: 300px;
-    width: 30%; /* Prend une partie de la largeur disponible */
+    width: 30%; 
   }
   
-  /* Ajustements pour le titre si nécessaire */
+
   .search-and-title .mat-card-title {
-    /* flex-grow: 1; Permet au titre de prendre l'espace restant */
+   
+  }
+
+  .pagination-container {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Espacement entre le paginator et l'indicateur */
+  }
+  
+  .page-size-indicator {
+    font-size: 0.8em;
+    color: gray;
   }

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjetService, Projet } from '../../../services/projet.service'; // Ajuste le chemin si nécessaire
+import { ProjetService, Projet } from '../../../services/projet.service'; 
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms'; // Importez FormsModule pour le ngModel
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-projet-detail',
@@ -53,10 +53,10 @@ export class ProjetDetailComponent implements OnInit {
     if (this.projetId && this.nouvelEtudiantNom.trim()) {
       this.projetService.ajouterEtudiantAuProjet(this.projetId, this.nouvelEtudiantNom.trim()).subscribe(
         (updatedProjet) => {
-          this.projet = updatedProjet; // Mettre à jour le projet avec la nouvelle liste
-          this.nouvelEtudiantNom = ''; // Réinitialiser le champ
+          this.projet = updatedProjet; 
+          this.nouvelEtudiantNom = ''; 
           this.errorMessage = '';
-          this.loadProjetDetails(this.projetId!); // Recharger les détails pour afficher la liste mise à jour
+          this.loadProjetDetails(this.projetId!); 
         },
         (error) => {
           this.errorMessage = 'Erreur lors de l\'ajout de l\'étudiant.';
@@ -70,9 +70,9 @@ export class ProjetDetailComponent implements OnInit {
     if (this.projetId) {
       this.projetService.supprimerEtudiantDuProjet(this.projetId, nomEtudiant).subscribe(
         (updatedProjet) => {
-          this.projet = updatedProjet; // Mettre à jour le projet après la suppression
+          this.projet = updatedProjet; 
           this.errorMessage = '';
-          this.loadProjetDetails(this.projetId!); // Recharger les détails pour afficher la liste mise à jour
+          this.loadProjetDetails(this.projetId!); 
         },
         (error) => {
           this.errorMessage = 'Erreur lors de la suppression de l\'étudiant.';

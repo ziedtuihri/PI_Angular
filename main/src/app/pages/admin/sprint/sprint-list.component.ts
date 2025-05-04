@@ -1,5 +1,4 @@
-// sprint-list.component.ts
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Sprint, SprintService } from '../../../services/sprint.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -8,9 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, switchMap, filter, tap } from 'rxjs/operators'; // <-- Import de filter
+import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
@@ -27,22 +26,27 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatPaginatorModule,
     DatePipe,
     ReactiveFormsModule,
-    MatFormFieldModule, // Ajoutez MatFormFieldModule ici
-    
+    MatFormFieldModule,
   ],
   templateUrl: './sprint-list.component.html',
   styleUrls: ['./sprint-list.component.scss'],
 })
-export class SprintListComponent implements OnInit {
+export class SprintListComponent implements OnInit, AfterViewInit {
   sprints: Sprint[] = [];
   displayedColumns: string[] = ['nom', 'dateDebut', 'dateFin', 'statut', 'actions'];
+  dataSource = new MatTableDataSource<Sprint>(this.sprints);
   loading = true;
   errorMessage = '';
-  dataSource = new MatTableDataSource<Sprint>(this.sprints);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   searchControl = new FormControl('');
+  pageSize = 5;
+  pageIndex = 0;
 
-  constructor(private sprintService: SprintService, private router: Router) {}
+  constructor(
+    private sprintService: SprintService,
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadSprints();
@@ -50,7 +54,7 @@ export class SprintListComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator; // Assurez-vous que cette ligne est ici
   }
 
   loadSprints(): void {
@@ -60,6 +64,7 @@ export class SprintListComponent implements OnInit {
         this.sprints = sprints;
         this.dataSource.data = sprints;
         this.loading = false;
+        this.changeDetectorRef.detectChanges();
       },
       error: (error) => {
         this.errorMessage = 'Erreur lors du chargement des sprints.';
@@ -91,6 +96,7 @@ export class SprintListComponent implements OnInit {
         next: (results) => {
           this.sprints = results;
           this.dataSource.data = results;
+          this.dataSource.paginator = this.paginator; // Essayez d'assigner le paginator ici aussi après la recherche
           this.loading = false;
         },
         error: (error) => {
@@ -99,6 +105,13 @@ export class SprintListComponent implements OnInit {
           this.loading = false;
         },
       });
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    // Si vous chargez les données depuis le serveur, vous devrez le faire ici
+    // en utilisant this.pageSize et this.pageIndex.
   }
 
   editSprint(id: number): void {
@@ -113,7 +126,7 @@ export class SprintListComponent implements OnInit {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce sprint ?')) {
       this.sprintService.deleteSprint(id).subscribe({
         next: () => {
-          this.loadSprints(); // Refresh the list after deletion
+          this.loadSprints();
         },
         error: (error) => {
           console.error('Erreur suppression sprint', error);

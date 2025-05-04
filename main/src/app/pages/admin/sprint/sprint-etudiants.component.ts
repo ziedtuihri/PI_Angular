@@ -59,7 +59,7 @@ export class SprintEtudiantsComponent implements OnInit {
                 return etudiantObject?.nomEtudiant || '';
               } catch (error) {
                 console.error('Erreur lors du parsing JSON:', error, jsonString);
-                return jsonString; // Si le parsing échoue, on essaie d'afficher la chaîne brute (pour le cas de "undefined")
+                return jsonString;
               }
             });
           console.log('Étudiants affectés (parsés):', this.etudiantsAffectes);
