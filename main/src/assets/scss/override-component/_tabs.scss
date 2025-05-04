@@ -1,9 +1,0 @@
-@use "sass:map";
-@use "@angular/material" as mat;
-
-@include mat.tabs-overrides(
-  (
-    active-label-text-color: var(--mat-sys-primary),
-    active-focus-label-text-color: var(--mat-sys-primary),
-  )
-);
