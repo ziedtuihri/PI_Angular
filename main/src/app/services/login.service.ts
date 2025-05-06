@@ -90,4 +90,40 @@ export class LoginService {
       );
   }
 
+  checkVerificationCode(codeReset: string, email: string): Observable<any> {
+    const url = `http://localhost:8081/auth/resetPassword?codeReset=${codeReset}&email=${email}`;
+    return this.http.get<any>(url)
+      .pipe(
+        map(response => {
+          console.log(response);
+          return { response };
+        }),
+        catchError(error => {
+          const message = `${error?.error?.text || 'Unknown error'}`;
+          console.error('Error:', message);
+          return of({ message });
+        })
+      );
+  }
+
+
+
+  changePassword(password: string, code: string, email: string): Observable<any> {
+    return this.http.post<any>('http://localhost:8081/auth/changePassword',  { password, code, email } )
+      .pipe(
+        map(response => {
+          console.log(response);
+          return { response };
+        }),
+        catchError(error => {
+          const message = `${error?.error?.text || 'Unknown error'}`;
+          console.error('Error:', message);
+          return of({ message });
+        })
+      );
+  }
+
+
+  
+
 }

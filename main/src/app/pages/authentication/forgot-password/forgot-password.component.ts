@@ -67,6 +67,8 @@ export class ForgotPasswordComponent {
 
             if(response.message == "Code sent") {
               this.showSuccessSnackbar("Check your mail code sent");
+
+              this.router.navigate(['/authentication/verificationCode']);
             }
 
           }
