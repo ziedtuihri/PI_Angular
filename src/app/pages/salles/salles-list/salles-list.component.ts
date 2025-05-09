@@ -37,7 +37,7 @@ export class SallesListComponent implements OnInit {
     this.reunionService.getSalleAvecReservation().subscribe({
       next: (data: any) => {
         console.log('Données reçues:', data);
-        this.salles = Array.isArray(data) ? data : [];
+        this.salles = data
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des salles:', err);
@@ -45,31 +45,29 @@ export class SallesListComponent implements OnInit {
       }
     });
 
-    this.reunionService.getSalles().subscribe({
-      next: (data: any) => this.allSalles = Array.isArray(data) ? data : []
-    });
+
+   
   }
 
   modifieSalle(salle: any): void {
     this.selectedSalle = salle;
-    
+
     const hasActiveReservation = Array.isArray(salle.reservations) && salle.reservations.some((reservation: any) => {
       const reservationDate = new Date(`${reservation.reunion.date} ${reservation.reunion.heure}`);
-      return reservationDate > new Date(); // La réservation est dans le futur
+      return reservationDate > new Date();
     });
-    
-    // Si la salle a des réservations actives, elle sera considérée comme non disponible
-    const isAvailable = salle.disponible && !hasActiveReservation; 
-  
+
+    const isAvailable = salle.disponible && !hasActiveReservation;
+
     this.salleForm.patchValue({
       nom: salle.nom,
       capacite: salle.capacite,
-      disponible: isAvailable, // Mettez à jour la disponibilité en fonction des réservations
+      disponible: isAvailable,
     });
-    
+
     this.isModalOpen = true;
   }
-  
+
   updateSalle(): void {
     if (this.salleForm.valid && this.selectedSalle) {
       const nouvelleSalle = {

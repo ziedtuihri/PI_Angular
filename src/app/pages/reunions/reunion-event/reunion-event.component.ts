@@ -85,11 +85,19 @@ export class ReunionEventComponent implements OnInit {
   getEvent(dayName: string, hour: string) {
     const day = this.weekDays.find(d => d.name === dayName);
     if (!day) return null;
-
+  
     const [h] = hour.split(':').map(Number);
-
+    const now = new Date();
+  
     return this.events.find(event => {
       const startDate = new Date(event.start);
+      const endDate = new Date(event.end);
+  
+      // Ne pas afficher les événements déjà terminés
+      if (endDate < now) {
+        return false;
+      }
+  
       return (
         startDate.getDate() === parseInt(day.date.split('/')[0]) &&
         startDate.getMonth() + 1 === parseInt(day.date.split('/')[1]) &&
@@ -97,6 +105,7 @@ export class ReunionEventComponent implements OnInit {
       );
     });
   }
+  
 
   joinMeeting(event: any): void {
     if (event.link) {

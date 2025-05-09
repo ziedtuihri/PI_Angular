@@ -224,12 +224,13 @@ export class ReunionListComponent implements OnInit {
       });
     }
   }
-
-   isReunionPassed(date: string): boolean {
-    const currentDate = new Date();
+  isReunionPassed(date: string): boolean {
+    const today = new Date();
     const reunionDate = new Date(date);
-    return reunionDate < currentDate;  
-  }
+    today.setHours(0, 0, 0, 0);  // On ignore l'heure pour comparer uniquement les dates
+    return reunionDate < today;
+}
+
 
 
   onDelete(reunion: any): void {
