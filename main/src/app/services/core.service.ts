@@ -1,5 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { AppSettings, defaults } from '../config';
+import { BehaviorSubject } from 'rxjs';
+
 
 @Injectable({
     providedIn: 'root',
@@ -17,5 +19,12 @@ export class CoreService {
             ...options,
         }));
     }
+
+      private messageSource = new BehaviorSubject<string>('Default Message');
+      currentMessage = this.messageSource.asObservable();
+    
+      changeMessage(message: string) {
+        this.messageSource.next(message);
+      }
 
 }

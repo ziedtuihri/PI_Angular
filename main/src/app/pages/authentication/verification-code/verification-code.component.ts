@@ -9,6 +9,8 @@ import { ParseSourceFile } from '@angular/compiler';
 import { LoginService } from '../../../services/login.service';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 @Component({
   selector: 'app-verification-code',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
@@ -17,7 +19,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class VerificationCodeComponent {
 
+  message = "@";
+
   email = "ziedtuihri@gmail.com";
+
+
 
   verificationCodeForm: FormGroup;
   
@@ -25,8 +31,7 @@ export class VerificationCodeComponent {
           private router: Router,
            private fb: FormBuilder,
             private authService: LoginService,
-                private snackBar: MatSnackBar,  
-                
+                private snackBar: MatSnackBar
            ) {
             this.verificationCodeForm = this.fb.group({
               verificationCode: ['', [Validators.required]]

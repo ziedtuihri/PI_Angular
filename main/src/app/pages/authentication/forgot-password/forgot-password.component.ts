@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParseSourceFile } from '@angular/compiler';
 import { LoginService } from '../../../services/login.service';
 
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-forgot-password',
@@ -16,14 +17,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ForgotPasswordComponent {
 
+
   forgotPasswordForm: FormGroup;
 
       constructor(
         private router: Router,
          private fb: FormBuilder,
           private authService: LoginService,
-              private snackBar: MatSnackBar,  
-              
+              private snackBar: MatSnackBar
          ) {
           this.forgotPasswordForm = this.fb.group({
             email: ['', [Validators.required, Validators.email]]
@@ -54,6 +55,8 @@ export class ForgotPasswordComponent {
           const { email } =  this.forgotPasswordForm.value;
           //const email = this.forgotPasswordForm.value;
           console.log(email);
+
+
           
           this.authService.checkEmail(email).subscribe(response => {
             
@@ -67,7 +70,6 @@ export class ForgotPasswordComponent {
 
             if(response.message == "Code sent") {
               this.showSuccessSnackbar("Check your mail code sent");
-
               this.router.navigate(['/authentication/verificationCode']);
             }
 

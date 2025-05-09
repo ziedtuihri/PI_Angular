@@ -63,7 +63,7 @@ export class ChangePasswordComponent {
             const { pwd1, pwd2 } = this.changePwdForm.value;
             console.log('Passwords match:', pwd1 === pwd2);
 
-            this.authService.changePassword(pwd1, "708412", "ziedtuihri@gmail.com").subscribe(response => {
+            this.authService.changePassword(pwd1, "346705", "ziedtuihri@gmail.com").subscribe(response => {
               console.log(response)
               
               if(response.message == "Invalid code"){
@@ -78,7 +78,7 @@ export class ChangePasswordComponent {
                 this.showSuccessSnackbar("Password Changed");
                 this.router.navigate(['/authentication/login']);
               }
-  
+              
             });
           }
 
