@@ -5,7 +5,7 @@
   </div>
   <div class="all-salles">
     <div class="salles-wrapper">
-      <div *ngFor="let salle of allSalles" class="card"
+      <div *ngFor="let salle of salles" class="card"
         [ngClass]="salle.disponible && (!salle.reservations || salle.reservations.length === 0) ? 'available' : 'used-salle'">
         <div class="card-header">
           <div class="card-title-with-icon">

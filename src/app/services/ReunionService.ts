@@ -18,7 +18,7 @@ export class ReunionService {
     };
 
     createReunion(reunion: any) {
-        const url = `${this.apiUrl}/create`;
+        const url = `${this.apiUrl}/reunions/create`;
         return this.http.post(url, reunion, this.httpOptions);
     }
 
@@ -33,13 +33,13 @@ export class ReunionService {
     }
 
     getSalles() {
-        const url = `${this.apiUrl}/salle`;
+        const url = `${this.apiUrl}/salles`;
         return this.http.get(url, this.httpOptions);
     }
 
 
     getEvenement() {
-        const url = `${this.apiUrl}/evenements`;
+        const url = `${this.apiUrl}/reunions/evenements`;
         return this.http.get(url, this.httpOptions);
     }
 
@@ -49,39 +49,39 @@ export class ReunionService {
     }
 
     updateReunion(reunion: any) {
-        const url = `${this.apiUrl}/reunion/${reunion.id}`;
+        const url = `${this.apiUrl}/reunions/reunion/${reunion.id}`;
         return this.http.put(url, reunion, this.httpOptions);
     }
 
     updateParticipant(updatedParticipant: any) {
-        const url = `${this.apiUrl}/participant/${updatedParticipant.id}`;
+        const url = `${this.apiUrl}/participants/${updatedParticipant.id}`;
         return this.http.put(url, updatedParticipant, this.httpOptions);
     }
 
 
     deleteReunion(id: number) {
-        const url = `${this.apiUrl}/reunion/${id}`;
+        const url = `${this.apiUrl}/reunions/reunion/${id}`;
         return this.http.delete(url, this.httpOptions);
     }
 
 
     deleteParticipant(id: number) {
-        const url = `${this.apiUrl}/participant/${id}`;
+        const url = `${this.apiUrl}/participants/${id}`;
         return this.http.delete(url, this.httpOptions);
     }
 
     deleteSalle(id: number) {
-        const url = `${this.apiUrl}/salle/${id}`;
+        const url = `${this.apiUrl}/salles/salle/${id}`;
         return this.http.delete(url, this.httpOptions);
     }
     createSalle(salle: any) {
-        const url = `${this.apiUrl}/salle`;
+        const url = `${this.apiUrl}/salles/add`;
         return this.http.post(url, salle, this.httpOptions);
     }
 
 
     createParticipant(participant: any) {
-        const url = `${this.apiUrl}/participant`;
+        const url = `${this.apiUrl}/participants`;
         return this.http.post(url, participant, this.httpOptions);
     }
 
@@ -97,12 +97,12 @@ export class ReunionService {
 
 
     updateSalle(salle: any) {
-        const url = `${this.apiUrl}/salle/${salle.id}`;
+        const url = `${this.apiUrl}/salles/salle/${salle.id}`;
         return this.http.put(url, salle, this.httpOptions);
     }
 
     getSalleAvecReservation() {
-        const url = `${this.apiUrl}/salles-avec-reservations`;
+        const url = `${this.apiUrl}/salles/salles-avec-reservations`;
         return this.http.get(url, this.httpOptions);
     }
 

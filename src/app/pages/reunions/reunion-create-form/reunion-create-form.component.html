@@ -1,6 +1,6 @@
 <div class="reunion-form-container">
   <div class="form-card">
-    <h2 class="form-title"><i class="fas fa-calendar-plus"></i> Créer une Réunion</h2>
+    <h2 class="form-title"><i class="fas fa-calendar-plus"></i> Ajouter une Réunion</h2>
 
     <form [formGroup]="reunionForm" (ngSubmit)="onSubmit()">
       <div class="form-grid">
@@ -113,7 +113,8 @@
 
 
       <div class="form-actions">
-        <button type="submit" [disabled]="reunionForm.invalid">Créer</button>
+        <button type="submit" [disabled]="reunionForm.invalid"> <i class="fas fa-save me-2"></i>&nbsp;
+          Sauvegarder</button>
       </div>
     </form>
   </div>

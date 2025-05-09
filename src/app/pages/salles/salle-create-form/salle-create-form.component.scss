@@ -1,83 +1,57 @@
 /* Style global pour le formulaire */
 .card {
-    background-color: #ffffff;
-    border-radius: 25px;
-    padding: 40px 50px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
-  }
-  
-  .card-header {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .form-control-lg {
-    font-size: 1.1rem;
-    padding: 18px;
-    border-radius: 10px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e0e0e0;
-    margin-bottom: 20px;
-  }
-  
-  .form-control-lg:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
-  }
-  
-  .form-label {
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-  }
-  
-  .form-check-label {
-    font-weight: 600;
-  }
-  
-  .form-check-input:checked {
-    background-color: #007bff;
-    border-color: #007bff;
-  }
-  
-  button:disabled {
-    background-color: #d6d6d6;
-    border-color: #d6d6d6;
-  }
-  
-  button {
-    font-weight: 600;
-    padding: 18px;
-    font-size: 1.1rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    border-radius: 15px;
-    text-transform: uppercase;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-    transform: translateY(-5px);
-  }
-  
-  .invalid-feedback {
-    font-size: 0.9rem;
-    color: #dc3545;
-  }
-  
-  @media (max-width: 767px) {
-    .card {
-      padding: 30px 40px;
-    }
-  
-    .form-control-lg {
-      padding: 15px;
-    }
-  
-    button {
-      padding: 14px;
-      font-size: 1rem;
-    }
-  }
-  
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px 50px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+
+.form-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  font-weight: 600;
+  text-align: left; 
+  display: flex;
+  align-items: center; 
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+}
+
+input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #a1a5a9;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}

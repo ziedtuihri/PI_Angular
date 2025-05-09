@@ -1,5 +1,5 @@
 <div class="max-w-7xl mx-auto px-4 py-10 bg-gray-50">
-  <h2 class="text-3xl font-bold text-gray-800 mb-10">📋 Liste des Réunions</h2> <br>
+  <h2 style="color:navy; font-size: 35px;">📋 Liste des Réunions</h2> <br>
 
   <div class="flex justify-between items-center mb-6">
     <label for="typeReunion" class="text-gray-800 font-medium text-lg">Filtrer par type de réunion :</label> &nbsp;
@@ -66,25 +66,17 @@
           </div>
         </div>
         <div class="form-actions flex justify-end gap-4 mt-6">
-          <button type="button" 
-              class="px-6 py-2 rounded-lg"
-              [class]="{
+          <button type="button" class="px-6 py-2 rounded-lg" [class]="{
                   'bg-indigo-600 text-white hover:bg-indigo-700': !isReunionPassed(reunion.date),
                   'bg-gray-300 text-gray-500 cursor-not-allowed': isReunionPassed(reunion.date)
-              }" 
-              [disabled]="isReunionPassed(reunion.date)" 
-              (click)="onEdit(reunion)">✏️ Modifier</button>
-      
-          <button type="button" 
-              class="px-6 py-2 rounded-lg"
-              [class]="{
+              }" [disabled]="isReunionPassed(reunion.date)" (click)="onEdit(reunion)">✏️ Modifier</button>
+
+          <button type="button" class="px-6 py-2 rounded-lg" [class]="{
                   'bg-gray-300 text-gray-800 hover:bg-gray-400': !isReunionPassed(reunion.date),
                   'bg-gray-200 text-gray-400 cursor-not-allowed': isReunionPassed(reunion.date)
-              }"
-              [disabled]="isReunionPassed(reunion.date)" 
-              (click)="onDelete(reunion)">🗑️ Supprimer</button>
-      </div>
-      
+              }" [disabled]="isReunionPassed(reunion.date)" (click)="onDelete(reunion)">🗑️ Supprimer</button>
+        </div>
+
       </div>
 
       <hr *ngIf="!last" class="border-t border-gray-300 mt-6">
@@ -92,110 +84,109 @@
   </div>
 </div>
 
-  <!-- Modal Update Form -->
-  <div *ngIf="isModalOpen" class="modal-overlay">
-    <div class="modal-content">
-      <div class="reunion-form-container">
-        <h2 class="form-title text-center text-2xl font-semibold text-indigo-700 mb-6">Modifier la Réunion</h2>
+<!-- Modal Update Form -->
+<div *ngIf="isModalOpen" class="modal-overlay">
+  <div class="modal-content">
+    <div class="reunion-form-container">
+      <h2 class="form-title text-center text-2xl font-semibold text-indigo-700 mb-6">Modifier la Réunion</h2>
 
-        <form [formGroup]="reunionForm">
-          <div class="form-card">
-            <div class="form-grid">
-              <!-- Titre -->
-              <div class="form-group">
-                <label for="titre">Titre</label>
-                <input id="titre" type="text" formControlName="titre" />
-              </div>
-
-              <!-- Description -->
-              <div class="form-group md:col-span-2">
-                <label for="description">Description</label>
-                <textarea id="description" formControlName="description" class="custom-textarea"></textarea>
-              </div>
-
-              <!-- Créateur -->
-              <div class="form-group">
-                <label for="createur">Créateur</label>
-                <select id="createur" formControlName="createur">
-                  <option value="" disabled>-- Sélectionner un créateur --</option>
-                  <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.nom }}</option>
-                </select>
-              </div>
-
-              <!-- Date -->
-              <div class="form-group">
-                <label for="date">Date</label>
-                <input id="date" type="date" formControlName="date" />
-              </div>
-
-              <!-- Heure -->
-              <div class="form-group">
-                <label for="heure">Heure</label>
-                <input id="heure" type="time" formControlName="heure" />
-              </div>
-
-              <!-- Durée -->
-              <div class="form-group">
-                <label for="duree">Durée</label>
-                <input id="duree" type="text" formControlName="duree" />
-              </div>
-
-              <!-- Type -->
-              <div class="form-group">
-                <label for="type">Type</label>
-                <select id="type" formControlName="type">
-                  <option *ngFor="let t of typesReunion" [value]="t.value">{{ t.label }}</option>
-                </select>
-              </div>
-
-              <!-- En ligne -->
-              <div *ngIf="selectedType === 'EN_LIGNE'" class="form-group md:col-span-2">
-                <label for="plateforme">Plateforme :</label>
-                <select id="plateforme" formControlName="plateforme">
-                  <option value="zoom">Zoom</option>
-                  <option value="teams">Teams</option>
-                  <option value="autre">Autre</option>
-                </select>
-
-                <label for="lien">Lien de réunion :</label>
-                <input id="lien" type="text" formControlName="lien" />
-              </div>
-
-              <div *ngIf="selectedType === 'PRESENTIEL'" class="form-group">
-                <label>Salle</label>
-                <select formControlName="salle" (change)="onSalleChange($event)">
-                  <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
-                </select>
-              </div>
-              <div *ngIf="selectedSalle" class="form-group">
-                <label>Capacité</label>
-                <input type="number" formControlName="capacite" [value]="selectedSalle?.capacite" readonly />
-              </div>
-
-
-              <div class="form-group md:col-span-2" *ngIf="reunionForm.get('type')?.value === 'EN_LIGNE'">
-                <label>Participants</label>
-                <div *ngFor="let participant of participants">
-                  <label>
-                    <input type="checkbox" [value]="participant.id"
-                      (change)="onParticipantToggle(participant.id, $event)"
-                      [checked]="isParticipantChecked(participant.id)" />
-                    {{ participant.email }}
-                  </label>
-                </div>
-              </div>
-
-
+      <form [formGroup]="reunionForm">
+        <div class="form-card">
+          <div class="form-grid">
+            <!-- Titre -->
+            <div class="form-group">
+              <label for="titre">Titre</label>
+              <input id="titre" type="text" formControlName="titre" />
             </div>
-            <!-- Actions -->
-            <div class="form-actions flex justify-end gap-4 mt-6">
-              <button type="button" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-                (click)="onSaveEdit()" [disabled]="reunionForm.invalid">Modifier</button>
-              <button type="button" class="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
-                (click)="closeModal()">Annuler</button>
+
+            <!-- Description -->
+            <div class="form-group md:col-span-2">
+              <label for="description">Description</label>
+              <textarea id="description" formControlName="description" class="custom-textarea"></textarea>
             </div>
+
+            <!-- Créateur -->
+            <div class="form-group">
+              <label for="createur">Créateur</label>
+              <select id="createur" formControlName="createur">
+                <option value="" disabled>-- Sélectionner un créateur --</option>
+                <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.nom }}</option>
+              </select>
+            </div>
+
+            <!-- Date -->
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input id="date" type="date" formControlName="date" />
+            </div>
+
+            <!-- Heure -->
+            <div class="form-group">
+              <label for="heure">Heure</label>
+              <input id="heure" type="time" formControlName="heure" />
+            </div>
+
+            <!-- Durée -->
+            <div class="form-group">
+              <label for="duree">Durée</label>
+              <input id="duree" type="text" formControlName="duree" />
+            </div>
+
+            <!-- Type -->
+            <div class="form-group">
+              <label for="type">Type</label>
+              <select id="type" formControlName="type">
+                <option *ngFor="let t of typesReunion" [value]="t.value">{{ t.label }}</option>
+              </select>
+            </div>
+
+            <!-- En ligne -->
+            <div *ngIf="selectedType === 'EN_LIGNE'" class="form-group md:col-span-2">
+              <label for="plateforme">Plateforme :</label>
+              <select id="plateforme" formControlName="plateforme">
+                <option value="zoom">Zoom</option>
+                <option value="teams">Teams</option>
+                <option value="autre">Autre</option>
+              </select>
+
+              <label for="lien">Lien de réunion :</label>
+              <input id="lien" type="text" formControlName="lien" />
+            </div>
+
+            <div *ngIf="selectedType === 'PRESENTIEL'" class="form-group">
+              <label>Salle</label>
+              <select formControlName="salle" (change)="onSalleChange($event)">
+                <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
+              </select>
+            </div>
+            <div *ngIf="selectedSalle" class="form-group">
+              <label>Capacité</label>
+              <input type="number" formControlName="capacite" [value]="selectedSalle?.capacite" readonly />
+            </div>
+
+
+            <div class="form-group md:col-span-2" *ngIf="reunionForm.get('type')?.value === 'EN_LIGNE'">
+              <label>Participants</label>
+              <div *ngFor="let participant of participants">
+                <label>
+                  <input type="checkbox" [value]="participant.id" (change)="onParticipantToggle(participant.id, $event)"
+                    [checked]="isParticipantChecked(participant.id)" />
+                  {{ participant.email }}
+                </label>
+              </div>
+            </div>
+
+
           </div>
-        </form>
-      </div>
+          <!-- Actions -->
+          <div class="form-actions flex justify-end gap-4 mt-6">
+            <button type="button" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              (click)="onSaveEdit()" [disabled]="reunionForm.invalid">Modifier</button>
+            <button type="button" class="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
+              (click)="closeModal()">Annuler</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
+</div>

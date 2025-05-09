@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { ReunionService } from 'src/app/services/ReunionService';
 
 @Component({
@@ -8,7 +13,12 @@ import { ReunionService } from 'src/app/services/ReunionService';
   templateUrl: './salle-create-form.component.html',
   styleUrls: ['./salle-create-form.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule,
+    MatChipsModule,
+    MatIconModule,
+    MatCardModule,
+
+    MatButtonModule]
 })
 export class SalleCreateFormComponent implements OnInit {
   salleForm!: FormGroup;
@@ -16,7 +26,7 @@ export class SalleCreateFormComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly reunionService: ReunionService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.salleForm = this.fb.group({
@@ -34,7 +44,7 @@ export class SalleCreateFormComponent implements OnInit {
         this.salleForm.reset({ disponible: true, capacite: 1 });
       });
     } else {
-      this.salleForm.markAllAsTouched(); 
+      this.salleForm.markAllAsTouched();
     }
   }
 }
