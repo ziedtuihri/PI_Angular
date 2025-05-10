@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Quiz } from '../models/quiz';
 import { Observable } from 'rxjs';
@@ -9,15 +9,22 @@ import { Answer } from '../models/answer';
   providedIn: 'root'
 })
 export class QuizService {
-   private quizApiUrl = 'http://localhost:8082/api/quizzes';
-    private questionApiUrl = 'http://localhost:8082/api/questions';
-    private answerApiUrl = 'http://localhost:8082/api/answers';
+   private quizApiUrl = 'http://localhost:8081/api/quizzes';
+    private questionApiUrl = 'http://localhost:8081/api/questions';
+    private answerApiUrl = 'http://localhost:8081/api/answers';
   
+      private getHeaders(): HttpHeaders {
+        const token = localStorage.getItem('token'); // Retrieve the token from localStorage or your preferred storage
+        return new HttpHeaders({
+          'Content-Type': 'application/json'
+        });
+      }
+
     constructor(private http: HttpClient) {}
   
     // Quiz methods
-    createQuiz(quiz: Quiz): Observable<Quiz> {
-      return this.http.post<Quiz>(this.quizApiUrl, quiz);
+    createQuiz(quiz: Object): Observable<Quiz> {
+      return this.http.post<Quiz>(this.quizApiUrl, quiz, { headers: this.getHeaders() });
     }
   
     getQuizById(id: number): Observable<Quiz> {
@@ -25,7 +32,7 @@ export class QuizService {
     }
 
     updateQuiz(id: number,quiz: Quiz): Observable<Quiz> {
-      return this.http.put<Quiz>(`${this.quizApiUrl}/${id}`, quiz);
+      return this.http.put<Quiz>(`${this.quizApiUrl}/${id}`, quiz, { headers: this.getHeaders() });
     }
     
     getQuizByOfferId(offerId: number): Observable<Quiz> {
@@ -33,7 +40,7 @@ export class QuizService {
     }
   
     // Question methods
-    addQuestion(question: Question): Observable<Question> {
+    addQuestion(question: Object): Observable<Question> {
       return this.http.post<Question>(this.questionApiUrl, question);
     }
   
@@ -50,7 +57,7 @@ export class QuizService {
     }
   
     // Answer methods
-    addAnswer(answer: Answer): Observable<Answer> {
+    addAnswer(answer: Object): Observable<Answer> {
       return this.http.post<Answer>(this.answerApiUrl, answer);
     }
   
