@@ -1,0 +1,9 @@
+.search-and-title {
+    display: flex;
+    justify-content: space-between; /* Pour espacer le titre et le conteneur du bouton */
+    align-items: center; /* Pour aligner verticalement le titre et le bouton */
+  }
+  
+  .button-container {
+    /* Vous n'avez plus besoin de styles spécifiques ici si le parent gère l'alignement */
+  }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // Material Form Controls
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -13,6 +14,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatNativeDateModule } from '@angular/material/core'; // Important pour mat-datepicker
 
 // Material Navigation
 import { MatMenuModule } from '@angular/material/menu';
@@ -58,16 +60,16 @@ import { LoginService } from './services/login.service'; // Adjust the path as n
 import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-  declarations: [
-    
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     
     // Material Form Controls
+    ReactiveFormsModule,
     MatAutocompleteModule,
     MatCheckboxModule,
     MatDatepickerModule,
+    MatNativeDateModule, // <- Important pour mat-datepicker
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
@@ -113,52 +115,57 @@ import { ToastrModule } from 'ngx-toastr';
     MatTableModule
   ],
   exports: [
-    // Material Form Controls
-    MatAutocompleteModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSliderModule,
-    MatSlideToggleModule,
+   // Material Form Controls
+MatAutocompleteModule,
+MatCheckboxModule,
+MatDatepickerModule,
+MatNativeDateModule, // <- pour l'export aussi
+MatFormFieldModule,
+MatInputModule,
+MatRadioModule,
+MatSelectModule,
+MatSliderModule,
+MatSlideToggleModule,
 
-    // Material Navigation
-    MatMenuModule,
-    MatSidenavModule,
-    MatToolbarModule,
+// Material Navigation
+MatMenuModule,
+MatSidenavModule,
+MatToolbarModule,
 
-    // Material Layout
-    MatCardModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatListModule,
-    MatStepperModule,
-    MatTabsModule,
-    MatTreeModule,
+// Material Layout
+MatCardModule,
+MatDividerModule,
+MatExpansionModule,
+MatGridListModule,
+MatListModule,
+MatStepperModule,
+MatTabsModule,
+MatTreeModule,
 
-    // Material Buttons & Indicators
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatBadgeModule,
-    MatChipsModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-    MatRippleModule,
+// Material Buttons & Indicators
+MatButtonModule,
+MatButtonToggleModule,
+MatBadgeModule,
+MatChipsModule,
+MatIconModule,
+MatProgressSpinnerModule,
+MatProgressBarModule,
+MatRippleModule,
 
-    // Material Popups & Modals
-    MatBottomSheetModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    MatTooltipModule,
+// Material Popups & Modals
+MatBottomSheetModule,
+MatDialogModule,
+MatSnackBarModule,
+MatTooltipModule,
 
-    // Material Data tables
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule
+// Material Data tables
+MatPaginatorModule,
+MatSortModule,
+MatTableModule,
+
+// Reactive Forms
+ReactiveFormsModule
+
   ],
   providers: [LoginService],
 })
