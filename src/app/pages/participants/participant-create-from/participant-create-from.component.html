@@ -12,9 +12,8 @@
 
 
       <div>
-        <label for="nom" class="block font-medium text-gray-700"> Nom:</label> &nbsp;
-        <input id="nom" type="text" formControlName="nom" class="w-full border border-gray-300 rounded p-2"
-          placeholder="Nom du participant" />
+        <label for="nom"> Nom:</label> &nbsp;
+        <input id="nom" type="text" formControlName="nom" placeholder="Nom du participant" />
         <div *ngIf="participantForm.get('nom')?.invalid && participantForm.get('nom')?.touched"
           style="color: red;font-size: 12px;">
           Le nom est requis.
@@ -23,9 +22,8 @@
       <br>
 
       <div>
-        <label for="email" class="block font-medium text-gray-700"> Email</label> &nbsp;
-        <input id="email" type="email" formControlName="email" class="w-full border border-gray-300 rounded p-2"
-          placeholder="Email" />
+        <label for="email"> Email:</label> &nbsp;
+        <input id="email" type="email" formControlName="email" placeholder="Email" />
         <div *ngIf="participantForm.get('email')?.invalid && participantForm.get('email')?.touched"
           style="color: red;font-size: 12px;">
           Email invalide ou requis.
@@ -34,8 +32,8 @@
       <br>
 
       <div>
-        <label for="user" class="block font-medium text-gray-700"> Utilisateur</label> &nbsp;
-        <select id="user" formControlName="userId" class="w-full border border-gray-300 rounded p-2">
+        <label for="user"> Utilisateur:</label> &nbsp;
+        <select id="user" formControlName="userId">
           <option *ngFor="let user of users" [value]="user.id">{{ user.nom }}</option>
         </select>
       </div>

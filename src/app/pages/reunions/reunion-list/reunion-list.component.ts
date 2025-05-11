@@ -66,11 +66,10 @@ export class ReunionListComponent implements OnInit {
       this.reunionForm.get('capacité')?.updateValueAndValidity();
     });
   
-    // Pre-populate the form with selected reunion data
     this.reunionService.getReunions().subscribe({
       next: (data: any) => {
         this.reunions = Array.isArray(data) ? data : [];
-        this.filteredReunions = [...this.reunions]; // Initialiser filteredReunions
+        this.filteredReunions = [...this.reunions];
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des réunions', err);
@@ -227,7 +226,7 @@ export class ReunionListComponent implements OnInit {
   isReunionPassed(date: string): boolean {
     const today = new Date();
     const reunionDate = new Date(date);
-    today.setHours(0, 0, 0, 0);  // On ignore l'heure pour comparer uniquement les dates
+    today.setHours(0, 0, 0, 0);  
     return reunionDate < today;
 }
 

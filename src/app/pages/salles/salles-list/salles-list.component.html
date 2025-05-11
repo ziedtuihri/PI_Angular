@@ -18,7 +18,8 @@
         </div>
 
         <div class="card-body">
-          <ng-container *ngIf="salle.disponible && (!salle.reservations || salle.reservations.length === 0); else reservedSalle">
+          <ng-container
+            *ngIf="salle.disponible && (!salle.reservations || salle.reservations.length === 0); else reservedSalle">
             <p class="available">Salle disponible</p>
             <button class="btn btn-primary" (click)="modifieSalle(salle)">Réserver</button>
           </ng-container>
@@ -49,22 +50,22 @@
 
         <form [formGroup]="salleForm" (ngSubmit)="updateSalle()" class="salle-form">
           <div class="form-group">
-            <label for="nom">Nom</label>
-            <input id="nom" type="text" formControlName="nom" required />
+            <label>Salle</label>
+            <select formControlName="id" (change)="onSalleChange($event)">
+              <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
+            </select>
           </div>
+
+
 
           <div class="form-group">
-            <label for="capacite">Capacité</label>
-            <input id="capacite" type="number" formControlName="capacite" required />
-          </div>
-
-          <div class="mb-4 form-check form-switch">
-            <label for="disponibleSwitch">Disponibilité</label>
-            <input
-              type="checkbox"
-              id="disponibleSwitch"
-              formControlName="disponible"
-            />
+            <label>Réunion Présentielle</label>
+            <select formControlName="reunionId">
+              <option value="">-- Sélectionner une réunion présentielle --</option>
+              <option *ngFor="let reunion of reunionsPresentielles" [value]="reunion.id">
+                {{ reunion.titre }} ({{ reunion.date }} à {{ reunion.heure }})
+              </option>
+            </select>
           </div>
 
           <div class="form-buttons">
@@ -72,6 +73,7 @@
             <button type="button" class="btn btn-secondary" (click)="fermerModal()">Annuler</button>
           </div>
         </form>
+
       </div>
     </div>
   </div>

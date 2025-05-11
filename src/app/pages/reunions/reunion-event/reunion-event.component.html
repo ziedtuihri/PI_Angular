@@ -20,8 +20,8 @@
         <div class="day-column" *ngFor="let day of weekDays">
           <div class="cell">
             <div class="event" *ngIf="getEvent(day.name, hour)"
-              [style.background]="getEvent(day.name, hour).type === 'EN_LIGNE' ? '#0078d4' : '#28a745'">
-              
+              [ngClass]="{'past-event': getEvent(day.name, hour).isPast}">
+
               <div class="event-title">
                 {{ getEvent(day.name, hour).title }}
                 <br />
@@ -31,11 +31,12 @@
                 </small>
               </div>
 
-              <button *ngIf="getEvent(day.name, hour).type === 'EN_LIGNE'" class="join-btn"
-                (click)="joinMeeting(getEvent(day.name, hour))">
+              <button *ngIf="getEvent(day.name, hour).type === 'EN_LIGNE' && !getEvent(day.name, hour).isPast"
+                class="join-btn" (click)="joinMeeting(getEvent(day.name, hour))">
                 📹 Rejoindre
               </button>
             </div>
+
           </div>
         </div>
       </div>

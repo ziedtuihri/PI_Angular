@@ -12,16 +12,12 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 })
 export class SallesListComponent implements OnInit {
 
-  sallesDisponibles: any[] = [];
-  reunionDetails: any[] = [];
+  reunions: any[] = [];
   salles: any[] = [];
-  allSalles: any[] = [];
-  salleId: number = 0;
-  date: string = '';
-  heure: string = '';
-  duree: string = '';
-  reunionId: number = 0;
+  reunionsPresentielles: any[] = [];
+
   salleForm!: FormGroup;
+
   isModalOpen = false;
   selectedSalle: any = null;
 
@@ -29,15 +25,14 @@ export class SallesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.salleForm = this.fb.group({
-      nom: ['', [Validators.required, Validators.minLength(3)]],
-      capacite: [1, [Validators.required, Validators.min(1)]],
-      disponible: [undefined]
+      id: ['', Validators.required],
+      reunionId: ['']
     });
 
     this.reunionService.getSalleAvecReservation().subscribe({
       next: (data: any) => {
         console.log('Données reçues:', data);
-        this.salles = data
+        this.salles = data;
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des salles:', err);
@@ -46,86 +41,88 @@ export class SallesListComponent implements OnInit {
     });
 
 
-   
+    this.reunionService.getReunions().subscribe({
+      next: (data: any) => {
+        this.reunions = Array.isArray(data) ? data : [];
+        this.reunionsPresentielles = this.reunions.filter(reunion => reunion.type === "PRESENTIEL");
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des réunions', err);
+      }
+    });
   }
 
   modifieSalle(salle: any): void {
     this.selectedSalle = salle;
-
-    const hasActiveReservation = Array.isArray(salle.reservations) && salle.reservations.some((reservation: any) => {
-      const reservationDate = new Date(`${reservation.reunion.date} ${reservation.reunion.heure}`);
-      return reservationDate > new Date();
-    });
-
-    const isAvailable = salle.disponible && !hasActiveReservation;
-
     this.salleForm.patchValue({
+      id: salle.id,
       nom: salle.nom,
       capacite: salle.capacite,
-      disponible: isAvailable,
+      disponible: salle.disponible,
+      reunionId: salle.reunion ? salle.reunion.id : ''
     });
-
     this.isModalOpen = true;
   }
 
-  updateSalle(): void {
-    if (this.salleForm.valid && this.selectedSalle) {
-      const nouvelleSalle = {
-        ...this.selectedSalle,
-        ...this.salleForm.value
-      };
 
-      this.reunionService.updateSalle(nouvelleSalle).subscribe({
-        next: () => {
-          this.salleForm.reset({ disponible: true, capacite: 1 });
-          this.isModalOpen = false;
-          this.selectedSalle = null;
-
-          // Refresh salles
-          this.reunionService.getSalleAvecReservation().subscribe({
-            next: (data: any) => {
-              this.salles = Array.isArray(data) ? data : [];
-            }
-          });
-        },
-        error: () => {
-          alert('Erreur lors de la mise à jour de la salle.');
-        }
-      });
+  onSalleChange(event: any): void {
+    const selectedSalleId = event.target.value;
+    this.selectedSalle = this.salles.find(salle => salle.id.toString() === selectedSalleId.toString());
+    if (this.selectedSalle) {
+      this.salleForm.patchValue({ capacite: this.selectedSalle.capacite });
     }
   }
+
+
+ updateSalle(): void {
+  if (this.salleForm.valid && this.selectedSalle) {
+    const selectedReunion = this.reunions.find(
+      reunion => reunion.id.toString() === this.salleForm.value.reunionId.toString()
+    );
+
+    const updatedSalle = {
+      ...this.selectedSalle,
+      reunion: selectedReunion ?? null  
+    };
+
+    if (!updatedSalle.reunion) {
+      alert('Veuillez sélectionner une réunion existante.');
+      return;
+    }
+
+    this.reunionService.updateSalle(updatedSalle).subscribe({
+      next: (data: any) => {
+        console.log("Salle mise à jour :", data);
+
+        this.salles = this.salles.map(salle =>
+          salle.id === updatedSalle.id ? { ...salle, reunion: updatedSalle.reunion } : salle
+        );
+
+        alert('Salle mise à jour avec succès');
+        this.fermerModal();
+      },
+      error: (err: any) => {
+        console.error('Erreur lors de la mise à jour de la salle:', err);
+        alert('Erreur lors de la mise à jour de la salle.');
+      }
+    });
+  } else {
+    alert('Veuillez remplir tous les champs du formulaire.');
+  }
+}
+
+
 
   supprimerSalle(id: number): void {
     if (confirm('Voulez-vous vraiment supprimer ce participant ?')) {
       this.reunionService.deleteSalle(id).subscribe({
         next: () => {
           alert('Salle supprimé avec succès');
-          this.allSalles = this.allSalles.filter(s => s.id !== id); // Mise à jour du tableau local
+          this.salles = this.salles.filter(s => s.id !== id);
         },
         error: err => console.error('Erreur lors de la suppression :', err)
       });
     }
-  }
-
-  reserveSalle(salle: any): void {
-    const date = this.date;
-    const heure = this.heure;
-    const duree = this.duree;
-
-    if (!date || !heure || !duree) {
-      alert('Veuillez remplir les informations de la réunion (date, heure, durée).');
-      return;
-    }
-
-    this.reunionService.reserverSalle(salle.id, date, heure, duree, this.reunionId).subscribe({
-      next: () => {
-        alert('Salle réservée avec succès');
-        this.salleForm.reset({ disponible: true, capacite: 1 });
-      },
-      error: () => {
-        alert('Erreur lors de la réservation de la salle');
-      }
-    });
   }
 
   fermerModal(): void {
