@@ -74,6 +74,8 @@ export class ReunionService {
         const url = `${this.apiUrl}/salles/salle/${id}`;
         return this.http.delete(url, this.httpOptions);
     }
+
+
     createSalle(salle: any) {
         const url = `${this.apiUrl}/salles/add`;
         return this.http.post(url, salle, this.httpOptions);
@@ -97,9 +99,15 @@ export class ReunionService {
 
 
     updateSalle(salle: any) {
-        const url = `${this.apiUrl}/salles/salle/${salle.id}`;
-        return this.http.put(url, salle, this.httpOptions);
+        const url = `${this.apiUrl}/salles/update/${salle.id}`;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+        return this.http.put(url, salle, httpOptions);
     }
+
 
     getSalleAvecReservation() {
         const url = `${this.apiUrl}/salles/salles-avec-reservations`;
