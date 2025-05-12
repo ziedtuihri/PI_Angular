@@ -20,11 +20,4 @@ export class CoreService {
         }));
     }
 
-      private messageSource = new BehaviorSubject<string>('Default Message');
-      currentMessage = this.messageSource.asObservable();
-    
-      changeMessage(message: string) {
-        this.messageSource.next(message);
-      }
-
 }

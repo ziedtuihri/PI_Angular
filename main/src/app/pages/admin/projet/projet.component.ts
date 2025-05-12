@@ -10,6 +10,19 @@ import { Projet, ProjetService } from '../../../services/projet.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+
+import { jwtDecode } from 'jwt-decode';
+
+  // Define an interface for the decoded token
+  interface DecodedToken {
+    fullName: string;
+    sub: string;
+    iat: number;
+    exp: number;
+    authorities: string[];
+  }
+
+
 @Component({
   selector: 'app-projet',
   standalone: true,
@@ -28,14 +41,36 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrls: ['./projet.component.scss'],
   providers: [DatePipe], 
 })
+
+
 export class ProjetComponent implements OnInit {
   projets: Projet[] = [];
   displayedColumns: string[] = ['nom', 'statut', 'fichier', 'dateDebut', 'dateFinPrevue', 'actions'];
 
   constructor(private projetService: ProjetService, private router: Router, private datePipe: DatePipe) {}
 
+
+
   ngOnInit(): void {
     this.loadProjets();
+
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem('token');
+
+    // Decode the token
+    if (token) {
+      const decodedToken: DecodedToken = jwtDecode(token);
+      console.log(decodedToken);
+
+      // Print email, role, and full name
+      console.log('Email:', decodedToken.sub);
+      console.log('Full Name:', decodedToken.fullName);
+      console.log('Role:', decodedToken.authorities[0]);
+
+    } else {
+      console.error('Token not found in localStorage');
+    }
+
   }
 
   loadProjets() {

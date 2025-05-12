@@ -19,12 +19,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class VerificationCodeComponent {
 
-  message = "@";
-
-  email = "ziedtuihri@gmail.com";
-
-
-
   verificationCodeForm: FormGroup;
   
         constructor(
@@ -62,8 +56,12 @@ export class VerificationCodeComponent {
 
           console.log(verificationCode);
 
+
+          const emailReset = localStorage.getItem('emailReset') || 'null';
+
+          console.log("email sent code to ::::", emailReset)
           
-          this.authService.checkVerificationCode(verificationCode, this.email).subscribe(response => {
+          this.authService.checkVerificationCode(verificationCode, emailReset).subscribe(response => {
             console.log(response)
             
             if(response.message == "Invalid code"){
@@ -76,6 +74,7 @@ export class VerificationCodeComponent {
 
             if(response.message == "Code correct") {
               this.showSuccessSnackbar("Correct Code");
+              localStorage.setItem('codeReset', verificationCode);
               this.router.navigate(['/authentication/ChangePwd']);
 
             }

@@ -22,9 +22,9 @@ export class ForgotPasswordComponent {
 
       constructor(
         private router: Router,
-         private fb: FormBuilder,
-          private authService: LoginService,
-              private snackBar: MatSnackBar
+          private fb: FormBuilder,
+            private authService: LoginService,
+              private snackBar: MatSnackBar,
          ) {
           this.forgotPasswordForm = this.fb.group({
             email: ['', [Validators.required, Validators.email]]
@@ -55,8 +55,6 @@ export class ForgotPasswordComponent {
           const { email } =  this.forgotPasswordForm.value;
           //const email = this.forgotPasswordForm.value;
           console.log(email);
-
-
           
           this.authService.checkEmail(email).subscribe(response => {
             
@@ -70,14 +68,16 @@ export class ForgotPasswordComponent {
 
             if(response.message == "Code sent") {
               this.showSuccessSnackbar("Check your mail code sent");
+                          
+              localStorage.setItem('emailReset', email);
               this.router.navigate(['/authentication/verificationCode']);
             }
 
-          }
+          } 
             
           )
 
-          // Proceed with further processing or API call
+          // Proceed with further processing or API call*/
         }
       }
 

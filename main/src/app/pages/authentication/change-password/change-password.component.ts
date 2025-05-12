@@ -60,10 +60,14 @@ export class ChangePasswordComponent {
         onSubmit() {
 
           if (this.changePwdForm.valid) {
+
             const { pwd1, pwd2 } = this.changePwdForm.value;
             console.log('Passwords match:', pwd1 === pwd2);
 
-            this.authService.changePassword(pwd1, "346705", "ziedtuihri@gmail.com").subscribe(response => {
+            const emailReset = localStorage.getItem('emailReset') || 'null';
+            const codeReset = localStorage.getItem('codeReset') || 'null';
+
+            this.authService.changePassword(pwd1, codeReset, emailReset).subscribe(response => {
               console.log(response)
               
               if(response.message == "Invalid code"){
@@ -77,6 +81,9 @@ export class ChangePasswordComponent {
               if(response.message == "password changed") {
                 this.showSuccessSnackbar("Password Changed");
                 this.router.navigate(['/authentication/login']);
+
+                localStorage.removeItem('emailReset');
+                localStorage.removeItem('codeReset');
               }
               
             });

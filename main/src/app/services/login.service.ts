@@ -7,20 +7,25 @@ import { User } from '../models/user';
 
 import { jwtDecode } from 'jwt-decode';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LoginService {
 
   private isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
   public isAuthenticated$: Observable<boolean> = this.isAuthenticatedSubject.asObservable();
 
+
+
   constructor(private router: Router, private http:HttpClient){}
+
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
 
   logIn(email: string, password: string): Observable<any> {
-    return this.http.post<any>('http://localhost:8081/auth/authenticate', { email, password })
+    return this.http.post<any>(`http://localhost:8081/auth/authenticate`, { email, password })
       .pipe(
         map(response => {
           console.log(response)
@@ -122,8 +127,5 @@ export class LoginService {
         })
       );
   }
-
-
-  
 
 }
