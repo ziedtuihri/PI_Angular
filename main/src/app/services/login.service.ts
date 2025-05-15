@@ -128,4 +128,31 @@ export class LoginService {
       );
   }
 
+
+
+  handleGoogleAuthLogin(token: string): Observable<any> {
+    return this.http.post<any>('', { token }).pipe(
+      map(response => {
+        console.log(response);
+        if (response.token == 'Invalid account!') {
+          return { isOK: false };
+        }
+        localStorage.setItem('token', response.token);
+        this.isAuthenticatedSubject.next(true);
+        return { isOK: true };
+      }),
+      catchError(error => {
+        console.log("credentials for SPRING:: ", token)
+        console.log("error");
+        let message = 'Unknown error occurred';
+        if (error.status === 404) {
+          message = 'User not found';
+        } else if (error.status === 400) {
+          message = 'Invalid token';
+        }
+        return of({ success: false, message });
+      })
+    );
+  }
+
 }

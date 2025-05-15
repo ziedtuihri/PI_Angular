@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
@@ -14,10 +14,19 @@ import { RouterOutlet } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 // Extend the Window interface
+/*
 declare global {
   interface Window {
     googleSDKLoaded: () => void;
     gapi: any; // You can replace 'any' with a more specific type if available
+  }
+}
+*/
+
+// Extend the Window interface
+declare global {
+  interface Window {
+    google: any; // You can replace 'any' with a more specific type if available
   }
 }
 
@@ -26,13 +35,15 @@ declare global {
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule, CommonModule, RouterOutlet],
   templateUrl: './side-login.component.html',
 })
-export class AppSideLoginComponent implements OnInit {
+export class AppSideLoginComponent implements OnInit, AfterViewInit {
 
+
+  
   loginForm: FormGroup;
   // authService: LoginService;
 
   title = 'loginGoogle';
-      
+  isGoogleButtonRendered: boolean = false;
   auth2: any;
       
   @ViewChild('loginRef', {static: true }) loginElement!: ElementRef;
@@ -53,30 +64,59 @@ export class AppSideLoginComponent implements OnInit {
     });
   }
 
-    /**
-   * Write code on Method
-   *
-   * @return response()
-   */
-    callLoginButton() {
-       
-      this.auth2.attachClickHandler(this.loginElement.nativeElement, {},
-        (googleAuthUser:any) => {
-         
-          let profile = googleAuthUser.getBasicProfile();
-          console.log('Token || ' + googleAuthUser.getAuthResponse().id_token);
-          console.log('ID: ' + profile.getId());
-          console.log('Name: ' + profile.getName());
-          console.log('Image URL: ' + profile.getImageUrl());
-          console.log('Email: ' + profile.getEmail());
-                
-         /* Write Your Code Here */
-        
-        }, (error:any) => {
-          alert(JSON.stringify(error, undefined, 2));
-        });
-     
+  ngAfterViewInit() {
+    // Ensure that the element exists before attaching the click handler
+    if (this.loginElement) {
+      this.callLoginButton();
     }
+  }
+
+
+
+  callLoginButton() {
+
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: '421853907823-qg8v2akcfabrj2fiqqvtgsdh0sh5flg0.apps.googleusercontent.com',
+        callback: (response: any) => {
+          console.log('Token || ' + response.credential);
+
+          // Handle the login with the retrieved profile information
+          // For example, you can call a method in your LoginService to handle the Google Auth login
+          this.authService.handleGoogleAuthLogin(response.credential).subscribe(response => {
+            console.log(response);
+            if (response.isOK == true) {
+              this.showSuccessSnackbar();
+              this.router.navigate(['/dashboard']);
+            } else if (response.isOK == false) {
+              this.showErrorSnackbar();
+            }
+          });
+        },
+                locale: 'en' // Set the language to English
+
+      });
+
+      window.google.accounts.id.renderButton(
+        this.loginElement.nativeElement,
+        {
+          theme: 'outline',
+          size: 'large',
+          locale: 'en',
+          text: 'signin with' // This will set the button text to "Sign in with Google" in English
+        }  // customization attributes
+      );
+      this.isGoogleButtonRendered = true;
+    } else {
+      console.error('Google Identity Services not initialized');
+    }
+
+  }
+
+  googleAuthSDK() {
+
+  }
+
 
 
 
@@ -120,32 +160,5 @@ export class AppSideLoginComponent implements OnInit {
 
   
 
-    /**
-   * Write code on Method
-   *
-   * @return response()
-   */
-    googleAuthSDK() {
-       
-      (window)['googleSDKLoaded'] = () => {
-        (window)['gapi'].load('auth2', () => {
-          this.auth2 = (window)['gapi'].auth2.init({
-            client_id: 'GOOGLE_CLIENT_ID',
-            cookiepolicy: 'single_host_origin',
-            scope: 'profile email'
-          });
-          this.callLoginButton();
-        });
-      }
-         
-      (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement('script'); 
-        js.id = id;
-        js.src = "https://apis.google.com/js/platform.js?onload=googleSDKLoaded";
-        fjs?.parentNode?.insertBefore(js, fjs);
-      }(document, 'script', 'google-jssdk'));
-       
-    }
+
 }
