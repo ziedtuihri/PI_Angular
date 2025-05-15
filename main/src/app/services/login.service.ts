@@ -112,6 +112,23 @@ export class LoginService {
   }
 
 
+    activationCode(code: string): Observable<any> {
+    const url = `http://localhost:8081/auth/activate-account?token=${code}`;
+    return this.http.get<any>(url)
+      .pipe(
+        map(response => {
+          console.log(response);
+          return { isOk: true };
+        }),
+        catchError(error => {
+          const message = `${error?.error?.text || 'Unknown error'}`;
+          console.error('Error:', message);
+          return of({ isOk: false });
+        })
+      );
+  }
+
+
 
   changePassword(password: string, code: string, email: string): Observable<any> {
     return this.http.post<any>('http://localhost:8081/auth/changePassword',  { password, code, email } )

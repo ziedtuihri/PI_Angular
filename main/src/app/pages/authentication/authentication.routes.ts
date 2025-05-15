@@ -9,6 +9,8 @@ import { VerificationCodeComponent } from './verification-code/verification-code
 
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
+import { ActivateAccountComponent } from "./activate-account/activate-account.component";
+
 export const AuthenticationRoutes: Routes = [
   {
     path: '',
@@ -33,6 +35,10 @@ export const AuthenticationRoutes: Routes = [
         path: 'ChangePwd',
         component: ChangePasswordComponent,
       },
+      {
+        path: 'activate-account',
+        component: ActivateAccountComponent,
+      }
     ],
   },
 ];
