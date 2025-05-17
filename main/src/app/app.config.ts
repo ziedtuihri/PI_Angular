@@ -6,7 +6,6 @@ import {
 import {
   provideHttpClient,
   withInterceptorsFromDi,
-  HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { routes } from './app.routes';
 import {
@@ -17,17 +16,16 @@ import {
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideClientHydration } from '@angular/platform-browser';
 
+// icons
 import { TablerIconsModule } from 'angular-tabler-icons';
 import * as TablerIcons from 'angular-tabler-icons/icons';
 
+// perfect scrollbar
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
+//Import all material modules
 import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
-// Import the interceptor
-import { AuthInterceptor } from './services/AuthInterceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -41,11 +39,6 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding()
     ),
     provideHttpClient(withInterceptorsFromDi()),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
     provideClientHydration(),
     provideAnimationsAsync(),
     importProvidersFrom(
@@ -54,7 +47,6 @@ export const appConfig: ApplicationConfig = {
       MaterialModule,
       TablerIconsModule.pick(TablerIcons),
       NgScrollbarModule,
-    ),
-    provideAnimationsAsync(),
+    ), provideAnimationsAsync(),
   ],
 };
