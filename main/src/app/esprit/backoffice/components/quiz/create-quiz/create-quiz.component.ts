@@ -128,9 +128,17 @@ export class CreateQuizComponent {
           company: ''
         }
       };
+
+      const quiz2 = {
+        title: formValue.title,
+        offreId: this.offerId,
+        description: "Quiz description"
+      }
+
+      console.log("---",quiz2);
   
       // Only create, no update logic
-      this.quizService.createQuiz(quiz).pipe(
+      this.quizService.createQuiz(quiz2).pipe(
         tap(savedQuiz => {
           console.log('Quiz created successfully:', savedQuiz);
         }),
@@ -139,6 +147,8 @@ export class CreateQuizComponent {
           if (!savedQuiz.id) {
             throw new Error('Quiz created without an ID');
           }
+
+        
           
           return this.createQuestions(savedQuiz);
         }),
@@ -179,8 +189,16 @@ export class CreateQuizComponent {
               title: quiz.title
             }
           };
-  
-          return this.quizService.addQuestion(question).pipe(
+
+          const question2 = {
+            content: q.content,
+            quizId: quiz.id!,
+          }
+
+          console.log("Question :::",question)
+          console.log("Question :::",question2)
+
+          return this.quizService.addQuestion(question2).pipe(
             switchMap(savedQuestion => {
               if (!q.answers || q.answers.length === 0) {
                 return of(savedQuestion);
@@ -214,8 +232,15 @@ export class CreateQuizComponent {
               content: question.content 
             }
           };
-  
-          return this.quizService.addAnswer(answer);
+
+          const answer2 = {
+            content: a.content,
+            correct: a.correct,
+            questionId: question.id!
+          }
+          
+          console.log("Answers ::::: ", answer2)
+          return this.quizService.addAnswer(answer2);
         }),
         toArray() // Collect all results
       );
