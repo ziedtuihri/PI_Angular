@@ -29,7 +29,7 @@ export class LoginService {
       .pipe(
         map(response => {
           console.log(response)
-          if(response.token == 'Invalid account!') {
+          if(response.token == 'Invalid account!' || response.token == 'Invalid email or password') {
             return {isOK: false}
           }
           localStorage.setItem('token', response.token);
