@@ -14,8 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-verification-code',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './verification-code.component.html',
-  styleUrl: './verification-code.component.scss'
+  templateUrl: './verification-code.component.html'
 })
 export class VerificationCodeComponent {
 
