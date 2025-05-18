@@ -107,11 +107,15 @@ export class ReunionEventComponent implements OnInit {
     });
   }
 
-  joinMeeting(event: any): void {
-    if (event.link) {
-      window.open(event.link, '_blank');
-    } else {
-      alert("Lien de réunion non disponible.");
-    }
+ joinMeeting(event: any): void {
+  if (event.type === 'EN_LIGNE' && event.link) {
+    // Ouvre le lien de la réunion dans un nouvel onglet
+    window.open(event.link, '_blank');
+  } else if (event.type === 'EN_LIGNE' && !event.link) {
+    alert("Le lien de la réunion n'est pas disponible.");
+  } else {
+    alert("Cet événement n'est pas en ligne.");
   }
+}
+
 }

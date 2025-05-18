@@ -31,10 +31,11 @@
                 </small>
               </div>
 
-              <button *ngIf="getEvent(day.name, hour).type === 'EN_LIGNE' && !getEvent(day.name, hour).isPast"
+              <button *ngIf="getEvent(day.name, hour)?.type === 'EN_LIGNE' && !getEvent(day.name, hour)?.isPast"
                 class="join-btn" (click)="joinMeeting(getEvent(day.name, hour))">
                 📹 Rejoindre
               </button>
+
             </div>
 
           </div>

@@ -38,8 +38,8 @@ export class ReunionCreateFormComponent implements OnInit {
       salle: [''],
       capacite: [undefined, Validators.min(1)],
       createur: [undefined, Validators.required],
-      participants: this.fb.array([], Validators.required), 
-      plateforme: ['zoom'],
+      participants: this.fb.array([], Validators.required),
+      plateforme: [undefined],
       lien: ['', Validators.pattern(/^(https?:\/\/)?([\w-]+\.)*[\w-]+(\/[\w- ./?%&=]*)?$/)]
     });
 
@@ -70,45 +70,69 @@ export class ReunionCreateFormComponent implements OnInit {
     });
   }
 
-  onTypeChange(): void {
-    const salleControl = this.reunionForm.get('salle');
-    const lienControl = this.reunionForm.get('lien');
-    const plateformeControl = this.reunionForm.get('plateforme');
-    const participantsControl = this.reunionForm.get('participants');
+onTypeChange(): void {
+  console.log(this.selectedType); // Log to check if selectedType is set correctly
+  const salleControl = this.reunionForm.get('salle');
+  const lienControl = this.reunionForm.get('lien');
+  const plateformeControl = this.reunionForm.get('plateforme');
+  const participantsControl = this.reunionForm.get('participants');
 
-    if (this.selectedType === 'PRESENTIEL') {
-      salleControl?.setValidators(Validators.required);
-      lienControl?.clearValidators();
-      plateformeControl?.clearValidators();
-      salleControl?.setValue(null);
-      this.selectedSalle = null;
-      this.reunionForm.get('capacite')?.setValue(null);
-      participantsControl?.clearValidators(); 
-      participantsControl?.setValue([]); 
-    } else {
-      salleControl?.clearValidators();
-      plateformeControl?.setValidators(Validators.required);
-      lienControl?.setValidators([Validators.required, Validators.pattern('https?://.+')]);
-      salleControl?.setValue(null);
-      this.selectedSalle = null;
-      this.reunionForm.get('capacite')?.setValue(null);
-      participantsControl?.setValidators(Validators.required);
-    }
-    salleControl?.updateValueAndValidity();
-    lienControl?.updateValueAndValidity();
-    plateformeControl?.updateValueAndValidity();
-    participantsControl?.updateValueAndValidity();
+  if (this.selectedType === 'PRESENTIEL') {
+    salleControl?.setValidators(Validators.required);
+    lienControl?.clearValidators();
+    plateformeControl?.clearValidators();
+    salleControl?.setValue(null);
+    participantsControl?.clearValidators();
+    participantsControl?.setValue([]);
+  } else {
+    salleControl?.clearValidators();
+    plateformeControl?.setValidators(Validators.required);
+    lienControl?.setValidators([Validators.required, Validators.pattern('https?://.+')]);
+    participantsControl?.setValidators(Validators.required);
   }
+  salleControl?.updateValueAndValidity();
+  lienControl?.updateValueAndValidity();
+  plateformeControl?.updateValueAndValidity();
+  participantsControl?.updateValueAndValidity();
+}
 
-  setDefaultLien(platforme: string): void {
-    let defaultLien = '';
+  generateMeetingLink(platforme: string): string {
+    let link = '';
     if (platforme === 'zoom') {
-      defaultLien = 'https://zoom.us/ma-reunion';
+      link = 'https://zoom.us/j/' + this.generateRandomMeetingID();
     } else if (platforme === 'teams') {
-      defaultLien = 'https://teams.microsoft.com/ma-reunion';
+      link = 'https://teams.microsoft.com/l/meetup-join/' + this.generateRandomMeetingID();
     }
-    this.reunionForm.get('lien')?.setValue(defaultLien, { emitEvent: false });
+    return link;
   }
+
+
+setDefaultLien(event: Event): void {
+  const target = event.target as HTMLSelectElement;
+  console.log(target); // Log the target to ensure it's the correct element
+
+  if (target && target.value) {
+    const platforme = target.value;
+    let defaultLien = '';
+
+    if (platforme === 'zoom') {
+      defaultLien = 'https://zoom.us/j/' + this.generateRandomMeetingID();
+    } else if (platforme === 'teams') {
+      defaultLien = 'https://teams.microsoft.com/l/meetup-join/' + this.generateRandomMeetingID();
+    }
+
+    this.reunionForm.get('lien')?.setValue(defaultLien, { emitEvent: false });
+  } else {
+    console.error('Event target is not a valid select element or does not have a value.', event.target);
+  }
+}
+
+
+
+  generateRandomMeetingID(): string {
+    return Math.floor(1000000000 + Math.random() * 9000000000).toString();
+  }
+
 
   get participantsFormArray() {
     return this.reunionForm.get('participants') as FormArray;
@@ -124,7 +148,7 @@ export class ReunionCreateFormComponent implements OnInit {
 
   onCheckboxChange(event: any): void {
     const formArray = this.participantsFormArray;
-    const value = event.target.value; 
+    const value = event.target.value;
 
     if (event.target.checked) {
       formArray.push(this.fb.control(value));
@@ -176,7 +200,7 @@ export class ReunionCreateFormComponent implements OnInit {
           type: value.type,
           salle: value.salle ? { id: value.salle, capacite: value.capacite } : null,
           createur: { id: value.createur },
-          participants: [], 
+          participants: [],
           lienZoom: value.lien
         };
       }

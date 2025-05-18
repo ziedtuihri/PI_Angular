@@ -49,7 +49,7 @@ export class ReunionListComponent implements OnInit {
       plateforme: ['zoom'],
       lien: ['']
     });
-  
+
     // Handle type change for EN_LIGNE and PRESENTIEL
     this.reunionForm.get('type')?.valueChanges.subscribe((val) => {
       this.selectedType = val;
@@ -65,26 +65,27 @@ export class ReunionListComponent implements OnInit {
       this.reunionForm.get('salle')?.updateValueAndValidity();
       this.reunionForm.get('capacité')?.updateValueAndValidity();
     });
-  
+
     this.reunionService.getReunions().subscribe({
       next: (data: any) => {
         this.reunions = Array.isArray(data) ? data : [];
+        this.reunions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         this.filteredReunions = [...this.reunions];
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des réunions', err);
       }
     });
-    
-  
+
+
     this.reunionService.getParticipants().subscribe({
       next: (data: any) => this.participants = Array.isArray(data) ? data : []
     });
-  
+
     this.reunionService.getUsers().subscribe({
       next: (data: any) => this.utilisateurs = Array.isArray(data) ? data : []
     });
-  
+
     this.reunionService.getSalles().subscribe({
       next: (data: any) => this.salles = Array.isArray(data) ? data : []
     });
@@ -95,11 +96,11 @@ export class ReunionListComponent implements OnInit {
     if (this.selectedSearchType) {
       this.filteredReunions = this.reunions.filter(reunion => reunion.type === this.selectedSearchType);
     } else {
-      this.filteredReunions = [...this.reunions]; 
-      
+      this.filteredReunions = [...this.reunions];
+
     }
   }
-  
+
   onEdit(reunion: any) {
     if (reunion) {
       this.isModalOpen = true;
@@ -124,8 +125,8 @@ export class ReunionListComponent implements OnInit {
       console.error('La réunion sélectionnée est invalide ou null');
     }
   }
-  
-  
+
+
   onParticipantToggle(id: any, event: any): void {
     const current = this.reunionForm.get('participants')?.value ?? [];
     if (event.target.checked) {
@@ -159,17 +160,17 @@ export class ReunionListComponent implements OnInit {
   onSaveEdit(): void {
     if (this.reunionForm.valid) {
       const value = this.reunionForm.value;
-  
+
       if (value.type === 'PRESENTIEL') {
         const selectedSalle = this.salles.find(s => s.id === value.salle);
         if (selectedSalle && selectedSalle.disponible === false) {
           alert("La salle sélectionnée n'est pas disponible.");
-          return; 
+          return;
         }
       }
-  
+
       let formatted: any;
-  
+
       if (value.type === 'EN_LIGNE') {
         formatted = {
           id: this.selectedReunion.id,
@@ -207,7 +208,7 @@ export class ReunionListComponent implements OnInit {
           lienZoom: value.lien
         };
       }
-  
+
       this.reunionService.updateReunion(formatted).subscribe({
         next: res => {
           alert('Réunion mise à jour avec succès!');
@@ -226,9 +227,9 @@ export class ReunionListComponent implements OnInit {
   isReunionPassed(date: string): boolean {
     const today = new Date();
     const reunionDate = new Date(date);
-    today.setHours(0, 0, 0, 0);  
+    today.setHours(0, 0, 0, 0);
     return reunionDate < today;
-}
+  }
 
 
 

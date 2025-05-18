@@ -66,19 +66,24 @@
 
         <!-- EN LIGNE -->
         <div *ngIf="selectedType === 'EN_LIGNE'" class="form-group">
-          <label>Plateforme :</label>
-          <select formControlName="plateforme">
+          <select formControlName="plateforme" (change)="setDefaultLien($event)">
             <option value="zoom">Zoom</option>
             <option value="teams">Teams</option>
             <option value="autre">Autre</option>
           </select>
 
+
           <label>Lien de réunion :</label>
-          <input type="text" formControlName="lien" />
+          <div class="link-generator">
+            <input type="text" formControlName="lien" placeholder="Lien de réunion" />
+            <button type="button" (click)="generateMeetingLink(reunionForm.get('plateforme')?.value)">Générer</button>
+          </div>
+
           <div *ngIf="reunionForm.get('lien')?.invalid && reunionForm.get('lien')?.touched" class="error">
             Lien valide requis (http(s)://...).
           </div>
         </div>
+
 
         <!-- PRESENTIEL -->
         <div *ngIf="selectedType === 'PRESENTIEL'" class="form-group">
