@@ -1,0 +1,138 @@
+<div class="salles-container">
+  <div class="header">
+    <h2>Salles Disponibles</h2>
+    <p>Voici toutes les salles disponibles et les salles occupées pour vos réunions à venir.</p>
+  </div>
+
+  <!-- Barre de Recherche -->
+  <div class="search-container">
+    <input type="text" placeholder="Rechercher une salle par nom..." [(ngModel)]="searchTerm" (input)="filterSalles()"
+      class="search-input" />
+  </div>
+
+  <!-- Liste des Salles -->
+  <div class="all-salles">
+    <div class="salles-wrapper">
+      <div *ngFor="let salle of filteredSalles" class="card"
+        [ngClass]="salle.disponible && (!salle.reservations || salle.reservations.length === 0) ? 'available' : 'used-salle'">
+        <div class="card-header">
+          <div class="card-title-with-icon">
+            <h4 class="salle-nom">{{ salle.nom }}</h4>
+            <div class="icon-actions">
+              <span class="edit-icon" (click)="modifieSalleMeme(salle)" title="Modifier">✏️</span>
+              <span class="delete-icon" (click)="supprimerSalle(salle.id)" title="Supprimer">🗑️</span>
+            </div>
+          </div>
+        </div>
+
+        <ng-container
+          *ngIf="salle.disponible && (!salle.reservations || salle.reservations.length === 0); else reservedSalle">
+          <p class="available">Salle disponible</p>
+          <button class="btn btn-primary btn-md" (click)="modifieSalle(salle)">Réserver</button>
+        </ng-container>
+
+        <ng-template #reservedSalle>
+          <p class="unavailable">Salle réservée</p>
+          <div *ngFor="let res of salle.reservations">
+            <ng-container *ngIf="res.reunion">
+              <small>
+                Réunion : {{ res.reunion.titre }}<br>
+                Le {{ res.reunion?.date }} à {{ res.reunion?.heure }} ({{ res.reunion?.duree }} min)
+              </small>
+            </ng-container>
+            <ng-container *ngIf="!res.reunion">
+              <p>Pas de réunion associée</p>
+            </ng-container>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div *ngIf="isModalOpen" class="modal-overlay">
+    <div class="modal-content">
+      <div class="reunion-form-container">
+        <h2 class="form-title">Modifier la réservation de la salle</h2>
+
+        <form [formGroup]="salleForm" (ngSubmit)="updateSalle()" class="salle-form">
+          <div class="form-group">
+            <label>Salle</label>
+            <select formControlName="id" (change)="onSalleChange($event)">
+              <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Réunion Présentielle</label>
+            <select formControlName="reunionId">
+              <option value="">-- Sélectionner une réunion présentielle --</option>
+              <option *ngFor="let reunion of reunionsPresentielles" [value]="reunion.id">
+                {{ reunion.titre }} ({{ reunion.date }} à {{ reunion.heure }})
+              </option>
+            </select>
+          </div>
+
+          <div class="form-buttons">
+            <button type="submit" class="btn btn-primary btn-md">Mettre à jour la salle</button>
+            <button type="button" class="btn btn-secondary btn-md" (click)="fermerModal()">Annuler</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="isModalOpenModifSalle" class="modal-overlay">
+  <div class="modal-content">
+    <div class="reunion-form-container">
+      <h2 class="form-title">Modifier salle</h2>
+
+      <form [formGroup]="salleForm" (ngSubmit)="onEdit()">
+        <div class="mb-4">
+          <label for="nom" class="label">Nom de la salle:</label> &nbsp;
+          <input type="text"
+            [ngClass]="{ 'is-invalid': salleForm.get('nom')?.touched && salleForm.get('nom')?.invalid }" id="nom"
+            formControlName="nom" placeholder="Ex : Salle Alpha" />
+          <div *ngIf="salleForm.get('nom')?.touched && salleForm.get('nom')?.invalid">
+            <div *ngIf="salleForm.get('nom')?.errors?.['required']" style="color: red;font-size: 12px;">Le nom est
+              requis.
+            </div>
+            <div *ngIf="salleForm.get('nom')?.errors?.['minlength']" style="color: red;font-size: 12px;">Le nom doit
+              contenir au moins 3 caractères.</div>
+          </div>
+        </div>
+        <br>
+
+        <div class="mb-8">
+          <label for="capacite" class="label">Capacité:</label> &nbsp;
+          <input type="number"
+            [ngClass]="{ 'is-invalid': salleForm.get('capacite')?.touched && salleForm.get('capacite')?.invalid }"
+            id="capacite" formControlName="capacite" min="1" />
+          <div *ngIf="salleForm.get('capacite')?.touched && salleForm.get('capacite')?.invalid">
+            <div *ngIf="salleForm.get('capacite')?.errors?.['required']" style="color: red;font-size: 12px;">La capacité
+              est requise.</div>
+            <div *ngIf="salleForm.get('capacite')?.errors?.['min']" style="color: red;font-size: 12px;">La capacité doit
+              être supérieure à 0.</div>
+          </div>
+        </div>
+        <br>
+
+        <div class="mb-4 form-check form-switch">
+          <input type="checkbox" id="disponibleSwitch" formControlName="disponible" />
+          <label class="label" for="disponibleSwitch">&nbsp; Disponible</label>
+        </div>
+        <br>
+        <div class="mb-3 text-end">
+          <button class="btn btn-secondary btn-md" [disabled]="salleForm.invalid" (click)="onEdit()">
+            <i class="fas fa-save me-2"></i>&nbsp; Sauvegarder
+          </button> &nbsp;
+          <button type="button" class="btn btn-secondary btn-md" (click)="fermerModalSalle()">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

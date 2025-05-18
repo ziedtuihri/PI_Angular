@@ -23,3 +23,5 @@ C:\Users\touahriz\Desktop\PI\PI_Angular\main\src\app\layouts\full\sidebar\sideba
       route: '/sprint',
   },
 add name of the page and the route
+# Modernize-Angular-pro
+Modernize Angular Admin Dashboard
