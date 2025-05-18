@@ -1,0 +1,279 @@
+.salles-container {
+    padding: 40px 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    border-radius: 16px;
+    box-shadow: 0 12px 24px rgba(255, 247, 247, 0.08);
+    transition: box-shadow 0.3s ease;
+}
+
+.salles-container:hover {
+    box-shadow: 0 16px 32px rgba(255, 251, 251, 0.15);
+}
+
+
+.all-salles {
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: #7599c1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #7599c1;
+}
+
+.card-title-with-icon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.salle-nom {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.edit-icon {
+    margin-left: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.form-switch .form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+}
+
+.form-switch .form-check-input:checked {
+    background-color: #007BFF;
+}
+
+  
+  .edit-icon,
+  .delete-icon {
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 0; 
+  }
+  
+  .edit-icon:hover,
+  .delete-icon:hover {
+    color: #007bff;
+  }
+  
+
+.edit-icon:hover {
+    color: #0056b3;
+}
+
+.card {
+    width: 200px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header h4 {
+    margin: 0;
+    font-size: 18px;
+    text-align: center;
+}
+
+.card-body p {
+    font-size: 14px;
+    color: green;
+    text-align: center;
+}
+
+.available {
+    color: green;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+
+.header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding: 40px 20px;
+    background-color: #afc7e2;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(127, 126, 126, 0.1);
+}
+
+.header h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+}
+
+.reunion-card h3 {
+    font-size: 1.8rem;
+    color: #888181;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.salles-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+
+
+.used-salle {
+    background-color: #ffe6e6;
+    border-left: 5px solid red;
+}
+
+.unavailable {
+    color: red;
+}
+
+.btn {
+    background-color: #9bafc5;
+    color: white;
+    padding: 14px 22px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1);
+}
+
+.btn-md {
+  font-size: 16px;
+  padding: 8px 20px;
+  border-radius: 5px;
+}
+
+
+.primary {
+    background-color: #7599c1;
+}
+
+
+h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+
+
+.reunion-form-container {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    color: #3f51b5;
+    margin-bottom: 24px;
+}
+
+.salle-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+}
+
+
+
+
+
+.btn-secondary {
+    background-color: #7599c1;
+    color: #f4f3f3;
+}
+
+.btn-secondary:hover {
+    background-color: #7599c1;
+}
+
+.search-container {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1em;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

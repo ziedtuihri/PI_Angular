@@ -503,8 +503,6 @@ export const navItems: NavItem[] = [
     iconName: 'solar:planet-3-line-duotone',
     route: '/extra/sample-page',
   },
-
-
   {
     navCap: 'Gestion des Réunions',
     divider: true,
@@ -521,12 +519,9 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Liste des réunions',
-    iconName: 'fa-list', route: '/reunions/reunion-list',
-  }
-  ,
-
-
-
+    iconName: 'fa-list', 
+    route: '/reunions/reunion-list',
+  },
   {
     navCap: 'Gestion des salles',
     divider: true,
@@ -536,10 +531,10 @@ export const navItems: NavItem[] = [
     iconName: 'material-symbols:meeting-room-outline-rounded',
     route: '/salles/salle-form',
   },
-
   {
     displayName: 'Liste des salles',
-    iconName: 'fa-list', route: '/salles/salles-list',
+    iconName: 'fa-list', 
+    route: '/salles/salles-list',
   }
   ,
   {
@@ -551,12 +546,11 @@ export const navItems: NavItem[] = [
     iconName: 'material-symbols:meeting-room-outline-rounded',
     route: '/participants/participant-form',
   },
-
   {
     displayName: 'Liste des participants',
-    iconName: 'fa-list', route: '/participants/participants-list',
-  }
-  ,
+    iconName: 'fa-list', 
+    route: '/participants/participants-list',
+  },
 
  
  
