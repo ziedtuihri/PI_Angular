@@ -13,8 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-change-password',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './change-password.component.html',
-  styleUrl: './change-password.component.scss'
+  templateUrl: './change-password.component.html'
 })
 export class ChangePasswordComponent {
   changePwdForm: FormGroup;

@@ -14,8 +14,9 @@ export interface Projet {
   listeEtudiants?: string[];
 }
 
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProjetService {
   private baseUrl = 'http://localhost:8081/api/projets'; // Vérifiez cette URL

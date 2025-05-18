@@ -14,8 +14,7 @@ import { LoginService } from 'src/app/services/login.service';
 @Component({
   selector: 'app-side-register',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './side-register.component.html',
-  styleUrl: './register.component.css'
+  templateUrl: './side-register.component.html'
 })
 export class AppSideRegisterComponent {
 
