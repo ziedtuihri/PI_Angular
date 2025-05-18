@@ -71,7 +71,7 @@ export class ReunionService {
     }
 
     deleteSalle(id: number) {
-        const url = `${this.apiUrl}/salles/salle/${id}`;
+        const url = `${this.apiUrl}/salles/delete/${id}`;
         return this.http.delete(url, this.httpOptions);
     }
 
@@ -108,6 +108,16 @@ export class ReunionService {
         return this.http.put(url, salle, httpOptions);
     }
 
+    updateReunionSalle(reunionId: number, salleId: number) {
+        const url = `${this.apiUrl}/salles/update-reunion-salle/${reunionId}/${salleId}`;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            })
+        };
+        return this.http.put(url, {}, httpOptions);
+    }
 
     getSalleAvecReservation() {
         const url = `${this.apiUrl}/salles/salles-avec-reservations`;
@@ -121,7 +131,6 @@ export class ReunionService {
         duree: string,
         reunionId: number
     ) {
-        // Créez l'objet avec les paramètres nécessaires pour la requête
         const params = {
             salleId: salleId.toString(),
             date: date,
@@ -129,8 +138,6 @@ export class ReunionService {
             duree: duree,
             reunionId: reunionId.toString(),
         };
-
-        // Effectuer la requête POST
         return this.http.post(`${this.apiUrl}/reserver-salle`, null, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -141,7 +148,7 @@ export class ReunionService {
 
 
     getSallesDisponiblesUniquement() {
-        const url = `${this.apiUrl}/salles-disponibles-uniques`; // L'URL de la nouvelle méthode
+        const url = `${this.apiUrl}/salles-disponibles-uniques`; 
         return this.http.get(url, this.httpOptions);
     }
 

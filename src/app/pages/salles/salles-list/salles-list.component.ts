@@ -15,31 +15,29 @@ export class SallesListComponent implements OnInit {
   reunions: any[] = [];
   salles: any[] = [];
   reunionsPresentielles: any[] = [];
+  filteredSalles: any[] = [];
 
   salleForm!: FormGroup;
 
   isModalOpen = false;
+  isModalOpenModifSalle = false;
+
   selectedSalle: any = null;
+  searchTerm: string = '';
 
   constructor(private readonly fb: FormBuilder, private readonly reunionService: ReunionService) { }
 
   ngOnInit(): void {
     this.salleForm = this.fb.group({
       id: ['', Validators.required],
+      nom: ['', [Validators.required, Validators.minLength(3)]],
+      capacite: [1, [Validators.required, Validators.min(1)]],
+      disponible: [false],
       reunionId: ['']
+
     });
 
-    this.reunionService.getSalleAvecReservation().subscribe({
-      next: (data: any) => {
-        console.log('Données reçues:', data);
-        this.salles = data;
-      },
-      error: (err) => {
-        console.error('Erreur lors de la récupération des salles:', err);
-        alert('Une erreur est survenue lors de la récupération des salles. Vérifiez les logs du serveur.');
-      }
-    });
-
+    this.fetchSalles();
 
     this.reunionService.getReunions().subscribe({
       next: (data: any) => {
@@ -50,6 +48,15 @@ export class SallesListComponent implements OnInit {
         console.error('Erreur lors de la récupération des réunions', err);
       }
     });
+  }
+
+
+
+  filterSalles(): void {
+    const searchTerm = this.searchTerm.trim().toLowerCase();
+    this.filteredSalles = this.salles.filter(salle =>
+      salle.nom.toLowerCase().includes(searchTerm)
+    );
   }
 
   modifieSalle(salle: any): void {
@@ -73,43 +80,84 @@ export class SallesListComponent implements OnInit {
     }
   }
 
-
- updateSalle(): void {
-  if (this.salleForm.valid && this.selectedSalle) {
-    const selectedReunion = this.reunions.find(
-      reunion => reunion.id.toString() === this.salleForm.value.reunionId.toString()
-    );
-
-    const updatedSalle = {
-      ...this.selectedSalle,
-      reunion: selectedReunion ?? null  
-    };
-
-    if (!updatedSalle.reunion) {
-      alert('Veuillez sélectionner une réunion existante.');
-      return;
-    }
-
-    this.reunionService.updateSalle(updatedSalle).subscribe({
+  fetchSalles(): void {
+    this.reunionService.getSalleAvecReservation().subscribe({
       next: (data: any) => {
-        console.log("Salle mise à jour :", data);
-
-        this.salles = this.salles.map(salle =>
-          salle.id === updatedSalle.id ? { ...salle, reunion: updatedSalle.reunion } : salle
-        );
-
-        alert('Salle mise à jour avec succès');
-        this.fermerModal();
+        this.salles = data;
+        this.filteredSalles = this.salles;
       },
-      error: (err: any) => {
-        console.error('Erreur lors de la mise à jour de la salle:', err);
-        alert('Erreur lors de la mise à jour de la salle.');
+      error: (err) => {
+        alert('Une erreur est survenue lors de la récupération des salles.');
       }
     });
-  } else {
-    alert('Veuillez remplir tous les champs du formulaire.');
   }
-}
+
+  updateSalle(): void {
+    if (this.salleForm.valid) {
+      const salleId = this.salleForm.value.id;
+      const reunionId = this.salleForm.value.reunionId;
+
+      if (salleId && reunionId) {
+        this.reunionService.updateReunionSalle(reunionId, salleId).subscribe({
+          next: () => {
+            alert('Salle mise à jour avec succès');
+            this.salleForm.reset();
+            this.fetchSalles();
+            this.fermerModal();
+          },
+          error: (err) => {
+            console.error('Erreur lors de la mise à jour de la salle', err);
+            alert('Une erreur est survenue lors de la mise à jour de la salle.');
+          }
+        });
+      } else {
+        alert("Veuillez sélectionner une salle et une réunion.");
+      }
+    } else {
+      alert("Le formulaire n'est pas valide. Veuillez vérifier les champs.");
+    }
+  }
+
+
+  onEdit(): void {
+    if (this.salleForm.valid) {
+      const updatedSalle = {
+        id: this.selectedSalle.id,
+        nom: this.salleForm.value.nom,
+        capacite: this.salleForm.value.capacite,
+        disponible: this.salleForm.value.disponible
+      };
+
+      this.reunionService.updateSalle(updatedSalle).subscribe({
+        next: () => {
+          alert('Salle mise à jour avec succès');
+          this.fetchSalles();
+          this.fermerModalSalle();
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour de la salle', err);
+          alert('Une erreur est survenue lors de la mise à jour de la salle.');
+        }
+      });
+    } else {
+      alert('Le formulaire n\'est pas valide. Veuillez vérifier les champs.');
+    }
+  }
+
+
+
+  modifieSalleMeme(salle: any): void {
+    this.selectedSalle = salle;
+    this.salleForm.patchValue({
+      id: salle.id ?? '',
+      nom: salle.nom ?? '',
+      capacite: salle.capacite ?? 1,
+      disponible: salle.disponible ?? false
+    });
+
+    this.isModalOpenModifSalle = true;
+  }
+
 
 
 
@@ -118,7 +166,7 @@ export class SallesListComponent implements OnInit {
       this.reunionService.deleteSalle(id).subscribe({
         next: () => {
           alert('Salle supprimé avec succès');
-          this.salles = this.salles.filter(s => s.id !== id);
+          this.fetchSalles();
         },
         error: err => console.error('Erreur lors de la suppression :', err)
       });
@@ -131,4 +179,9 @@ export class SallesListComponent implements OnInit {
     this.salleForm.reset({ disponible: true, capacite: 1 });
   }
 
+  fermerModalSalle(): void {
+    this.isModalOpenModifSalle = false;
+    this.selectedSalle = null;
+    this.salleForm.reset({ disponible: true, capacite: 1 });
+  }
 }
