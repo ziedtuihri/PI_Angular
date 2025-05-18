@@ -51,6 +51,31 @@ export class LoginService {
       );
   }
 
+    handleGoogleAuthLogin(user: User): Observable<any> {
+    return this.http.post<any>('http://localhost:8081/auth/authenticateOption', { user }).pipe(
+      map(response => {
+        console.log("****** res : ",response);
+        if (response.token == 'Invalid account!') {
+          return { isOK: false };
+        }
+        localStorage.setItem('token', response.token);
+        this.isAuthenticatedSubject.next(true);
+        return { isOK: true };
+      }),
+      catchError(error => {
+        console.log("credentials for SPRING:: ", user)
+        console.log("error");
+        let message = 'Unknown error occurred';
+        if (error.status === 404) {
+          message = 'User not found';
+        } else if (error.status === 400) {
+          message = 'Invalid token';
+        }
+        return of({ success: false, message });
+      })
+    );
+  }
+
 
   isLoggedIn(): boolean {
     const token = localStorage.getItem('token');
@@ -143,33 +168,6 @@ export class LoginService {
           return of({ message });
         })
       );
-  }
-
-
-
-  handleGoogleAuthLogin(token: string): Observable<any> {
-    return this.http.post<any>('', { token }).pipe(
-      map(response => {
-        console.log(response);
-        if (response.token == 'Invalid account!') {
-          return { isOK: false };
-        }
-        localStorage.setItem('token', response.token);
-        this.isAuthenticatedSubject.next(true);
-        return { isOK: true };
-      }),
-      catchError(error => {
-        console.log("credentials for SPRING:: ", token)
-        console.log("error");
-        let message = 'Unknown error occurred';
-        if (error.status === 404) {
-          message = 'User not found';
-        } else if (error.status === 400) {
-          message = 'Invalid token';
-        }
-        return of({ success: false, message });
-      })
-    );
   }
 
 }

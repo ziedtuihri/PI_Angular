@@ -13,6 +13,8 @@ import { RouterOutlet } from '@angular/router';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { User } from '../../../models/user';
+
 import { jwtDecode } from 'jwt-decode';
 
 // Extend the Window interface
@@ -51,7 +53,7 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
   @ViewChild('loginRef', {static: true }) loginElement!: ElementRef;
 
   ngOnInit() {
-    this.googleAuthSDK();
+
   }
 
   constructor(
@@ -99,20 +101,23 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
 
           // You can also access specific properties like this:
           console.log('Email:', decodedToken.email);
-          console.log('Name:', decodedToken.name);
-          console.log('Picture:', decodedToken.picture);
-          console.log('Sub:', decodedToken.sub);
           console.log('Family Name:', decodedToken.family_name);
           console.log('Given Name:', decodedToken.given_name);
+
+          const user: User = {
+            email: decodedToken.email ?? '',
+            firstname: decodedToken.given_name,
+            lastname: decodedToken.family_name
+          };
           
 
-        // Handle the login with the retrieved profile information
+          // Handle the login with the retrieved profile information
           // For example, you can call a method in your LoginService to handle the Google Auth login
-          this.authService.handleGoogleAuthLogin(response.credential).subscribe(response => {
+          this.authService.handleGoogleAuthLogin(user).subscribe(response => {
             console.log(response);
             if (response.isOK == true) {
-              this.showSuccessSnackbar();
-              this.router.navigate(['/dashboard']);
+             // this.showSuccessSnackbar();
+              // this.router.navigate(['/dashboard']);
             } else if (response.isOK == false) {
               this.showErrorSnackbar();
             }
@@ -138,9 +143,7 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
 
   }
 
-  googleAuthSDK() {
 
-  }
 
 
 
