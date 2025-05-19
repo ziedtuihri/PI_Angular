@@ -2,8 +2,6 @@ import { Injectable, signal } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
-
-
 export class NavService {
   showClass: any = false;
 

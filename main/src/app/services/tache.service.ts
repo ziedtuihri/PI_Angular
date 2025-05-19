@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TacheService {
   private apiUrl = 'http://localhost:8081/api/taches'; // Adaptez l'URL de votre API pour les tâches

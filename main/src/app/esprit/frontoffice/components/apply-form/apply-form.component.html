@@ -1,0 +1,70 @@
+<div class="apply-form-container">
+  <h2 class="form-title">Apply to: {{ offer?.title }}</h2>
+
+  <form [formGroup]="form" *ngIf="currentStep === 1" (ngSubmit)="nextStep()">
+    <h3 class="form-step-title">Step 1: Personal Information</h3>
+
+    <div class="form-group">
+      <label>LinkedIn URL</label>
+      <input type="text" formControlName="linkedinUrl" placeholder="LinkedIn URL" />
+    </div>
+
+    <div class="form-group">
+      <label>Portfolio URL</label>
+      <input type="text" formControlName="portfolioUrl" placeholder="Portfolio URL" />
+    </div>
+
+    <div class="form-group">
+      <label>Certificate URLs (comma separated)</label>
+      <input type="text" (change)="updateCertificateUrls($event)" placeholder="Certificate URLs" />
+    </div>
+
+    <div class="form-group">
+  <label>Upload CV (PDF)</label>
+  <label class="upload-button">
+    <input type="file" (change)="onFileSelect($event, 'cv')" accept=".pdf" hidden />
+    <span>Select CV</span>
+  </label>
+  <div class="file-name" *ngIf="selectedFileNames['cv']">Selected: {{ selectedFileNames['cv'] }}</div>
+</div>
+
+<div class="form-group">
+  <label>Upload Cover Letter (Optional)</label>
+  <label class="upload-button">
+    <input type="file" (change)="onFileSelect($event, 'coverLetter')" accept=".pdf" hidden />
+    <span>Select Cover Letter</span>
+  </label>
+  <div class="file-name" *ngIf="selectedFileNames['coverLetter']">Selected: {{ selectedFileNames['coverLetter'] }}</div>
+</div>
+
+    <button type="submit" [disabled]="form.invalid" class="btn-primary">Next</button>
+  </form>
+
+  <form *ngIf="currentStep === 2" (ngSubmit)="submitApplication()" class="quiz-form">
+    <h3 class="form-step-title">Step 2: Quiz - {{ quiz?.title }}</h3>
+
+    <div *ngFor="let question of questions" class="question-block">
+      <p class="question-text"><strong>{{ question.content }}</strong></p>
+      <div *ngFor="let answer of question.answers" class="answer-option">
+        <label>
+          <input type="radio"
+                 name="question{{ question.id }}"
+                 [value]="answer.id"
+                 (change)="onAnswerSelect(question.id!, answer.id!)"
+                 [checked]="selectedAnswers[question.id!] === answer.id" />
+          {{ answer.content }}
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit">Submit Application</button>
+  </form>
+  <!-- Score Popup -->
+<div class="score-popup" *ngIf="showScorePopup" [ngClass]="scoreClass">
+  <div class="score-content">
+    <h3>Quiz Completed</h3>
+    <p>Your score: {{ lastScore }}%</p>
+    <button (click)="goToMyApplications()">OK</button>
+  </div>
+</div>
+</div>

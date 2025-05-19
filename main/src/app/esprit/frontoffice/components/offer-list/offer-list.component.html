@@ -1,0 +1,42 @@
+<div class="offer-list-container">
+  <h2 class="section-title">Available Job Offers</h2>
+
+  <div class="offers-grid">
+    <mat-card class="offer-card" *ngFor="let offer of offers">
+      <div class="offer-header">
+        <h3 class="offer-title">{{ offer.title }}</h3>
+        <span class="badge">{{ offer.type || 'Opportunity' }}</span>
+      </div>
+
+      <p class="description">{{ offer.description }}</p>
+
+      <div class="offer-meta">
+        <span class="location">
+          <mat-icon fontIcon="location_on" class="icon"></mat-icon>
+          {{ offer.location }}
+        </span>
+
+        <span
+          class="end-date"
+          [ngClass]="{
+            'closed': isClosed(offer.endDate),
+            'closing-soon': isClosingSoon(offer.endDate)
+          }"
+        >
+          <mat-icon fontIcon="event" class="icon"></mat-icon>
+          <ng-container *ngIf="isClosed(offer.endDate)">Closed</ng-container>
+          <ng-container *ngIf="!isClosed(offer.endDate)">
+            Ends: {{ offer.endDate | date: 'mediumDate' }}
+          </ng-container>
+        </span>
+      </div>
+
+      <div class="offer-footer">
+        <span class="company">{{ offer.company }}</span>
+        <button mat-raised-button color="primary" [routerLink]="['/dashboard/frontoffice/offers', offer.id]">
+          View Details
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

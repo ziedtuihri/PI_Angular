@@ -1,0 +1,47 @@
+<div class="offer-detail-container" *ngIf="offer">
+  <h2 class="offer-title">{{ offer.title }}</h2>
+
+  <div class="offer-info">
+    <p><span class="label">Description:</span> {{ offer.description }}</p>
+    <p><span class="label">Location:</span> {{ offer.location }}</p>
+    <p><span class="label">Company:</span> {{ offer.company }}</p>
+    <p *ngIf="offer.type"><span class="label">Type:</span> {{ offer.type }}</p>
+    <p *ngIf="offer.startDate"><span class="label">Start Date:</span> {{ offer.startDate | date }}</p>
+
+    <p *ngIf="offer.endDate">
+      <span class="label">End Date:</span>
+      <span
+        [ngClass]="{
+          'closing-soon': isClosingSoon(),
+          'closed': isOfferClosed()
+        }"
+      >
+        {{ isOfferClosed() ? 'Closed' : (offer.endDate | date: 'mediumDate') }}
+      </span>
+    </p>
+  </div>
+
+  <div class="quiz-preview" *ngIf="offer.quiz">
+    <h3>Quiz</h3>
+    <p><span class="label">Quiz Title:</span> {{ offer.quiz.title }}</p>
+    <p *ngIf="offer.quiz.description">
+      <span class="label">Description:</span> {{ offer.quiz.description }}
+    </p>
+  </div>
+
+  <div class="applications-info" *ngIf="offer.applications?.length">
+    <h3>Applications</h3>
+    <p><span class="label">Total:</span> {{ offer.applications?.length }}</p>
+  </div>
+
+  <!-- Apply Button -->
+  <button
+    mat-raised-button
+    color="primary"
+    class="apply-button"
+    (click)="applyToOffer()"
+    [disabled]="isOfferClosed()"
+  >
+    Apply
+  </button>
+</div>

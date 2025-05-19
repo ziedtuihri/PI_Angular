@@ -13,10 +13,6 @@ import { RouterOutlet } from '@angular/router';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { User } from '../../../models/user';
-
-import { jwtDecode } from 'jwt-decode';
-
 // Extend the Window interface
 /*
 declare global {
@@ -53,7 +49,7 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
   @ViewChild('loginRef', {static: true }) loginElement!: ElementRef;
 
   ngOnInit() {
-
+    this.googleAuthSDK();
   }
 
   constructor(
@@ -83,41 +79,15 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
       window.google.accounts.id.initialize({
         client_id: '421853907823-qg8v2akcfabrj2fiqqvtgsdh0sh5flg0.apps.googleusercontent.com',
         callback: (response: any) => {
-          
-
-           // Define a type for the decoded token
-        type GoogleJwtPayload = {
-          email?: string;
-          name?: string;
-          picture?: string;
-          sub?: string;
-          family_name?: string;
-          given_name?: string;
-          [key: string]: any;
-        };
-
-           // Decode the credential
-        const decodedToken = jwtDecode<GoogleJwtPayload>(response.credential);
-
-          // You can also access specific properties like this:
-          console.log('Email:', decodedToken.email);
-          console.log('Family Name:', decodedToken.family_name);
-          console.log('Given Name:', decodedToken.given_name);
-
-          const user: User = {
-            email: decodedToken.email ?? '',
-            firstname: decodedToken.given_name,
-            lastname: decodedToken.family_name
-          };
-          
+          console.log('Token || ' + response.credential);
 
           // Handle the login with the retrieved profile information
           // For example, you can call a method in your LoginService to handle the Google Auth login
-          this.authService.handleGoogleAuthLogin(user).subscribe(response => {
+          this.authService.handleGoogleAuthLogin(response.credential).subscribe(response => {
             console.log(response);
             if (response.isOK == true) {
-             // this.showSuccessSnackbar();
-              // this.router.navigate(['/dashboard']);
+              this.showSuccessSnackbar();
+              this.router.navigate(['/dashboard']);
             } else if (response.isOK == false) {
               this.showErrorSnackbar();
             }
@@ -143,7 +113,9 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
 
   }
 
+  googleAuthSDK() {
 
+  }
 
 
 

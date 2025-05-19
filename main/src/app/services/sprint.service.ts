@@ -23,9 +23,8 @@ export interface Sprint {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class SprintService {
   private apiUrl = 'http://localhost:8081/api/sprints'; // Adaptez l'URL de votre API
 

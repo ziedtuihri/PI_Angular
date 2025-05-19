@@ -1,0 +1,248 @@
+// front-layout.component.scss
+
+// Variables
+$primary-color: #4285f4;
+$secondary-color: #f8f9fa;
+$accent-color: #34a853;
+$text-color: #202124;
+$light-text: #5f6368;
+$border-color: #dadce0;
+$white: #ffffff;
+$shadow: rgba(0, 0, 0, 0.1);
+$header-height: 70px;
+$footer-height: 60px;
+
+// Common mixins
+@mixin container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $secondary-color;
+  
+  // Header styles
+  .header {
+    background-color: $white;
+    box-shadow: 0 2px 8px $shadow;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: $header-height;
+    
+    .container {
+      @include container;
+      height: 100%;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      
+      .logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        
+        .logo-text {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+  
+  // Navigation styles
+  .main-nav {
+    .nav-list {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      
+      .nav-item {
+        margin: 0 0.5rem;
+        
+        a {
+          display: block;
+          padding: 0.75rem 1rem;
+          text-decoration: none;
+          color: $text-color;
+          font-weight: 500;
+          border-radius: 4px;
+          transition: all 0.2s ease;
+          position: relative;
+          
+          &:hover {
+            color: $primary-color;
+            background-color: rgba($primary-color, 0.05);
+          }
+          
+          &.active {
+            color: $primary-color;
+            background-color: rgba($primary-color, 0.1);
+            
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: -1px;
+              left: 10%;
+              width: 80%;
+              height: 3px;
+              background-color: $primary-color;
+              border-radius: 3px 3px 0 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // User section styles
+  .user-section {
+    .user-button {
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 2rem;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background-color: rgba($primary-color, 0.05);
+      }
+      
+      .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: $accent-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+        font-weight: 600;
+        margin-right: 0.5rem;
+      }
+      
+      .username {
+        color: $text-color;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  // Main content styles
+  .main-content {
+    flex: 1;
+    padding: 2rem 0;
+    
+    .container {
+      @include container;
+      min-height: calc(100vh - #{$header-height} - #{$footer-height} - 4rem);
+    }
+  }
+  
+  // Footer styles
+  .footer {
+    background-color: $white;
+    border-top: 1px solid $border-color;
+    padding: 1rem 0;
+    height: $footer-height;
+    
+    .container {
+      @include container;
+    }
+    
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      p {
+        color: $light-text;
+        margin: 0;
+      }
+      
+      .footer-links {
+        display: flex;
+        
+        a {
+          color: $light-text;
+          text-decoration: none;
+          margin-left: 1.5rem;
+          font-size: 0.875rem;
+          
+          &:hover {
+            color: $primary-color;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  // Responsive styles
+  @media (max-width: 768px) {
+    .header {
+      .header-content {
+        .logo {
+          .logo-text {
+            font-size: 1.25rem;
+          }
+        }
+      }
+    }
+    
+    .main-nav {
+      .nav-list {
+        .nav-item {
+          margin: 0 0.25rem;
+          
+          a {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+    
+    .user-section {
+      .user-button {
+        .username {
+          display: none;
+        }
+        
+        .user-avatar {
+          margin-right: 0;
+        }
+      }
+    }
+    
+    .footer {
+      .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        
+        .footer-links {
+          width: 100%;
+          justify-content: space-between;
+          
+          a {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+}

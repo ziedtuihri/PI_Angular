@@ -20,7 +20,8 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-activate-account',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule, CommonModule, RouterOutlet],
-  templateUrl: './activate-account.component.html'
+  templateUrl: './activate-account.component.html',
+  styleUrl: './activate-account.component.scss'
 })
 export class ActivateAccountComponent implements OnInit {
 

@@ -97,23 +97,6 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./pages/extra/extra.routes').then((m) => m.ExtraRoutes),
       },
-      {
-        path: 'reunions',
-        loadChildren: () =>
-          import('./pages/reunions/reunions.routes').then((m) => m.ReunionsRoutes),
-      },
-
-      {
-        path: 'salles',
-        loadChildren: () =>
-          import('./pages/salles/salles.routes').then((m) => m.SallesRoutes),
-      },
-
-      {
-        path: 'participants',
-        loadChildren: () =>
-          import('./pages/participants/participants.routes').then((m) => m.ParticipantsRoutes),
-      },
 
     ],
   },

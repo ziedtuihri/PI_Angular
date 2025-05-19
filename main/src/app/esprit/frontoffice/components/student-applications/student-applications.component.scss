@@ -1,0 +1,87 @@
+.application-list-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+
+  .title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .empty-message {
+    text-align: center;
+    color: #888;
+    font-size: 1rem;
+    margin-top: 2rem;
+  }
+
+  .application-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+    }
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .offer-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #1e88e5;
+      }
+
+      .status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
+  background-color: gray; // default fallback
+
+  &.status-new {
+    background-color: #fbc02d; // Yellow
+  }
+
+  &.status-approved {
+    background-color: #4caf50; // Green
+  }
+
+  &.status-rejected {
+    background-color: #e53935; // Red
+  }
+
+  &.status-interview {
+    background-color: #1e88e5; // Blue
+  }
+}
+
+    }
+
+    .app-body {
+      p {
+        margin: 0.4rem 0;
+        font-size: 0.95rem;
+        color: #444;
+
+        strong {
+          color: #2c3e50;
+        }
+      }
+    }
+  }
+}
