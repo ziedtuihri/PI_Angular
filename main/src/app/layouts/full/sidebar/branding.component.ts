@@ -7,13 +7,12 @@ import { RouterModule } from '@angular/router';
   imports: [RouterModule],
   template: `
     <a [routerLink]="['/']">
-  <img
-    src="./assets/images/logos/Logo_ESPRIT_Ariana.jpg"
-    class="align-middle m-2"
-    alt="logo"
-    style="height: 80px;" 
-  />
-</a>
+      <img
+        src="./assets/images/logos/logo.svg"
+        class="align-middle m-2"
+        alt="logo"
+      />
+    </a>
   `,
 })
 export class BrandingComponent {
