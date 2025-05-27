@@ -14,12 +14,12 @@ import { SprintDetailsComponent} from './pages/admin/sprint/sprint-details.compo
 import { ListtacheComponent } from './pages/admin/tache/listtache.component';
 import { TacheFormAdminComponent } from './pages/admin/tache/tache-form-admin.component';
 import { TacheDetailsComponent } from './pages/admin/tache/tachedetail.component';
+import { EntryComponent } from './esprit/entry/entry.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: FullComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -117,21 +117,19 @@ export const routes: Routes = [
 
     ],
   },
+  {path: "entry", component: EntryComponent},
   {
-    path: '',
-    component: BlankComponent,
-    children: [
-      {
-        path: 'authentication',
-        loadChildren: () =>
-          import('./pages/authentication/authentication.routes').then(
-            (m) => m.AuthenticationRoutes
-          ),
-      },
-    ],
+    path: 'frontoffice',
+    loadChildren: () =>
+      import('./esprit/frontoffice/frontoffice.module').then((m) => m.FrontofficeModule),
+  },
+  {
+    path: 'backoffice',
+    loadChildren: () =>
+      import('./esprit/backoffice/backoffice.module').then((m) => m.BackofficeModule),
   },
   {
     path: '**',
-    redirectTo: 'authentication/error',
+    redirectTo: '',
   },
 ];

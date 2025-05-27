@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'sass:color';
+@use '../src/app/shared/styles/variables.scss' as vars;
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -17,5 +19,342 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   
     &.app-notification-success {
       --mdc-snackbar-container-color: #54cf58;
+    }
+  }
+
+// Variables
+$primary-color: #00A1FF;
+$secondary-color: #6c757d;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$light-gray: #f8f9fa;
+$mid-gray: #e9ecef;
+$dark-gray: #343a40;
+$border-radius: 4px;
+$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+
+// Common components
+
+// Loading spinner
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba($primary-color, 0.2);
+    border-radius: 50%;
+    border-top-color: $primary-color;
+    animation: spin 1s linear infinite;
+  }
+  
+  p {
+    margin-top: 16px;
+    color: $dark-gray;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Message containers
+.message-container {
+  margin-bottom: 20px;
+  
+  .error-message, .success-message {
+    padding: 12px 16px;
+    border-radius: $border-radius;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .error-message {
+    background-color: rgba($danger-color, 0.1);
+    color: color.adjust($danger-color, $lightness: -10%);
+    border-left: 4px solid $danger-color;
+  }
+  
+  .success-message {
+    background-color: rgba($success-color, 0.1);
+    color: color.adjust($success-color, $lightness: -10%);
+    border-left: 4px solid $success-color;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: inherit;
+    padding: 0 6px;
+  }
+}
+
+// Form styles
+.form-group {
+  margin-bottom: 16px;
+  
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: $dark-gray;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid $mid-gray;
+    border-radius: $border-radius;
+    font-size: 16px;
+    
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    }
+  }
+  
+  textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .error-text, .error-message {
+    color: $danger-color;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+}
+
+// Headers
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  
+  h1 {
+    margin: 0;
+    color: $dark-gray;
+  }
+}
+
+// Buttons
+.btn-primary, .btn-secondary, .btn-danger, .btn-link {
+  padding: 8px 16px;
+  border-radius: $border-radius;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  transition: $transition;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  color: white;
+  
+  &:hover:not(:disabled) {
+    background-color: color.adjust($primary-color, $lightness: -10%);
+  }
+}
+
+.btn-secondary {
+  background-color: $light-gray;
+  color: $secondary-color;
+  border: 1px solid $secondary-color;
+  
+  &:hover:not(:disabled) {
+    background-color: $mid-gray;
+  }
+}
+
+.btn-danger {
+  background-color: $danger-color;
+  color: white;
+  
+  &:hover:not(:disabled) {
+    background-color: color.adjust($danger-color, $lightness: -10%);
+  }
+}
+
+.btn-link {
+  background: none;
+  color: $primary-color;
+  padding: 4px 8px;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+  
+  &.warning {
+    color: $danger-color;
+  }
+}
+
+// Form actions
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+// Bootstrap class alternatives
+.d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.mb-3 {
+  margin-bottom: 12px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-3 {
+  margin-top: 12px;
+}
+
+  .mt-4 {
+    margin-top: 16px;
+  }
+  
+  .p-3 {
+    padding: 12px;
+  }
+  
+  .border {
+    border: 1px solid $mid-gray;
+  }
+  
+  .rounded {
+    border-radius: $border-radius;
+  }
+  
+  .gap-2 {
+    gap: 8px;
+  }
+  
+  // Empty states
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: $light-gray;
+    border-radius: $border-radius;
+    color: $secondary-color;
+    
+    p {
+      margin: 0;
+      font-size: 16px;
+    }
+  }
+  
+  // Content containers
+  .content-container {
+    background-color: white;
+    border-radius: $border-radius;
+    padding: 20px;
+    box-shadow: $box-shadow;
+    
+    h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: $dark-gray;
+      border-bottom: 1px solid $mid-gray;
+      padding-bottom: 10px;
+    }
+  }
+  
+  // Form rows
+  .form-row {
+    display: flex;
+    gap: 16px;
+    
+    .half-width {
+      flex: 1;
+    }
+    
+    @media (max-width: 576px) {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+  
+  // For outline buttons
+  .btn-outline-primary {
+    background-color: white;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    padding: 6px 12px;
+    border-radius: $border-radius;
+    font-size: 14px;
+    cursor: pointer;
+    transition: $transition;
+    
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+    }
+  }
+  
+  .btn-outline-danger {
+    background-color: white;
+    color: $danger-color;
+    border: 1px solid $danger-color;
+    padding: 4px 8px;
+    border-radius: $border-radius;
+    font-size: 14px;
+    cursor: pointer;
+    transition: $transition;
+    
+    &:hover {
+      background-color: rgba($danger-color, 0.1);
+    }
+  }
+  
+  .btn-outline-success {
+    background-color: white;
+    color: $success-color;
+    border: 1px solid $success-color;
+    padding: 4px 8px;
+    border-radius: $border-radius;
+    font-size: 14px;
+    cursor: pointer;
+    transition: $transition;
+    
+    &:hover {
+      background-color: rgba($success-color, 0.1);
     }
   }

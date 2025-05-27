@@ -1,0 +1,316 @@
+@use 'sass:color';
+@use 'src/app/shared/styles/variables.scss' as vars;
+
+.quiz-management-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    
+    h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: vars.$dark-gray;
+      border-bottom: 1px solid vars.$mid-gray;
+      padding-bottom: 10px;
+    }
+    
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 0;
+      color: vars.$secondary-color;
+      
+      p {
+        margin: 0;
+        font-size: 16px;
+      }
+    }
+    
+    .quiz-header {
+      margin-bottom: 20px;
+      
+      .form-group {
+        margin-bottom: 0;
+        
+        label {
+          display: block;
+          margin-bottom: 6px;
+          font-weight: bold;
+          color: vars.$dark-gray;
+        }
+        
+        .form-control {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid vars.$mid-gray;
+          border-radius: vars.$border-radius;
+          font-size: 16px;
+          
+          &:focus {
+            border-color: vars.$primary-color;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
+          }
+        }
+        
+        .error-message {
+          color: vars.$danger-color;
+          font-size: 14px;
+          margin-top: 4px;
+        }
+      }
+    }
+    
+    .questions-section {
+      background-color: white;
+      border-radius: vars.$border-radius;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: vars.$box-shadow;
+      
+      h3 {
+        margin-top: 0;
+        margin-bottom: 16px;
+        color: vars.$dark-gray;
+      }
+      
+      .btn-outline-primary {
+        background-color: white;
+        color: vars.$primary-color;
+        border: 1px solid vars.$primary-color;
+        padding: 6px 12px;
+        border-radius: vars.$border-radius;
+        font-size: 14px;
+        cursor: pointer;
+        transition: vars.$transition;
+        
+        &:hover {
+          background-color: rgba(vars.$primary-color, 0.1);
+        }
+      }
+    }
+    
+    .question-form {
+      margin-bottom: 24px;
+      padding: 16px;
+      border: 1px solid vars.$mid-gray;
+      border-radius: vars.$border-radius;
+      background-color: vars.$light-gray;
+      
+      h4 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        color: vars.$dark-gray;
+      }
+      
+      .btn-danger {
+        background-color: vars.$danger-color;
+        color: white;
+        border: none;
+        padding: 4px 8px;
+        border-radius: vars.$border-radius;
+        font-size: 14px;
+        cursor: pointer;
+        transition: vars.$transition;
+        
+        &:hover {
+          background-color: color.adjust(vars.$danger-color, $lightness: -10%);
+        }
+      }
+      
+      .form-group {
+        margin-bottom: 16px;
+        
+        label {
+          display: block;
+          margin-bottom: 6px;
+          font-weight: bold;
+          color: vars.$dark-gray;
+        }
+        
+        .form-control {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid vars.$mid-gray;
+          border-radius: vars.$border-radius;
+          font-size: 16px;
+          
+          &:focus {
+            border-color: vars.$primary-color;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
+          }
+        }
+        
+        textarea.form-control {
+          resize: vertical;
+          min-height: 80px;
+        }
+        
+        .error-message {
+          color: vars.$danger-color;
+          font-size: 14px;
+          margin-top: 4px;
+        }
+      }
+    }
+    
+    .answers-section {
+      margin-top: 16px;
+      
+      h5 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        color: vars.$dark-gray;
+      }
+      
+      .answer-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        
+        .form-control {
+          flex: 1;
+          padding: 8px;
+          border: 1px solid vars.$mid-gray;
+          border-radius: vars.$border-radius;
+          font-size: 14px;
+          
+          &:focus {
+            border-color: vars.$primary-color;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
+          }
+        }
+        
+        .form-check {
+          display: flex;
+          align-items: center;
+          margin: 0;
+          
+          input {
+            margin-right: 4px;
+          }
+          
+          label {
+            margin: 0;
+            font-size: 14px;
+            color: vars.$dark-gray;
+          }
+        }
+        
+        .btn-outline-danger {
+          background-color: white;
+          color: vars.$danger-color;
+          border: 1px solid vars.$danger-color;
+          padding: 4px 8px;
+          border-radius: vars.$border-radius;
+          font-size: 14px;
+          cursor: pointer;
+          transition: vars.$transition;
+          
+          &:hover {
+            background-color: rgba(vars.$danger-color, 0.1);
+          }
+        }
+      }
+      
+      .btn-outline-success {
+        background-color: white;
+        color: vars.$success-color;
+        border: 1px solid vars.$success-color;
+        padding: 4px 8px;
+        border-radius: vars.$border-radius;
+        font-size: 14px;
+        cursor: pointer;
+        transition: vars.$transition;
+        margin-top: 8px;
+        
+        &:hover {
+          background-color: rgba(vars.$success-color, 0.1);
+        }
+      }
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 24px;
+      
+      .btn-primary {
+        background-color: vars.$primary-color;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: vars.$border-radius;
+        font-size: 16px;
+        cursor: pointer;
+        transition: vars.$transition;
+        
+        &:hover:not(:disabled) {
+          background-color: color.adjust(vars.$primary-color, $lightness: -10%);
+        }
+        
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+    
+    // Bootstrap class alternatives
+    .d-flex {
+      display: flex;
+    }
+    
+    .justify-content-between {
+      justify-content: space-between;
+    }
+    
+    .align-items-center {
+      align-items: center;
+    }
+    
+    .mb-2 {
+      margin-bottom: 8px;
+    }
+    
+    .mb-3 {
+      margin-bottom: 12px;
+    }
+    
+    .mb-4 {
+      margin-bottom: 16px;
+    }
+    
+    .mt-2 {
+      margin-top: 8px;
+    }
+    
+    .mt-3 {
+      margin-top: 12px;
+    }
+    
+    .mt-4 {
+      margin-top: 16px;
+    }
+    
+    .p-3 {
+      padding: 12px;
+    }
+    
+    .border {
+      border: 1px solid vars.$mid-gray;
+    }
+    
+    .rounded {
+      border-radius: vars.$border-radius;
+    }
+    
+    .gap-2 {
+      gap: 8px;
+    }
+  }

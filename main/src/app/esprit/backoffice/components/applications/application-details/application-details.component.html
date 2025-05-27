@@ -1,0 +1,151 @@
+<div *ngIf="isLoading" class="loading-indicator">
+  <div class="spinner"></div>
+  <p>Loading application details...</p>
+</div>
+
+<!-- Use the messaging component -->
+<app-message-display
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (clearMessages)="clearMessages()">
+</app-message-display>
+
+<div *ngIf="application" class="application-details-container">
+  <div class="application-card">
+    <div class="card-header">
+      <h2>Application Details</h2>
+      <span class="status-badge" [ngClass]="getStatusClass(application.status)">
+        {{ application.status || 'New' }}
+      </span>
+    </div>
+
+    <div class="card-body">
+      <div class="info-section">
+        <h3>Applicant Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Student ID</label>
+            <p class="info-value">{{ application.studentId }}</p>
+          </div>
+          <div class="info-item">
+            <label>Applied On</label>
+            <p class="info-value">{{ application?.appliedAt | date:'medium' }}</p>
+          </div>
+          <div class="info-item">
+            <label>Quiz Score</label>
+            <div class="score-indicator">
+              <div class="score-bar" [ngStyle]="{ width: getScorePercentage(application.quizScore) }"></div>
+              <span class="score-value">{{ application?.quizScore || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h3>Professional Profile</h3>
+        <div class="profile-links">
+          <a [href]="application.linkedinUrl" target="_blank" class="profile-link linkedin" *ngIf="application.linkedinUrl">
+            <i class="bi bi-linkedin"></i>
+            <span>LinkedIn Profile</span>
+          </a>
+          <a [href]="application.portfolioUrl" target="_blank" class="profile-link portfolio" *ngIf="application.portfolioUrl">
+            <i class="bi bi-globe"></i>
+            <span>Portfolio Website</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h3>Application Documents</h3>
+        <div class="documents-grid">
+          <div class="document-card" *ngIf="application.cvPath">
+            <div class="document-icon">
+              <i class="bi bi-file-earmark-pdf"></i>
+            </div>
+            <div class="document-info">
+              <h4>Curriculum Vitae</h4>
+              <p>Applicant's professional background and experience</p>
+            </div>
+            <div class="document-actions">
+              <button (click)="downloadFile('cv')" class="btn-download">
+                <i class="bi bi-download"></i> Download
+              </button>
+              <button (click)="previewFile('cv')" class="btn-preview">
+                <i class="bi bi-eye"></i> Preview
+              </button>
+            </div>
+          
+          <div class="document-card" *ngIf="application.coverLetterPath">
+            <div class="document-icon">
+              <i class="bi bi-file-earmark-text"></i>
+            </div>
+            <div class="document-info">
+              <h4>Cover Letter</h4>
+              <p>Applicant's introduction and motivation</p>
+            </div>
+            <div class="document-actions">
+              <button (click)="downloadFile('coverletter')" class="btn-download">
+                <i class="bi bi-download"></i> Download
+              </button>
+              <button (click)="previewFile('coverletter')" class="btn-preview">
+                <i class="bi bi-eye"></i> Preview
+              </button>
+            </div>
+          
+          <div class="document-card" *ngIf="application.certificatesPath">
+            <div class="document-icon">
+              <i class="bi bi-file-earmark-check"></i>
+            </div>
+            <div class="document-info">
+              <h4>Certificates</h4>
+              <p>Applicant's qualifications and achievements</p>
+            </div>
+            <div class="document-actions">
+              <button (click)="downloadFile('certificates')" class="btn-download">
+                <i class="bi bi-download"></i> Download
+              </button>
+              <button (click)="previewFile('certificates')" class="btn-preview">
+                <i class="bi bi-eye"></i> Preview
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card-footer">
+      <button class="btn-action primary" (click)="updateApplicationStatus('approved')">
+        <i class="bi bi-check-circle"></i> Approve
+      </button>
+      <button class="btn-action secondary" (click)="updateApplicationStatus('interview')">
+        <i class="bi bi-calendar-event"></i> Schedule Interview
+      </button>
+      <button class="btn-action danger" (click)="updateApplicationStatus('rejected')">
+        <i class="bi bi-x-circle"></i> Reject
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!application && !isLoading" class="empty-state">
+  <i class="bi bi-file-earmark-x"></i>
+  <h3>Application Not Found</h3>
+  <p>The requested application could not be found. Please check the application ID and try again.</p>
+</div>
+
+
+<!-- Document Preview Modal -->
+<div class="modal-backdrop" *ngIf="activePreviewType">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h4>{{ getDocumentTitle(activePreviewType) }} Preview</h4>
+      <button class="btn-close-modal" (click)="closePreview(activePreviewType)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-pdf-viewer *ngIf="previewUrls[activePreviewType]" [pdfUrl]="previewUrls[activePreviewType]"></app-pdf-viewer>
+    </div>
+  </div>
+</div>

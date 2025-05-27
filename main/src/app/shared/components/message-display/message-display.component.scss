@@ -1,0 +1,37 @@
+@use 'sass:color';
+@use 'src/app/shared/styles/variables.scss' as vars;
+.message-container {
+    margin-bottom: 20px;
+  
+    .error-message, .success-message {
+      padding: 12px 16px;
+      border-radius: vars.$border-radius;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+  
+    .error-message {
+      background-color: rgba(vars.$danger-color, 0.1);
+      color: color.adjust(vars.$danger-color, $lightness: -10%);
+      border-left: 4px solid vars.$danger-color;
+    }
+  
+    .success-message {
+      background-color: rgba(vars.$success-color, 0.1);
+      color: color.adjust(vars.$success-color, $lightness: -10%);
+      border-left: 4px solid vars.$success-color;
+    }
+  
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: inherit;
+      padding: 0 6px;
+    }
+  }
+  

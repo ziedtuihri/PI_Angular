@@ -1,0 +1,38 @@
+<h2>Apply to: {{ offer?.title }}</h2>
+
+<form *ngIf="currentStep === 1" (ngSubmit)="nextStep()">
+  <h3>Step 1: Personal Information</h3>
+  <input type="text" [(ngModel)]="jobApplication.linkedinUrl" name="linkedinUrl" placeholder="LinkedIn URL" required />
+  <input type="text" [(ngModel)]="jobApplication.portfolioUrl" name="portfolioUrl" placeholder="Portfolio URL" />
+
+  <div *ngFor="let url of jobApplication.certificateUrls; let i = index">
+    <input [(ngModel)]="jobApplication.certificateUrls[i]" name="certificateUrl{{ i }}" placeholder="Certificate URL" />
+  </div>
+
+  <label>Upload CV (PDF)</label>
+  <input type="file" (change)="onFileSelect($event, 'cv')" accept=".pdf" required />
+
+  <label>Upload Cover Letter (Optional)</label>
+  <input type="file" (change)="onFileSelect($event, 'coverLetter')" accept=".pdf" />
+
+  <button type="submit">Next</button>
+</form>
+
+<form *ngIf="currentStep === 2" (ngSubmit)="submitApplication()">
+  <h3>Step 2: Quiz - {{ quiz?.title }}</h3>
+  <div *ngFor="let question of questions">
+    <p><strong>{{ question.content }}</strong></p>
+    <div *ngFor="let answer of question.answers">
+      <label>
+        <input type="radio"
+               name="question{{ question.id }}"
+               [value]="answer.id"
+               (change)="onAnswerSelect(question.id!, answer.id!)"
+               [checked]="selectedAnswers[question.id!] === answer.id" />
+        {{ answer.content }}
+      </label>
+    </div>
+  </div>
+
+  <button type="submit">Submit Application</button>
+</form>
