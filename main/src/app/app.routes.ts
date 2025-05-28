@@ -14,6 +14,10 @@ import { SprintDetailsComponent} from './pages/admin/sprint/sprint-details.compo
 import { ListtacheComponent } from './pages/admin/tache/listtache.component';
 import { TacheFormAdminComponent } from './pages/admin/tache/tache-form-admin.component';
 import { TacheDetailsComponent } from './pages/admin/tache/tachedetail.component';
+import { AddEvaluationComponent } from './pages/add-evaluation/add-evaluation.component';
+import { EvaluationComponent } from './pages/evaluation/evaluation.component';
+import { NoteComponent } from './pages/note/note.component';
+
 
 export const routes: Routes = [
   {
@@ -73,13 +77,38 @@ export const routes: Routes = [
         component: TacheFormAdminComponent,
       },
       {
-         path: 'taches/edit/:id',
+       path: 'taches/edit/:id',
         component: TacheFormAdminComponent,
       },
       {
         path: 'taches/details/:id', 
         component: TacheDetailsComponent,
       },
+
+      {
+        path: 'evaluation',
+        component: EvaluationComponent,
+      },
+
+        {
+        path: 'note',
+        component: NoteComponent,
+      },
+
+  /* The code snippet you provided is defining the routing configuration for an Angular application. */
+
+ 
+
+      {
+        path: 'add-evaluation/:idProjet',
+        component: AddEvaluationComponent,
+      },
+
+
+
+
+      
+
       {
         path: 'dashboard',
         loadChildren: () =>

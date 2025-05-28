@@ -52,7 +52,7 @@
           <td mat-cell *matCellDef="let projet">{{ projet.dateFinPrevue | date:'dd/MM/yyyy' }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
+        <!-- <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let projet">
             <button mat-icon-button color="accent" (click)="onViewDetail(projet.idProjet)" matTooltip="Voir les détails">
@@ -72,7 +72,39 @@
               </button>
             </mat-menu>
           </td>
+        </ng-container> -->
+
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let projet">
+            <!-- Voir les détails -->
+            <button mat-icon-button color="accent" (click)="onViewDetail(projet.idProjet)" matTooltip="Voir les détails">
+              <mat-icon>visibility</mat-icon>
+            </button>
+        
+            <!-- Menu pour modifier / supprimer -->
+            <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="onEditProjet(projet.idProjet)">
+                <mat-icon>edit</mat-icon>
+                <span>Modifier</span>
+              </button>
+              <button mat-menu-item (click)="onDeleteProjet(projet.idProjet)">
+                <mat-icon>delete</mat-icon>
+                <span>Supprimer</span>
+              </button>
+            </mat-menu>
+        
+            <!-- Bouton pour ajouter une évaluation -->
+            <button mat-icon-button color="warn" (click)="onAddEvaluation(projet.idProjet)" matTooltip="Ajouter une évaluation">
+              <mat-icon>add</mat-icon>
+            </button>
+          </td>
         </ng-container>
+        
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

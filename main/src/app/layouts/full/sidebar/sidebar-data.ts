@@ -24,7 +24,21 @@ export const navItems: NavItem[] = [
     displayName: 'Tache',
     iconName: 'solar:atom-line-duotone',
     route: '/taches',
-  },/*
+  },
+  
+  { displayName: "Evaluation", 
+    iconName: "solar:file-text-line-duotone", 
+    route: '/evaluation', }, 
+
+     { displayName: "Note", 
+    iconName: "solar:file-text-line-duotone", 
+    route: '/note', }, 
+
+
+
+
+  
+  /*
   {
     displayName: 'Analytics',
     iconName: 'solar:widget-add-line-duotone',

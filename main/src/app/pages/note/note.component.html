@@ -1,0 +1,6 @@
+<h2>Liste des utilisateurs</h2>
+<ul>
+  <li *ngFor="let user of users">
+    {{ user.firstName }} {{ user.lastName }} (ID: {{ user.id }})
+  </li>
+</ul>

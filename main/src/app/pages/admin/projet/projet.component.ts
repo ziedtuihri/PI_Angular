@@ -93,4 +93,10 @@ export class ProjetComponent implements OnInit {
       this.router.navigate(['/projet/detail', id]);
     }
   }
+
+
+  onAddEvaluation(idProjet: number): void {
+    // Exemple avec navigation vers un composant d'ajout d'évaluation avec l'ID du projet
+    this.router.navigate(['/add-evaluation', idProjet]);
+  }
 }
