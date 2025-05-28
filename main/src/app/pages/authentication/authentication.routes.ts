@@ -5,6 +5,12 @@ import { AppSideRegisterComponent } from './side-register/side-register.componen
 
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
+import { VerificationCodeComponent } from './verification-code/verification-code.component';
+
+import { ChangePasswordComponent } from './change-password/change-password.component';
+
+import { ActivateAccountComponent } from "./activate-account/activate-account.component";
+
 export const AuthenticationRoutes: Routes = [
   {
     path: '',
@@ -19,8 +25,20 @@ export const AuthenticationRoutes: Routes = [
       },
       {
         path: 'forgotPassword',
-        component: ForgotPasswordComponent
+        component: ForgotPasswordComponent,
       },
+      {
+        path: 'verificationCode',
+        component: VerificationCodeComponent,
+      },
+      {
+        path: 'ChangePwd',
+        component: ChangePasswordComponent,
+      },
+      {
+        path: 'activate-account',
+        component: ActivateAccountComponent,
+      }
     ],
   },
 ];

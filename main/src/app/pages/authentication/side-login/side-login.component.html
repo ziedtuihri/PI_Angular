@@ -1,3 +1,6 @@
+
+
+
 <div class="blank-layout-container justify-content-center align-items-center bg-light">
   <div class="position-relative row w-100 h-100 bg-gredient justify-content-center">
     <div class="col-lg-4 d-flex align-items-center">
@@ -5,16 +8,17 @@
         <mat-card-content class="p-32">
           <div class="text-center">
 
+            
           </div>
 
           <div class="row m-t-24 custom-row">
             <div class="col-6">
-              <button mat-stroked-button class="w-100">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" #loginRef>
                   <img src="/assets/images/svgs/google-icon.svg" alt="google" width="16" class="m-r-8" />
-                  <span class="d-none d-lg-block">Sign in with Google</span>
+                  <span class="d-none d-lg-block" >Sign in with Google</span>
                 </div>
-              </button>
+
+
             </div>
             <div class="col-6">
               <button mat-stroked-button class="w-100 d-flex align-items-center">
@@ -47,9 +51,10 @@
             <button mat-flat-button color="primary" type="submit" class="w-100">
               Sign In
             </button>
-            
+  
             <!-- input -->
           </form>
+ 
           <span class="d-block f-w-500 text-center m-t-24">New to MaterialM?
             <a [routerLink]="['/authentication/register']" class="text-decoration-none text-primary f-w-500 f-s-14">
               Create an account</a>
