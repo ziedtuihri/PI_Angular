@@ -52,12 +52,13 @@ export class LoginService {
   }
 
     handleGoogleAuthLogin(user: User): Observable<any> {
-    return this.http.post<any>('http://localhost:8081/auth/authenticateOption', { user }).pipe(
+    return this.http.post<any>('http://localhost:8081/auth/authenticateOption',  user ).pipe(
       map(response => {
         console.log("****** res : ",response);
-        if (response.token == 'Invalid account!') {
+        if (response.token == 'Invalid email or password' || response.token == 'Login with email and password') {
           return { isOK: false };
         }
+        
         localStorage.setItem('token', response.token);
         this.isAuthenticatedSubject.next(true);
         return { isOK: true };
