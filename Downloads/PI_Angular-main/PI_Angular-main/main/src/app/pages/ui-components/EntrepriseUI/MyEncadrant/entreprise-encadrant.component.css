@@ -1,0 +1,88 @@
+.encadrant-container {
+  padding: 20px;
+}
+
+.header-card {
+  margin-bottom: 20px;
+}
+
+.filter-add-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-input {
+  flex: 1;
+  min-width: 250px;
+}
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: start;
+}
+
+.encadrant-card {
+  width: 300px;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.specialite {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.encadrant-details p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.loading-shade {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.action-buttons {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.spacer {
+  height: 16px; /* or 24px, depending on how much space you need */
+}
+

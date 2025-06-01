@@ -1,0 +1,75 @@
+<h2 mat-dialog-title class="dialog-title">
+  {{ event.id ? '✏️ Edit Event' : '      ' }}
+</h2>
+
+
+<mat-dialog-content class="dialog-content">
+  <form #eventForm="ngForm" class="dialog-form">
+
+    <!-- Title -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Event Title</mat-label>
+      <mat-icon matPrefix>
+        <img src="https://cdn-icons-png.flaticon.com/128/2620/2620953.png" alt="Title Icon" width="20" />
+      </mat-icon>
+      <input matInput [(ngModel)]="event.titre" name="titre" required />
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Event Description</mat-label>
+      <mat-icon matPrefix>
+        <img src="https://cdn-icons-png.flaticon.com/128/1250/1250615.png" alt="Description Icon" width="20" />
+      </mat-icon>
+      <input matInput [(ngModel)]="event.description" name="description" required />
+    </mat-form-field>
+
+    <!-- Date Picker -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Event Date</mat-label>
+      <mat-icon matPrefix>
+        <img src="https://cdn-icons-png.flaticon.com/128/747/747310.png" alt="Calendar Icon" width="20" />
+      </mat-icon>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="event.date" name="date" required />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Location -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Location</mat-label>
+      <mat-icon matPrefix>
+        <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="Location Icon" width="20" />
+      </mat-icon>
+      <input matInput [(ngModel)]="event.lieu" name="lieu" required />
+    </mat-form-field>
+
+    <!-- Entreprise Dropdown -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Entreprise</mat-label>
+      <mat-icon matPrefix>
+        <img src="https://cdn-icons-png.flaticon.com/128/2640/2640740.png" alt="Entreprise Icon" width="20" />
+      </mat-icon>
+      <mat-select [(ngModel)]="event.entreprise" name="entreprise" required>
+        <mat-option *ngFor="let entreprise of entreprises" [value]="entreprise">
+          {{ entreprise.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+
+  <button mat-flat-button color="warn" (click)="onCancel()">
+    <img src="https://cdn-icons-png.flaticon.com/128/1828/1828665.png" class="btn-icon" alt="Cancel" />
+    Cancel
+  </button>
+
+  <button mat-flat-button color="primary" (click)="onSave()">
+    <img src="https://cdn-icons-png.flaticon.com/128/942/942748.png" class="btn-icon" alt="Save" />
+    Save
+  </button>
+
+</mat-dialog-actions>

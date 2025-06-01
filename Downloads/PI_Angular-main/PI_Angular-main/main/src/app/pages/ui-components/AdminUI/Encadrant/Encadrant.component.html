@@ -1,0 +1,108 @@
+<!-- Navigation Toolbar -->
+<mat-toolbar class="modern-navbar" color="primary">
+  <div class="nav-button" (click)="goToEntreprise()">
+    <img src="https://cdn-icons-png.flaticon.com/128/2640/2640740.png" alt="Entreprise Icon" />
+    <span>Gestion Entreprise</span>
+  </div>
+  <div class="nav-button" (click)="goToEvents()">
+    <img src="https://cdn-icons-png.flaticon.com/128/1968/1968779.png" alt="Events Icon" />
+    <span>Gestion Events</span>
+  </div>
+  <div class="nav-button" (click)="goToOffrePFE()">
+    <img src="https://cdn-icons-png.flaticon.com/128/16847/16847393.png" alt="PFE Icon" />
+    <span>Gestion Offre PFE</span>
+  </div>
+  <div class="nav-button selected">
+    <img src="https://cdn-icons-png.flaticon.com/128/3829/3829922.png" alt="Encadrants Icon" />
+    <span>Liste Encadrants</span>
+  </div>
+</mat-toolbar>
+
+<!-- Title -->
+<h1 style="text-align: center; margin-top: 100px; margin-bottom: 70px; color: #343;">
+  ENCADRANT MANAGEMENT
+</h1>
+
+<!-- Encadrant Toolbar -->
+<mat-toolbar color="primary">
+  <span style="flex-grow: 1;">Encadrant Management</span>
+  <button mat-raised-button color="accent" (click)="addEncadrant()">➕ Add Encadrant</button>
+</mat-toolbar>
+
+<!-- Encadrant Table -->
+<div class="table-container" *ngIf="!isLoading; else loading">
+  <table mat-table [dataSource]="encadrants" class="mat-elevation-z8">
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let encadrant">{{ encadrant.id }}</td>
+    </ng-container>
+
+    <!-- Nom Column -->
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef>Nom</th>
+      <td mat-cell *matCellDef="let encadrant">{{ encadrant.nom }}</td>
+    </ng-container>
+
+    <!-- Prenom Column -->
+    <ng-container matColumnDef="prenom">
+      <th mat-header-cell *matHeaderCellDef>Prénom</th>
+      <td mat-cell *matCellDef="let encadrant">{{ encadrant.prenom }}</td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let encadrant">{{ encadrant.email }}</td>
+    </ng-container>
+
+    <!-- Téléphone Column -->
+    <ng-container matColumnDef="telephone">
+      <th mat-header-cell *matHeaderCellDef>Téléphone</th>
+      <td mat-cell *matCellDef="let encadrant">{{ encadrant.telephone || 'N/A' }}</td>
+    </ng-container>
+
+    <!-- Spécialité Column -->
+    <ng-container matColumnDef="specialite">
+      <th mat-header-cell *matHeaderCellDef>Spécialité</th>
+      <td mat-cell *matCellDef="let encadrant">{{ encadrant.specialite }}</td>
+    </ng-container>
+
+    <!-- Entreprise Column -->
+    <ng-container matColumnDef="entreprise">
+      <th mat-header-cell *matHeaderCellDef>Entreprise</th>
+      <td mat-cell *matCellDef="let encadrant">
+        {{ encadrant.entreprise?.nom || 'N/A' }}
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let encadrant">
+        <div class="action-buttons">
+          <button mat-raised-button color="accent" (click)="editEncadrant(encadrant)">Update</button>
+          <button mat-raised-button color="warn" (click)="deleteEncadrant(encadrant.id)">Delete</button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+<!-- Loading Spinner -->
+<ng-template #loading>
+  <div class="loading-shade">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<!-- Back to Dashboard Button -->
+<div class="back-dashboard">
+  <button mat-stroked-button color="primary" (click)="goToDashboard()">
+    <mat-icon>arrow_back</mat-icon> Back to Dashboard
+  </button>
+</div>

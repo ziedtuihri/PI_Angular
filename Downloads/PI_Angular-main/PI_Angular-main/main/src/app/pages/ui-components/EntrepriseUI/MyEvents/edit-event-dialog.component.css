@@ -1,0 +1,40 @@
+.full-width {
+  width: 100%;
+}
+
+.title-spacer {
+  margin-bottom: 16px; /* Add space below the title */
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.dialog-title {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.dialog-content {
+  padding-top: 0;
+}
+
+.dialog-actions {
+  margin-top: 12px;
+}
+
+.btn-icon {
+  width: 20px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.spacer {
+  height: 16px; /* or 24px, depending on how much space you need */
+}
+
+

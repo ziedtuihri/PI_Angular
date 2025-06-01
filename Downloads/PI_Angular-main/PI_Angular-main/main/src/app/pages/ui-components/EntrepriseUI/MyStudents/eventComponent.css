@@ -1,0 +1,60 @@
+/* Full container uses full viewport height minus padding */
+.event-entreprise-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #f9fafb;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Header with title and buttons */
+.header-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.header-toolbar h2 {
+  margin: 0;
+  font-weight: 600;
+  color: #1976d2;
+  font-size: 1.8rem;
+}
+
+/* Buttons container */
+.action-buttons button {
+  margin-left: 8px;
+}
+
+/* Calendar wrapper fills remaining space */
+.calendar-wrapper {
+  flex-grow: 1;
+  min-height: 0; /* Important for flex children to allow scroll */
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(25, 118, 210, 0.2);
+  background-color: white;
+}
+
+/* Make FullCalendar take full height inside wrapper */
+.calendar-wrapper ::ng-deep .fc {
+  height: 100% !important;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .header-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .action-buttons button {
+    width: 100%;
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,75 @@
+<div class="profile-container" *ngIf="entreprise">
+  <div class="profile-header">
+    <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Profile Icon" class="profile-icon">
+    <h2>My Profile</h2>
+  </div>
+
+  <form *ngIf="isEditing; else viewMode" class="profile-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Nom</mat-label>
+      <input matInput [(ngModel)]="entreprise.nom" name="nom">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Secteur d'activité</mat-label>
+      <input matInput [(ngModel)]="entreprise.secteurActivite" name="secteurActivite">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Taille</mat-label>
+      <input matInput type="number" [(ngModel)]="entreprise.taille" name="taille">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Adresse</mat-label>
+      <input matInput [(ngModel)]="entreprise.adresse" name="adresse">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Téléphone</mat-label>
+      <input matInput [(ngModel)]="entreprise.telephone" name="telephone">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="entreprise.email" name="email">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Site Web</mat-label>
+      <input matInput [(ngModel)]="entreprise.siteWeb" name="siteWeb">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Contact RH</mat-label>
+      <input matInput [(ngModel)]="entreprise.contactRH" name="contactRH">
+    </mat-form-field>
+
+    <div class="form-buttons">
+      <button mat-raised-button color="primary" (click)="saveChanges()">💾 Save</button>
+      <button mat-button color="warn" (click)="cancelEdit()">Cancel</button>
+    </div>
+  </form>
+
+  <ng-template #viewMode>
+    <div class="profile-details">
+      <p><strong>Nom:</strong> {{ entreprise.nom }}</p>
+      <p><strong>Secteur:</strong> {{ entreprise.secteurActivite }}</p>
+      <p><strong>Taille:</strong> {{ entreprise.taille }}</p>
+      <p><strong>Adresse:</strong> {{ entreprise.adresse }}</p>
+      <p><strong>Téléphone:</strong> {{ entreprise.telephone }}</p>
+      <p><strong>Email:</strong> {{ entreprise.email }}</p>
+      <p><strong>Site Web:</strong> {{ entreprise.siteWeb }}</p>
+      <p><strong>Contact RH:</strong> {{ entreprise.contactRH }}</p>
+    </div>
+
+    <div class="action-buttons">
+      <button mat-flat-button color="primary" (click)="goToDashboard()">🏠 Dashboard</button>
+      <button mat-flat-button color="accent" (click)="enableEdit()">✏️ Edit</button>
+    </div>
+  </ng-template>
+</div>
+
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

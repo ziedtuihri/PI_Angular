@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Modifier Encadrant' : 'Ajouter Encadrant' }}</h2>
+
+<div class="dialog-content-wrapper">
+  <form [formGroup]="encadrantForm" (ngSubmit)="onSave()" class="dialog-form">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="nom" />
+      <mat-error *ngIf="f['nom'].touched && f['nom'].invalid">
+        Le nom est requis et doit contenir au moins 2 caractères.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="prenom" />
+      <mat-error *ngIf="f['prenom'].touched && f['prenom'].invalid">
+        Le prénom est requis et doit contenir au moins 2 caractères.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="f['email'].touched && f['email'].invalid">
+        Veuillez entrer un email valide.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Téléphone</mat-label>
+      <input matInput formControlName="telephone" />
+      <mat-error *ngIf="f['telephone'].touched && f['telephone'].invalid">
+        Veuillez entrer un numéro de téléphone valide (ex: +33123456789).
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Compétence</mat-label>
+      <input matInput formControlName="specialite" />
+      <mat-error *ngIf="f['specialite'].touched && f['specialite'].invalid">
+        La compétence est requise et doit contenir au moins 2 caractères.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="dialog-actions">
+      <button mat-flat-button color="primary" type="submit">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
+      <button mat-button type="button" (click)="onCancel()">Annuler</button>
+    </div>
+  </form>
+</div>
