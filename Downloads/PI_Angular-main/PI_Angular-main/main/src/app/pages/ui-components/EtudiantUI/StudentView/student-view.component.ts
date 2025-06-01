@@ -89,7 +89,7 @@ export class StudentViewComponent implements OnInit {
 
   // Method to navigate back to the dashboard
   goToDashboard() {
-    this.router.navigate(['admin/profile']);
+    this.router.navigate(['student/dashboard']);
   }
 
   // Empty method definitions to avoid errors
@@ -102,7 +102,7 @@ export class StudentViewComponent implements OnInit {
   }
 
   goToOffrePFE() {
-    this.router.navigate(['admin/offres']);
+    this.router.navigate(['student/offres']);
   }
 
   goToEncadrants() {

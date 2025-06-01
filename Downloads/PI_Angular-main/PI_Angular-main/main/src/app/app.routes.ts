@@ -17,6 +17,7 @@ import { AuthGuard } from './services/auth.guard';
 import {
   CandidatureManagementComponent
 } from "./pages/ui-components/EntrepriseUI/Candidatures/candidature-management.component";
+import {StudentOffreComponent} from "./pages/ui-components/EtudiantUI/Student - OffrePFE/student-offre.component";
 export const routes: Routes = [
   {
     path: '',
@@ -75,9 +76,9 @@ export const routes: Routes = [
   {path: 'entreprise/offres', component: EntrepriseOffresComponent},
   {path: 'entreprise/events', component: EventEntrepriseComponent},
   {path: 'entreprise/encadrants', component:  EntrepriseEncadrantComponent},
-  {path: 'student/dashboard', component:  StudentViewComponent},
   {path: 'entreprise/candidatures', component:    CandidatureManagementComponent},
-
+  {path: 'student/dashboard', component:  StudentViewComponent},
+  {path: 'student/offres', component:  StudentOffreComponent},
 
 
 ];
