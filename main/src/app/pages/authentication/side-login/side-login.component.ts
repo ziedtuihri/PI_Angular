@@ -34,6 +34,8 @@ declare global {
   }
 }
 
+declare const FB: any;
+
 @Component({
   selector: 'app-side-login',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule, CommonModule, RouterOutlet],
@@ -164,6 +166,23 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
       verticalPosition: 'top'
     });
   }
+
+  
+
+loginWithFacebook(): void {
+  FB.login((response: any) => {
+    if (response.authResponse) {
+      FB.api('/me', { fields: 'name,email' }, (userInfo: any) => {
+        console.log('User info:', userInfo);
+        // You can now send this info to your backend
+        // this.authService.facebookLogin(userInfo).subscribe(...)
+      });
+    } else {
+      console.error('Facebook login failed or was cancelled.');
+    }
+  }, { scope: 'email' });
+}
+
 
   
   onSubmit(): void {
