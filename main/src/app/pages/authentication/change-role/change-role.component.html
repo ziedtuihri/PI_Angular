@@ -8,28 +8,25 @@
                 Please select a valid Role for your acount.
               </p>
             </div>
-            <form [formGroup]="changeRole" (ngSubmit)="onSubmit()" novalidate class="m-t-30">
- 
-            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Role</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <mat-select formControlName="role" >
-                <mat-option value="USER">Student</mat-option>
-                <mat-option value="TEACHER">Teacher</mat-option>
-                <mat-option value="HR_COMPANY">Company</mat-option>
-              </mat-select>
-            </mat-form-field>
+<form [formGroup]="changeRole" (ngSubmit)="onSubmit()" novalidate class="m-t-30">
+  <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Role</mat-label>
+  <mat-form-field appearance="outline" class="w-100" color="primary">
+    <mat-select formControlName="role">
+      <mat-option value="USER">Student</mat-option>
+      <mat-option value="TEACHER">Teacher</mat-option>
+      <mat-option value="HR_COMPANY">Company</mat-option>
+    </mat-select>
+    <!-- Show validation error when role is not selected -->
+    <mat-error *ngIf="changeRole.get('role').invalid && changeRole.get('role').touched">
+      Please select a valid role.
+    </mat-error>
+  </mat-form-field>
 
+  <button mat-flat-button color="primary" class="w-100" type="submit">
+    Change Role
+  </button>
 
-                          <button
-                mat-flat-button
-                color="primary"
-                class="w-100"
-                type="submit"
-                
-              >
-                Change Role
-              </button>
-              <a
+                <a
                 mat-stroked-button
                 color="primary"
                 class="w-100 m-t-8"
@@ -37,8 +34,7 @@
               >
                 Back to Login
               </a>
-
-            </form>
+</form>
           </mat-card-content>
         </mat-card>
       </div>

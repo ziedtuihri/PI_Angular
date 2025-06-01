@@ -188,4 +188,20 @@ export class LoginService {
       );
   }
 
+  changeRole(email: string, roleName: string): Observable<any> {
+    return this.http.post<any>('http://localhost:8081/auth/changeUserRole',  { email, roleName } )
+      .pipe(
+        map(response => {
+          console.log(response);
+          return response;
+          
+        }),
+        catchError(error => {
+          const message = `${error?.error?.text || 'Unknown error'}`;
+          console.error('Error:', message);
+          return of({ isOk: false });
+        })
+      );
+  }
+
 }
