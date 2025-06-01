@@ -67,7 +67,7 @@ export class LoginService {
         console.log("credentials for SPRING:: ", user)
         console.log("error");
         let message = 'Unknown error occurred';
-        if (error.status === 404) {
+        if (error.status === 404) { 
           message = 'User not found';
         } else if (error.status === 400) {
           message = 'Invalid token';
@@ -167,6 +167,23 @@ export class LoginService {
           const message = `${error?.error?.text || 'Unknown error'}`;
           console.error('Error:', message);
           return of({ message });
+        })
+      );
+  }
+
+
+    checkRole(email: string): Observable<any> {
+    return this.http.post<any>('http://localhost:8081/auth/checkUserRole',  { email } )
+      .pipe(
+        map(response => {
+          console.log(response.roleName);
+          return response;
+          
+        }),
+        catchError(error => {
+          const message = `${error?.error?.text || 'Unknown error'}`;
+          console.error('Error:', message);
+          return of({ isOk: false });
         })
       );
   }

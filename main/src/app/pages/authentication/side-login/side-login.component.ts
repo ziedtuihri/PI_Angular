@@ -116,8 +116,10 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
           this.authService.handleGoogleAuthLogin(user).subscribe(response => {
             console.log(response);
             if (response.isOK == true) {
-             // this.showSuccessSnackbar();
-              // this.router.navigate(['/dashboard']);
+              this.showSuccessSnackbar();
+              this.router.navigate(['/dashboard']);
+
+
             } else if (response.isOK == false) {
               this.showErrorSnackbar();
             }
@@ -145,9 +147,6 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
 
 
 
-
-
-
   showSuccessSnackbar() {
     this.snackBar.open('Loing Successful', 'Close', {
       duration: 1000,
@@ -158,7 +157,7 @@ export class AppSideLoginComponent implements OnInit, AfterViewInit {
   }
 
   showErrorSnackbar() {
-    this.snackBar.open('Invalid account', 'Close', {
+    this.snackBar.open('Login with email and password', 'Close', {
       duration: 1000,
       panelClass: 'app-notification-error',
       horizontalPosition: 'right',

@@ -88,10 +88,12 @@ export class AppSideRegisterComponent {
 
       this.authService.signUp(signupData).subscribe(
         response => {
-          console.log('Successfully created account:', response);
+          
           if(response.isOk == false){
               this.errorSnackbarEmail();
           }else if (response.isOk == true) {
+            console.log('Successfully created account:', response);
+            this.router.navigate(['/authentication/login']);
             this.showSuccessSnackbar();
           }
         },

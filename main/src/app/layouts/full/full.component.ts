@@ -17,6 +17,17 @@ import { AppNavItemComponent } from './sidebar/nav-item/nav-item.component';
 import { navItems } from './sidebar/sidebar-data';
 import { AppTopstripComponent } from './top-strip/topstrip.component';
 
+import { LoginService } from 'src/app/services/login.service';
+
+import { jwtDecode } from 'jwt-decode';
+
+interface DecodedToken {
+  sub: string;
+  fullName: string;
+  authorities: string[];
+  [key: string]: any;
+}
+
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
 
@@ -60,6 +71,7 @@ export class FullComponent implements OnInit {
 
   constructor(
     private settings: CoreService,
+    private loginService: LoginService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
   ) {
@@ -86,7 +98,35 @@ export class FullComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+        // Retrieve the token from localStorage
+        const token = localStorage.getItem('token');
+    
+        // Decode the token
+        if (token) {
+          const decodedToken: DecodedToken = jwtDecode(token);
+          console.log(decodedToken);
+    
+          // Print email, role, and full name
+          console.log('Email:', decodedToken.sub);
+          console.log('Full Name:', decodedToken.fullName);
+          console.log('Role:', decodedToken.authorities[0]);
+
+          this.loginService.checkRole(decodedToken.sub).subscribe((response) => {
+            console.log("+++++++++++++++", response.roleName);
+            if(response.roleName === 'NULL') {
+              
+              this.router.navigate(['/authentication/ChangeRole']);
+            }
+        });
+    
+        } else {
+          console.error('Token not found in localStorage');
+        }
+
+
+
+  }
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();
