@@ -1,0 +1,47 @@
+<div class="blank-layout-container justify-content-center align-items-center">
+    <div class="position-relative row w-100 h-100 bg-gredient justify-content-center">
+      <div class="col-lg-4 d-flex align-items-center">
+        <mat-card class="mat-mdc-card mdc-card cardWithShadow boxed-auth">
+          <mat-card-content class="mat-mdc-card-content p-t-48">
+            <div class="m-b-48 text-center">
+              <p class="m-b-0">
+                Please select a valid Role for your acount.
+              </p>
+            </div>
+            <form [formGroup]="changeRole" (ngSubmit)="onSubmit()" novalidate class="m-t-30">
+ 
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Role</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <mat-select formControlName="role" >
+                <mat-option value="USER">Student</mat-option>
+                <mat-option value="TEACHER">Teacher</mat-option>
+                <mat-option value="HR_COMPANY">Company</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
+                          <button
+                mat-flat-button
+                color="primary"
+                class="w-100"
+                type="submit"
+                
+              >
+                Change Role
+              </button>
+              <a
+                mat-stroked-button
+                color="primary"
+                class="w-100 m-t-8"
+                href="/authentication/login"
+              >
+                Back to Login
+              </a>
+
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  

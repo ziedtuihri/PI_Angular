@@ -1,0 +1,70 @@
+<mat-card class="cardWithShadow theme-card">
+    <mat-card-header>
+      <mat-card-title>Détails de la Tâche</mat-card-title>
+    </mat-card-header>
+    <mat-card-content *ngIf="tacheDetails">
+      <div class="details-grid">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nom</mat-label>
+          <input matInput [value]="tacheDetails.nom" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Statut</mat-label>
+          <input matInput [value]="tacheDetails.statut" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date de début</mat-label>
+          <input matInput [value]="tacheDetails.dateDebut | date: 'yyyy-MM-dd'" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date de fin</mat-label>
+          <input matInput [value]="tacheDetails.dateFin | date: 'yyyy-MM-dd'" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width" *ngIf="tacheDetails.sprint">
+          <mat-label>Sprint</mat-label>
+          <input matInput [value]="tacheDetails.sprint.nom" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>ID</mat-label>
+          <input matInput [value]="tacheDetails.idTache" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width description-field">
+          <mat-label>Description</mat-label>
+          <textarea matInput [value]="tacheDetails.description" readonly></textarea>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="goBack()">Retour à la liste</button>
+    </mat-card-actions>
+  </mat-card>
+  
+  <style>
+    .cardWithShadow {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  
+    .theme-card {
+      /* Ajoutez ici les styles de thème si nécessaire */
+    }
+  
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+  
+    .full-width {
+      width: 100%;
+    }
+  
+    .description-field {
+      grid-column: 1 / -1; /* La description prend toute la largeur */
+    }
+  </style>

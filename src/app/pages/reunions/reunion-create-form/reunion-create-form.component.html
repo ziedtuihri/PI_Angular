@@ -1,0 +1,125 @@
+<div class="reunion-form-container">
+  <div class="form-card">
+    <h2 class="form-title"><i class="fas fa-calendar-plus"></i> Ajouter une Réunion</h2>
+
+    <form [formGroup]="reunionForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Titre</label>
+          <input type="text" formControlName="titre" />
+          <div *ngIf="reunionForm.get('titre')?.invalid && reunionForm.get('titre')?.touched" class="error">
+            Le titre est requis.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea formControlName="description" class="custom-textarea"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Créateur</label>
+          <select formControlName="createur">
+            <option value="" disabled>-- Sélectionner un créateur --</option>
+            <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.firstName }}</option>
+          </select>
+          <div *ngIf="reunionForm.get('createur')?.invalid && reunionForm.get('createur')?.touched" class="error">
+            Le créateur est requis.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" formControlName="date" />
+          <div *ngIf="reunionForm.get('date')?.invalid && reunionForm.get('date')?.touched" class="error">
+            La date est requise.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Heure</label>
+          <input type="time" formControlName="heure" />
+          <div *ngIf="reunionForm.get('heure')?.invalid && reunionForm.get('heure')?.touched" class="error">
+            L'heure est requise.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Durée</label>
+          <input type="number" formControlName="duree" min="1" />
+          <div *ngIf="reunionForm.get('duree')?.hasError('required') && reunionForm.get('duree')?.touched"
+            class="error">
+            La durée est requise.
+          </div>
+          <div *ngIf="reunionForm.get('duree')?.hasError('min') && reunionForm.get('duree')?.touched" class="error">
+            La durée doit être un nombre supérieur à 0.
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label>Type</label>
+          <select formControlName="type">
+            <option *ngFor="let t of typesReunion" [value]="t.value">{{ t.label }}</option>
+          </select>
+        </div>
+
+        <!-- EN LIGNE -->
+        <div *ngIf="selectedType === 'EN_LIGNE'" class="form-group">
+          <select formControlName="plateforme" (change)="setDefaultLien($event)">
+            <option value="zoom">Zoom</option>
+            <option value="teams">Teams</option>
+            <option value="autre">Autre</option>
+          </select>
+
+
+          <label>Lien de réunion :</label>
+          <div class="link-generator">
+            <input type="text" formControlName="lien" placeholder="Lien de réunion" />
+          </div>
+
+          <div *ngIf="reunionForm.get('lien')?.invalid && reunionForm.get('lien')?.touched" class="error">
+            Lien valide requis (http(s)://...).
+          </div>
+        </div>
+
+
+        <!-- PRESENTIEL -->
+        <div *ngIf="selectedType === 'PRESENTIEL'" class="form-group">
+          <label>Salle</label>
+          <select formControlName="salle" (change)="onSalleChange($event)">
+            <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
+          </select>
+          <div *ngIf="reunionForm.get('salle')?.invalid && reunionForm.get('salle')?.touched" class="error">
+            La salle est requise.
+          </div>
+        </div>
+
+        <div *ngIf="selectedType === 'PRESENTIEL' && selectedSalle" class="form-group">
+          <label>Capacité</label>
+          <input type="number" formControlName="capacite" readonly />
+        </div>
+
+        <div class="form-group" *ngIf="reunionForm.get('type')?.value === 'EN_LIGNE'">
+          <label>Participants</label>
+          <div *ngFor="let participant of participants; let i = index">
+            <label>
+              <input type="checkbox" [value]="participant.id" (change)="onCheckboxChange($event)"
+                [checked]="participantsFormArray.value.includes(participant.id)">
+              {{ participant.email }}
+            </label>
+          </div>
+          <div *ngIf="participantsFormArray.invalid && reunionForm.get('participants')?.touched" class="error">
+            Veuillez sélectionner au moins un participant.
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="reunionForm.invalid"> <i class="fas fa-save me-2"></i>&nbsp;
+          Sauvegarder</button>
+      </div>
+    </form>
+  </div>
+</div>
