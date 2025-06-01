@@ -1,4 +1,4 @@
-// src/app/services/encadrant.service.ts
+// src/app/services/Admin-Service/encadrant.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -10,8 +10,8 @@ export interface Encadrant {
   prenom: string;
   email: string;
   telephone?: string;
-  specialite: string;  // competence / specialty
-  entreprise?: { id: number; nom?: string }; // match your data structure
+  specialite: string;
+  entreprise?: { id: number; nom?: string };
 }
 
 @Injectable({
@@ -19,6 +19,7 @@ export interface Encadrant {
 })
 export class EncadrantService {
   private baseUrl = `${environment.apiUrl}/encadrants`;
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -60,25 +61,27 @@ export class EncadrantService {
 
   /** GET encadrants for a specific entreprise */
   getByEntreprise(entrepriseId: number): Observable<Encadrant[]> {
-    return this.http.get<Encadrant[]>(`${this.baseUrl}/entreprise/${entrepriseId}/encadrants`, this.httpOptions)
-      .pipe(catchError(this.handleError));
+    return this.http.get<Encadrant[]>(
+      `${this.baseUrl}/${entrepriseId}/encadrants`,
+      this.httpOptions
+    ).pipe(catchError(this.handleError));
   }
 
   /** POST create encadrant for a specific entreprise */
   createForEntreprise(entrepriseId: number, encadrant: Omit<Encadrant, 'id'>): Observable<Encadrant> {
-    return this.http.post<Encadrant>(`${this.baseUrl}/entreprise/${entrepriseId}/encadrants`, encadrant, this.httpOptions)
-      .pipe(catchError(this.handleError));
+    return this.http.post<Encadrant>(
+      `${this.baseUrl}/${entrepriseId}/encadrants`,
+      encadrant,
+      this.httpOptions
+    ).pipe(catchError(this.handleError));
   }
 
-  /** Error handling */
+  /** Centralized error handler */
   private handleError(error: any) {
     console.error('An error occurred:', error);
-    let errorMessage = 'An unknown error occurred!';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(() => new Error(errorMessage));
+    const message = error.error instanceof ErrorEvent
+      ? `Error: ${error.error.message}`
+      : `Error Code: ${error.status}\nMessage: ${error.message}`;
+    return throwError(() => new Error(message));
   }
 }
