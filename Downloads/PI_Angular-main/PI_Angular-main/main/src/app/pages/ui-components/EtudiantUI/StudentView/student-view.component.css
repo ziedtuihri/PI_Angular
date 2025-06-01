@@ -1,0 +1,92 @@
+/* General container spacing and font */
+:host {
+  display: block;
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Dashboard title styling */
+.dashboard-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #3f51b5;
+  margin: 30px 0 40px;
+}
+
+/* Grid layout for dashboard buttons */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  padding: 0 40px;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+/* Dashboard button design */
+.dashboard-button {
+  height: 200px;
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background-color: #ffffff;
+  color: #333;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Custom image icon style */
+.dashboard-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 12px;
+  object-fit: contain;
+}
+
+/* Button hover effect */
+.dashboard-button:hover {
+  background-color: #e3f2fd;
+  transform: translateY(-3px);
+}
+
+/* Warning container for non-validated entreprises */
+.validation-warning {
+  text-align: center;
+  color: #d32f2f;
+  margin-top: 100px;
+}
+
+.validation-warning mat-icon {
+  font-size: 60px;
+  margin-bottom: 16px;
+  color: #f44336;
+}
+
+/* Spinner centered during loading */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+/* Responsive grid tweaks */
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

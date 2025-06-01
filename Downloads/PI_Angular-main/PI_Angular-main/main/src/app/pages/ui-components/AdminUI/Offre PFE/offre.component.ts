@@ -145,7 +145,7 @@ export class OffreComponent implements OnInit {
   }
 
   goToOffrePFE() {
-    console.log("Go to OffrePFE");
+    console.log("Go to Student - OffrePFE");
   }
 
   goToEncadrants() {

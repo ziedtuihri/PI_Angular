@@ -12,11 +12,11 @@ import {AdminProfileComponent} from './pages/ui-components/AdminUI/AdminView/adm
 import {EntrepriseOffresComponent} from './pages/ui-components/EntrepriseUI/MyPFE/entreprise-offres.component';
 import {EventEntrepriseComponent} from './pages/ui-components/EntrepriseUI/MyEvents/entreprise-event-dashboard.component';
 import {EntrepriseEncadrantComponent} from './pages/ui-components/EntrepriseUI/MyEncadrant/encadrant.component';
-
+import {StudentViewComponent} from './pages/ui-components/EtudiantUI/StudentView/student-view.component';
 import { AuthGuard } from './services/auth.guard';
-
-
-
+import {
+  CandidatureManagementComponent
+} from "./pages/ui-components/EntrepriseUI/Candidatures/candidature-management.component";
 export const routes: Routes = [
   {
     path: '',
@@ -75,6 +75,9 @@ export const routes: Routes = [
   {path: 'entreprise/offres', component: EntrepriseOffresComponent},
   {path: 'entreprise/events', component: EventEntrepriseComponent},
   {path: 'entreprise/encadrants', component:  EntrepriseEncadrantComponent},
+  {path: 'student/dashboard', component:  StudentViewComponent},
+  {path: 'entreprise/candidatures', component:    CandidatureManagementComponent},
+
 
 
 ];

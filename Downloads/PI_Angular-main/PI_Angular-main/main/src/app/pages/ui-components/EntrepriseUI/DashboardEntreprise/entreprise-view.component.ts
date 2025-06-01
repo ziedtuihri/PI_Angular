@@ -117,5 +117,7 @@ export class EntrepriseViewComponent implements OnInit {
     this.router.navigate(['entreprise/encadrants']);
   }
 
-
+  goToApplication(): void {
+    this.router.navigate(['entreprise/candidatures']);
+  }
 }
