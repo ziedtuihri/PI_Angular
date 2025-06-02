@@ -174,8 +174,25 @@ loginWithFacebook(): void {
     if (response.authResponse) {
       FB.api('/me', { fields: 'name,email' }, (userInfo: any) => {
         console.log('User info:', userInfo);
+
+        const user: User = {
+          email: userInfo.email,
+          firstname: userInfo.name.split(' ')[0], // Assuming the first part is the first name
+          lastname: userInfo.name.split(' ')[1] // Assuming the second part is the last name
+        };
+
+        console.log('User object:', user);
+
         // You can now send this info to your backend
-        // this.authService.facebookLogin(userInfo).subscribe(...)
+        this.authService.facebookLogin(user).subscribe(response => {
+          console.log(response);
+          if (response.isOK == true) {
+            this.showSuccessSnackbar();
+            this.router.navigate(['/dashboard']);
+          } else if (response.isOK == false) {
+            this.showErrorSnackbar();
+          }
+        });
       });
     } else {
       console.error('Facebook login failed or was cancelled.');

@@ -77,6 +77,34 @@ export class LoginService {
     );
   }
 
+   
+    facebookLogin(user: User): Observable<any> {
+    return this.http.post<any>('http://localhost:8081/auth/authenticateOptionFB',  user ).pipe(
+      map(response => {
+        console.log("****** res : ",response);
+        if (response.token == 'Invalid email or password' || response.token == 'Login with email and password') {
+          return { isOK: false };
+        }
+        
+        localStorage.setItem('token', response.token);
+        this.isAuthenticatedSubject.next(true);
+        return { isOK: true };
+      }),
+      catchError(error => {
+        console.log("credentials for SPRING:: ", user)
+        console.log("error");
+        let message = 'Unknown error occurred';
+        if (error.status === 404) { 
+          message = 'User not found';
+        } else if (error.status === 400) {
+          message = 'Invalid token';
+        }
+        return of({ success: false, message });
+      })
+    );
+  }
+
+
 
   isLoggedIn(): boolean {
     const token = localStorage.getItem('token');
