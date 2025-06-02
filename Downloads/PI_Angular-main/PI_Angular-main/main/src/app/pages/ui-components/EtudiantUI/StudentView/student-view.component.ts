@@ -94,7 +94,7 @@ export class StudentViewComponent implements OnInit {
 
   // Empty method definitions to avoid errors
   goToEntreprise() {
-    this.router.navigate(['admin/entreprises']);
+    this.router.navigate(['student/JobMarket']);
   }
 
   goToEvents() {
