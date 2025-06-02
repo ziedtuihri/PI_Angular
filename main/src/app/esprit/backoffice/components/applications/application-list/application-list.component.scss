@@ -1,0 +1,200 @@
+// SCSS for the application list component
+@use 'sass:color';
+@use 'src/app/shared/styles/variables.scss' as vars;
+
+.application-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    
+    h2 {
+      margin: 0;
+      color: vars.$dark-gray;
+      font-size: 24px;
+    }
+  }
+  
+  .filters-container {
+    background-color: white;
+    border-radius: vars.$border-radius;
+    padding: 20px;
+    box-shadow: vars.$box-shadow;
+    margin-bottom: 20px;
+    
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      
+      input, select {
+        width: 100%;
+        padding: 10px;
+        border-radius: vars.$border-radius;
+        border: 1px solid vars.$mid-gray;
+        font-size: 14px;
+        color: vars.$dark-gray;
+        
+        &:focus {
+          outline: none;
+          border-color: vars.$primary-color;
+          box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
+        }
+      }
+      
+      .date-filters {
+        display: flex;
+        gap: 12px;
+        grid-column: 1 / -1;
+        
+        label {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          font-size: 14px;
+          color: vars.$secondary-color;
+          font-weight: 500;
+          
+          input {
+            margin-top: 6px;
+          }
+        }
+      }
+    }
+  }
+  
+  .applications-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    
+    .application-card {
+      background-color: white;
+      border-radius: vars.$border-radius;
+      box-shadow: vars.$box-shadow;
+      padding: 16px;
+      transition: vars.$transition;
+      border: 1px solid vars.$mid-gray;
+      position: relative;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+      
+      .application-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        
+        h3 {
+          margin: 0;
+          color: vars.$primary-color;
+          font-size: 18px;
+        }
+        
+        .student-id {
+          font-weight: bold;
+          color: vars.$dark-gray;
+          background-color: vars.$light-gray;
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 14px;
+        }
+      }
+      
+      .application-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+        
+        span {
+          font-size: 13px;
+          padding: 2px 8px;
+          border-radius: 12px;
+        }
+        
+        .company {
+          background-color: rgba(vars.$primary-color, 0.1);
+          color: vars.$primary-color;
+        }
+        
+        .quiz-score {
+          background-color: rgba(vars.$success-color, 0.1);
+          color: color.adjust(vars.$success-color, $lightness: -10%);
+          
+          &.low {
+            background-color: rgba(vars.$danger-color, 0.1);
+            color: color.adjust(vars.$danger-color, $lightness: -10%);
+          }
+          
+          &.medium {
+            background-color: rgba(vars.$secondary-color, 0.1);
+            color: color.adjust(vars.$secondary-color, $lightness: -10%);
+          }
+        }
+      }
+      
+      .application-details {
+        color: vars.$secondary-color;
+        line-height: 1.5;
+        margin-bottom: 12px;
+        
+        .detail-row {
+          display: flex;
+          margin-bottom: 4px;
+          
+          strong {
+            min-width: 100px;
+            color: vars.$dark-gray;
+          }
+        }
+      }
+      
+      .application-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 16px;
+        
+        .btn-link {
+          background: none;
+          color: vars.$primary-color;
+          padding: 4px 8px;
+          border: none;
+          font-size: 14px;
+          cursor: pointer;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+          
+          &.warning {
+            color: vars.$danger-color;
+          }
+        }
+      }
+    }
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: vars.$light-gray;
+    border-radius: vars.$border-radius;
+    color: vars.$secondary-color;
+    
+    p {
+      margin: 0;
+      font-size: 16px;
+    }
+  }
+}

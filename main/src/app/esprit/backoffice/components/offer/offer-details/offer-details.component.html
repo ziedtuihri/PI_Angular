@@ -1,0 +1,72 @@
+<div class="offer-details-container">
+  <div class="header">
+    <h1>Offer Details</h1>
+  </div>
+  
+  <div class="message-container">
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+      <button class="close-btn" (click)="clearMessages()">×</button>
+    </div>
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+      <button class="close-btn" (click)="clearMessages()">×</button>
+    </div>
+  </div>
+  
+  <div class="loading-spinner" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+  
+  <div class="content-container" *ngIf="!isLoading && offer">
+    <h2>{{ offer.title }}</h2>
+    <div class="detail-item">
+      <strong>Company:</strong> {{ offer.company }}
+    </div>
+    <div class="detail-item">
+      <strong>Location:</strong> {{ offer.location }}
+    </div>
+    <div class="detail-item">
+      <strong>Type:</strong> {{ offer.type }}
+    </div>
+    <div class="detail-item" *ngIf="offer.startDate">
+      <strong>Start Date:</strong> {{ offer.startDate | date:'mediumDate' }}
+    </div>
+    <div class="detail-item" *ngIf="offer.endDate">
+      <strong>End Date:</strong> {{ offer.endDate | date:'mediumDate' }}
+    </div>
+    <div class="detail-item">
+      <strong>Description:</strong>
+      <p class="description-text">{{ offer.description }}</p>
+    </div>
+
+    <div class="quiz-section">
+      <h3>Quiz</h3>
+      <div *ngIf="offer.quiz; else noQuiz">
+        <div class="detail-item">
+          <strong>Title:</strong> {{ offer.quiz.title }}
+        </div>
+        <div class="detail-item">
+          <strong>Questions:</strong> {{ offer.quiz.questions?.length || 0 }}
+        </div>
+        <button class="btn-secondary" (click)="manageQuiz()">Manage Quiz</button>
+      </div>
+      <ng-template #noQuiz>
+        <p>No quiz attached to this offer.</p>
+        <button class="btn-secondary" (click)="manageQuiz()">Create Quiz</button>
+      </ng-template>
+    </div>        
+
+    <div class="applications-section" *ngIf="offer.applications?.length">
+      <h3>Applications ({{ offer.applications!.length }})</h3>
+      <!-- You could add a link to view applications here -->
+    </div>
+
+    <div class="detail-actions">
+      <button class="btn-secondary" (click)="goBack()">Back to List</button>
+      <button class="btn-primary" (click)="editOffer()">Edit</button>
+      <button class="btn-danger" (click)="deleteOffer()">Delete</button>
+    </div>
+  </div>
+</div>

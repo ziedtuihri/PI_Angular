@@ -24,7 +24,28 @@ export const navItems: NavItem[] = [
     displayName: 'Tache',
     iconName: 'solar:atom-line-duotone',
     route: '/taches',
-  },/*
+  },
+    {
+    displayName: 'Anwer',
+    iconName: 'solar:user-circle-line-duotone', // You can change the icon here
+    route: '',
+    children: [
+      {
+        displayName: 'Frontoffice',
+        subItemIcon: true,
+        iconName: 'solar:round-alt-arrow-right-line-duotone',
+        route: '/dashboard/frontoffice', 
+      },
+      {
+        displayName: 'Backoffice',
+        subItemIcon: true,
+        iconName: 'solar:round-alt-arrow-right-line-duotone',
+        route: '/dashboard/backoffice', // Entry point for backoffice
+      }
+    ]
+  },
+  
+  /*
   {
     displayName: 'Analytics',
     iconName: 'solar:widget-add-line-duotone',

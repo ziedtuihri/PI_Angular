@@ -1,0 +1,76 @@
+.ai-quiz-dialog-container {
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+
+  .dialog-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-weight: 500;
+        margin-bottom: 0.4rem;
+        color: #333;
+      }
+
+      input,
+      textarea {
+        padding: 0.6rem 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+
+        &:focus {
+          outline: none;
+          border-color: #1e88e5;
+        }
+      }
+
+      textarea {
+        resize: vertical;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1.2rem;
+
+      button {
+        background-color: #1e88e5;
+        color: white;
+        border: none;
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: #1565c0;
+        }
+
+        &:disabled {
+          background-color: #aaa;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

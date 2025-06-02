@@ -1,0 +1,66 @@
+@use '@angular/material' as mat;
+
+.offer-detail-container {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+
+  .offer-title {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .offer-info,
+  .quiz-preview,
+  .applications-info {
+    margin-bottom: 1.5rem;
+
+    p {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      color: #444;
+
+      .label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-right: 0.5rem;
+      }
+
+      .closed {
+        font-weight: 600;
+        color: #999;
+      }
+
+      .closing-soon {
+        font-weight: 700;
+        color: #d32f2f;
+      }
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      color: #1e88e5;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+  }
+
+  .apply-button {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.6rem 1.5rem;
+
+    &:disabled {
+      background-color: #ccc !important;
+      color: #666 !important;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  }
+}

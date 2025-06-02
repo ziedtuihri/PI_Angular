@@ -1,0 +1,22 @@
+<div class="application-list-container">
+  <h2 class="title">My Applications</h2>
+
+  <div *ngIf="applications.length === 0" class="empty-message">
+    You haven’t applied to any offers yet.
+  </div>
+
+  <div class="application-card" *ngFor="let app of applications">
+    <div class="app-header">
+      <h3 class="offer-title">{{ app.offer?.title }}</h3>
+      <span class="status-badge" [ngClass]="getStatusClass(app.status)">
+        {{ app.status }}
+      </span>
+    </div>
+
+    <div class="app-body">
+      <p><strong>Company:</strong> {{ app.offer?.company }}</p>
+      <p><strong>Score:</strong> {{ app.quizScore ?? 'N/A' }}%</p>
+      <p><strong>Applied on:</strong> {{ app.appliedAt | date:'mediumDate' }}</p>
+    </div>
+  </div>
+</div>

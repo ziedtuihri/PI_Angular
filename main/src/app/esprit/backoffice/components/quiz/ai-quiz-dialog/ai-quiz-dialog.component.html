@@ -1,0 +1,19 @@
+<div class="ai-quiz-dialog-container">
+  <h2 class="dialog-title">Generate Quiz with AI</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label for="count">Number of Questions</label>
+      <input type="number" id="count" formControlName="count" min="1" />
+    </div>
+
+    <div class="form-group">
+      <label for="prompt">Prompt (optional)</label>
+      <textarea id="prompt" formControlName="prompt" rows="4" placeholder="You can describe the kind of questions you want..."></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="form.invalid">Generate</button>
+    </div>
+  </form>
+</div>

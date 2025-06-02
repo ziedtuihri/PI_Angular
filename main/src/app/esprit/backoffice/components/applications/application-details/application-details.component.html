@@ -1,0 +1,189 @@
+<!-- Show loading state -->
+<div *ngIf="isLoading" class="loading-indicator">
+  <div class="spinner"></div>
+  <p>Loading application details...</p>
+</div>
+
+<!-- Show success/error messages -->
+<app-message-display
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (clearMessages)="clearMessages()"
+></app-message-display>
+
+<!-- Main application details -->
+<div *ngIf="application" class="application-details-container">
+  <div class="application-card">
+
+    <!-- Header with status -->
+    <div class="card-header">
+      <h2>Application Details</h2>
+      <span class="status-badge" [ngClass]="getStatusClass(application.status)">
+        {{ application.status || 'New' }}
+      </span>
+    </div>
+
+    <div class="card-body">
+      <!-- Applicant Info -->
+      <div class="info-section">
+        <h3>Applicant Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Student ID</label>
+            <p class="info-value">{{ application.studentId }}</p>
+          </div>
+          <div class="info-item">
+            <label>Applied On</label>
+            <p class="info-value">{{ application.appliedAt | date : 'medium' }}</p>
+          </div>
+          <div class="info-item">
+            <label>Quiz Score</label>
+            <div class="score-indicator">
+              <div class="score-bar" [ngStyle]="{ width: getScorePercentage(application.quizScore) }"></div>
+              <span class="score-value">{{ application.quizScore || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LinkedIn & Portfolio -->
+      <div class="info-section">
+        <h3>Professional Profile</h3>
+        <div class="profile-links">
+          <a *ngIf="application.linkedinUrl" [href]="application.linkedinUrl" target="_blank" class="profile-link linkedin">
+            <i class="bi bi-linkedin"></i> <span>LinkedIn Profile</span>
+          </a>
+          <a *ngIf="application.portfolioUrl" [href]="application.portfolioUrl" target="_blank" class="profile-link portfolio">
+            <i class="bi bi-globe"></i> <span>Portfolio Website</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Interview Link -->
+      <div class="info-section" *ngIf="application.meetingLink">
+        <h3>Interview</h3>
+        <p>
+          <i class="bi bi-camera-video"></i>
+          <a [href]="application.meetingLink" target="_blank">{{ application.meetingLink }}</a>
+        </p>
+      </div>
+
+      <!-- Document Actions -->
+      <div class="info-section">
+        <h3>Application Documents</h3>
+        <div class="documents-grid">
+          <!-- CV -->
+          <div class="document-card" *ngIf="application.cvPath">
+            <div class="document-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+            <div class="document-info">
+              <h4>Curriculum Vitae</h4>
+              <p>Applicant's professional background</p>
+            </div>
+            <div class="document-actions">
+              <button (click)="downloadFile('cv')" class="btn-download"><i class="bi bi-download"></i> Download</button>
+              <button (click)="previewFile('cv')" class="btn-preview"><i class="bi bi-eye"></i> Preview</button>
+            </div>
+          </div>
+
+          <!-- Cover Letter -->
+          <div class="document-card" *ngIf="application.coverLetterPath">
+            <div class="document-icon"><i class="bi bi-file-earmark-text"></i></div>
+            <div class="document-info">
+              <h4>Cover Letter</h4>
+              <p>Applicant's motivation and introduction</p>
+            </div>
+            <div class="document-actions">
+              <button (click)="downloadFile('coverletter')" class="btn-download"><i class="bi bi-download"></i> Download</button>
+              <button (click)="previewFile('coverletter')" class="btn-preview"><i class="bi bi-eye"></i> Preview</button>
+            </div>
+          </div>
+
+          <!-- Certificates -->
+          <div class="document-card" *ngIf="application.certificatesPath">
+            <div class="document-icon"><i class="bi bi-file-earmark-check"></i></div>
+            <div class="document-info">
+              <h4>Certificates</h4>
+              <p>Applicant's qualifications</p>
+            </div>
+            <div class="document-actions">
+              <button (click)="downloadFile('certificates')" class="btn-download"><i class="bi bi-download"></i> Download</button>
+              <button (click)="previewFile('certificates')" class="btn-preview"><i class="bi bi-eye"></i> Preview</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="card-footer">
+        <button class="btn-action primary" (click)="updateApplicationStatus('approved')">
+          <i class="bi bi-check-circle"></i> Approve
+        </button>
+        <button class="btn-action secondary" (click)="scheduleInterview()">
+          <i class="bi bi-calendar-event"></i> Schedule Interview
+        </button>
+        <button class="btn-action danger" (click)="updateApplicationStatus('rejected')">
+          <i class="bi bi-x-circle"></i> Reject
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Empty State -->
+<div *ngIf="!application && !isLoading" class="empty-state">
+  <i class="bi bi-file-earmark-x"></i>
+  <h3>Application Not Found</h3>
+  <p>Please check the application ID and try again.</p>
+</div>
+
+<!-- PDF Preview Modal -->
+<div class="modal-backdrop" *ngIf="activePreviewType">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h4>{{ getDocumentTitle(activePreviewType) }} Preview</h4>
+      <button class="btn-close-modal" (click)="closePreview()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-pdf-viewer
+        *ngIf="previewUrls[activePreviewType]"
+        [pdfUrl]="previewUrls[activePreviewType]"
+      ></app-pdf-viewer>
+    </div>
+  </div>
+</div>
+
+<!-- Schedule Interview Modal -->
+<div class="interview-modal-backdrop" *ngIf="showScheduleModal">
+  <div class="interview-modal-container">
+    <div class="interview-modal-header">
+      <h4>Schedule Interview</h4>
+      <button class="interview-btn-close" (click)="closeScheduleModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="interview-modal-body">
+      <div class="interview-form">
+        <label for="date">Date</label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [(ngModel)]="scheduleData.date"
+          id="date"
+          placeholder="Choose a date"
+        />
+        <mat-datepicker #picker></mat-datepicker>
+
+        <label for="startTime">Start Time</label>
+        <input type="time" id="startTime" [(ngModel)]="scheduleData.startTime" required />
+
+        <label for="endTime">End Time</label>
+        <input type="time" id="endTime" [(ngModel)]="scheduleData.endTime" required />
+
+        <button class="interview-btn-action" (click)="confirmScheduleInterview()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
