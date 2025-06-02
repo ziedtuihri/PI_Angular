@@ -49,4 +49,10 @@ export class CandidatureService {
   getAcceptedCandidatureCountByOffre(offreId: number): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/offre/${offreId}/count/accepted`);
   }
+
+  getAppliedOffersByStudent(studentEmail: string): Observable<{ id: number; titre: string }[]> {
+    // Adjust endpoint if needed, assuming backend supports filtering by student email
+    return this.http.get<{ id: number; titre: string }[]>(`${this.baseUrl}/student-applied-offers?studentEmail=${studentEmail}`);
+  }
+
 }

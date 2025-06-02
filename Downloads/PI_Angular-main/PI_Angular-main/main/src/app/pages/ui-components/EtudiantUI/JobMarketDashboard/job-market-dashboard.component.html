@@ -1,0 +1,61 @@
+<div class="dashboard-container">
+  <h1>📊 Job Market Dashboard</h1>
+
+  <div class="form-controls">
+    <input [(ngModel)]="location" placeholder="Location (e.g., France)" />
+    <input [(ngModel)]="industry" placeholder="Industry (e.g., Technology)" />
+    <button (click)="fetchData()">Search</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div *ngIf="data" class="results">
+    <div class="kpi-cards">
+      <div class="kpi-card">
+        <h3>Total Jobs</h3>
+        <p>{{ data.totalJobs }}</p>
+      </div>
+      <div class="kpi-card">
+        <h3>Average Salary</h3>
+        <p>{{ data.averageSalary !== null ? (data.averageSalary | number:'1.0-0') + ' €' : 'N/A' }}</p>
+      </div>
+      <div class="kpi-card">
+        <h3>Salary Range</h3>
+        <p>
+          {{ data.salaryMin !== null ? (data.salaryMin | number:'1.0-0') : 'N/A' }} -
+          {{ data.salaryMax !== null ? (data.salaryMax | number:'1.0-0') : 'N/A' }} €
+        </p>
+      </div>
+    </div>
+
+    <div class="section" *ngIf="data?.topCompanies && data.topCompanies.length > 0">
+
+
+    <h2>🏢 Top Companies</h2>
+      <ul>
+        <li *ngFor="let company of data.topCompanies">
+          {{ getCompanyName(company) }} ({{ getCompanyCount(company) }} jobs)
+        </li>
+      </ul>
+    </div>
+
+    <div class="section" *ngIf="data.contractTypeDistribution && getContractTypes(data.contractTypeDistribution).length > 0">
+      <h2>📄 Contract Type Distribution</h2>
+      <ul>
+        <li *ngFor="let type of getContractTypes(data.contractTypeDistribution)">
+          {{ type }}: {{ data.contractTypeDistribution[type] }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="section" *ngIf="salaryHistogram.length > 0">
+      <h2>📊 Salary Distribution Histogram</h2>
+      <ul class="histogram-list">
+        <li *ngFor="let bin of salaryHistogram">
+          <strong>{{ bin.salary | number:'1.0-0' }} €</strong> : {{ bin.vacancies }} vacancies
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

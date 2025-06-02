@@ -65,7 +65,8 @@
               "buildTarget": "materialm:build:production"
             },
             "development": {
-              "buildTarget": "materialm:build:development"
+              "buildTarget": "materialm:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

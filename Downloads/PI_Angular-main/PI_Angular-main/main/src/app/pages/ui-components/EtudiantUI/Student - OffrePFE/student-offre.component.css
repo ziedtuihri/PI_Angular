@@ -130,3 +130,10 @@
   vertical-align: middle;
 }
 
+button.applied {
+  background-color: #9e9e9e !important; /* grey */
+  color: #e0e0e0 !important;
+  cursor: default;
+  pointer-events: none;
+  box-shadow: none !important;
+}

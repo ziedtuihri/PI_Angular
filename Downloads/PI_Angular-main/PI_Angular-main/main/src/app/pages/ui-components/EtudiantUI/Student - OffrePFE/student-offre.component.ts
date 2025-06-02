@@ -45,7 +45,7 @@ export class StudentOffreComponent implements OnInit {
   isLoading = false;
   today = new Date();
   studentEmail = 'student@example.com'; // Replace with actual auth logic
-
+  appliedOfferIds: Set<number> = new Set<number>();
   filters: {
     competence: string;
     company: string;
@@ -66,8 +66,21 @@ export class StudentOffreComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadAppliedOffers();
     this.loadUpcomingOffres();
   }
+
+  loadAppliedOffers() {
+    this.candidatureService.getAppliedOffersByStudent(this.studentEmail).subscribe({
+      next: (appliedOffers) => {
+        this.appliedOfferIds = new Set(appliedOffers.map(o => o.id));
+      },
+      error: () => {
+        this.appliedOfferIds = new Set();
+      }
+    });
+  }
+
 
   loadUpcomingOffres() {
     this.isLoading = true;
@@ -128,14 +141,16 @@ export class StudentOffreComponent implements OnInit {
     this.candidatureService.applyCandidature(offreId, this.studentEmail).subscribe({
       next: () => {
         this.snackBar.open('Applied successfully!', 'Close', { duration: 3000 });
-        this.loadUpcomingOffres();
+        this.appliedOfferIds.add(offreId);  // mark as applied
       },
       error: (err) => {
         console.error('Apply error', err);
-        this.snackBar.open('You may have already applied or something went wrong.', 'Close', { duration: 4000 });
+        this.snackBar.open('You have already applied For This Application. Please wait until the Company review your Profile.', 'Close', { duration: 4000 });
       }
     });
   }
+
+
 
   private parseDateSafe(date: any): Date | null {
     if (!date) return null;

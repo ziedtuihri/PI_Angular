@@ -1,0 +1,78 @@
+<div class="dashboard-container">
+
+  <!-- FILTERS -->
+  <form (ngSubmit)="onFiltersChange(filtersForm.value)" #filtersForm="ngForm" class="filters-form">
+
+    <label for="country">Country:</label>
+    <select id="country" name="country" [(ngModel)]="selectedCountry" (change)="onCountryChange(selectedCountry)">
+      <option value="gb" selected>United Kingdom (GB)</option>
+      <option value="us">United States (US)</option>
+      <option value="fr">France (FR)</option>
+      <!-- Add more countries as needed -->
+    </select>
+
+
+    <label for="what">Keyword (what):</label>
+    <input id="what" name="what" type="text" ngModel placeholder="e.g. Developer" />
+
+    <label for="where">Where:</label>
+    <input id="where" name="where" type="text" ngModel placeholder="e.g. London" />
+
+    <label for="category">Category:</label>
+    <select id="category" name="category" ngModel>
+      <option value="">--All--</option>
+      <option *ngFor="let cat of categories" [value]="cat.tag">{{cat.label}}</option>
+    </select>
+
+    <button type="submit">Search</button>
+  </form>
+
+  <!-- JOBS LIST -->
+  <section class="jobs-section">
+    <h3>Job Results</h3>
+    <div *ngIf="loading.jobs">Loading jobs...</div>
+    <ul *ngIf="!loading.jobs">
+      <li *ngFor="let job of jobs">
+        <a [href]="job.redirect_url" target="_blank">{{job.title}}</a> - {{job.location.display_name}}
+        <br />Salary: {{job.salary_min}} - {{job.salary_max}} GBP
+      </li>
+    </ul>
+  </section>
+
+  <!-- KPIs -->
+  <section class="kpis-section">
+
+    <div class="kpi-card">
+      <h4>Salary Histogram</h4>
+      <div *ngIf="loading.histogram">Loading histogram...</div>
+      <ul *ngIf="!loading.histogram">
+        <li *ngFor="let key of (histogram | keyvalue)">
+          Salary: £{{key.key}} — Jobs: {{key.value}}
+        </li>
+      </ul>
+    </div>
+
+    <div class="kpi-card">
+      <h4>Top Companies</h4>
+      <div *ngIf="loading.topCompanies">Loading top companies...</div>
+      <ul *ngIf="!loading.topCompanies">
+        <li *ngFor="let comp of topCompanies">
+          {{comp.company.display_name}} — Jobs: {{comp.jobs_count}}
+        </li>
+      </ul>
+    </div>
+
+    <div class="kpi-card">
+      <h4>Geo Data</h4>
+      <div *ngIf="loading.geoData">Loading geo data...</div>
+      <pre *ngIf="!loading.geoData">{{ geoData | json }}</pre>
+    </div>
+
+    <div class="kpi-card">
+      <h4>History Data</h4>
+      <div *ngIf="loading.history">Loading history...</div>
+      <pre *ngIf="!loading.history">{{ history | json }}</pre>
+    </div>
+
+  </section>
+</div>

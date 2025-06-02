@@ -66,8 +66,17 @@
     </p>
 
     <div class="offer-actions">
-      <button mat-flat-button color="primary" (click)="apply(offre.id)">Apply</button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="apply(offre.id)"
+        [disabled]="appliedOfferIds.has(offre.id)"
+        [ngClass]="{ 'applied': appliedOfferIds.has(offre.id) }"
+      >
+        {{ appliedOfferIds.has(offre.id) ? 'Applied' : 'Apply' }}
+      </button>
     </div>
+
   </mat-card>
 </div>
 
