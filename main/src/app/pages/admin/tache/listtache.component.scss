@@ -1,0 +1,195 @@
+.tache-list-card {
+  margin: 25px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tache-list-header {
+  padding: 20px 24px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.main-title {
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #3f51b5;
+  margin-bottom: 5px;
+}
+
+.title-icon {
+  margin-right: 10px;
+  font-size: 32px;
+  color: #3f51b5;
+}
+
+.subtitle {
+  color: #616161;
+  font-size: 16px;
+}
+
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding: 0 10px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.add-button {
+  padding: 10px 20px;
+  font-size: 15px;
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.status-filter {
+  width: 220px;
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+}
+
+// State messages (loading, error, no data)
+.state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #757575;
+}
+
+.message-icon {
+  font-size: 60px;
+  margin-bottom: 15px;
+  color: #bdbdbd;
+}
+
+.loading-message {
+  color: #424242;
+  mat-spinner {
+    margin-bottom: 15px;
+    color: #3f51b5;
+  }
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #d32f2f;
+  border: 1px solid #ef9a9a;
+  .message-icon {
+    color: #d32f2f;
+  }
+  button {
+    margin-top: 15px;
+  }
+}
+
+.no-data-message {
+  background-color: #e3f2fd;
+  color: #2196f3;
+  border: 1px solid #90caf9;
+  .message-icon {
+    color: #2196f3;
+  }
+}
+
+// Table styling
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+th.mat-header-cell {
+  background-color: #e8eaf6;
+  color: #3f51b5;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 16px; /* Corrected: Reduced vertical padding from 12px to 8px */
+  text-align: left;
+  border-bottom: 2px solid #c5cae9;
+}
+
+td.mat-cell {
+  padding: 8px 16px; /* Corrected: Reduced vertical padding from 12px to 8px */
+  border-bottom: 1px solid #e0e0e0;
+  color: #424242;
+}
+
+tr.mat-row:hover {
+  background-color: #f0f4f8;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.mat-column-actions {
+  text-align: center;
+  width: 150px;
+}
+
+.mat-column-statut {
+  text-align: center;
+}
+
+// Status Badges
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: white;
+}
+
+.status-todo {
+  background-color: #9e9e9e;
+}
+.status-in_progress {
+  background-color: #2196f3;
+}
+.status-done {
+  background-color: #4caf50;
+}
+.status-blocked {
+  background-color: #f44336;
+}
+.status-review {
+  background-color: #ffc107;
+  color: #333;
+}
+
+// Task Name style
+.task-name {
+  font-weight: 500;
+  color: #3f51b5;
+}
+
+// Paginator styling
+mat-paginator {
+  background-color: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  border-radius: 0 0 10px 10px;
+  margin-top: -1px; /* Corrected: Small negative margin to sit flush with table */
+}

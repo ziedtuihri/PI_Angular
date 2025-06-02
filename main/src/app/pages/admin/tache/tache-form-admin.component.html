@@ -1,0 +1,184 @@
+<mat-card class="task-form-card">
+  <mat-card-header class="task-form-header">
+    <mat-card-title>{{ editMode ? 'Modifier la Tâche' : 'Créer une Nouvelle Tâche' }}</mat-card-title>
+    <mat-card-subtitle>Veuillez remplir les détails de la tâche.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="tacheForm" (ngSubmit)="onSubmit()" class="task-form-grid">
+      <div class="form-section">
+        <h3>Détails Généraux</h3>
+        <mat-form-field appearance="outline">
+          <mat-label>Nom de la Tâche</mat-label>
+          <input matInput formControlName="nom" required>
+          <mat-error *ngIf="tacheForm.get('nom')?.hasError('required') && tacheForm.get('nom')?.touched">
+            Le nom de la tâche est requis.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
+
+        <div class="date-fields">
+          <mat-form-field appearance="outline">
+            <mat-label>Date de Début</mat-label>
+            <input matInput [matDatepicker]="pickerDebut" formControlName="dateDebut" required>
+            <mat-hint>JJ/MM/AAAA</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+            <mat-datepicker #pickerDebut></mat-datepicker>
+            <mat-error *ngIf="tacheForm.get('dateDebut')?.hasError('required') && tacheForm.get('dateDebut')?.touched">
+              La date de début est requise.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Date de Fin</mat-label>
+            <input matInput [matDatepicker]="pickerFin" formControlName="dateFin" required>
+            <mat-hint>JJ/MM/AAAA</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="pickerFin"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFin></mat-datepicker>
+            <mat-error *ngIf="tacheForm.get('dateFin')?.hasError('required') && tacheForm.get('dateFin')?.touched">
+              La date de fin est requise.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Statut et Estimations</h3>
+        <mat-form-field appearance="outline">
+          <mat-label>Statut</mat-label>
+          <mat-select formControlName="statut" required>
+            <mat-option value="TODO">À faire</mat-option>
+            <mat-option value="IN_PROGRESS">En cours</mat-option>
+            <mat-option value="DONE">Terminé</mat-option>
+            <mat-option value="BLOCKED">Bloquée</mat-option>
+            <mat-option value="REVIEW">En révision</mat-option>
+          </mat-select>
+          <mat-error *ngIf="tacheForm.get('statut')?.hasError('required') && tacheForm.get('statut')?.touched">
+            Le statut est requis.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Story Points</mat-label>
+          <input matInput type="number" formControlName="storyPoints" min="0">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Heures Estimées</mat-label>
+          <input matInput type="number" formControlName="estimatedHours" min="0">
+        </mat-form-field>
+      </div>
+
+      <div class="form-section">
+        <h3>Affectation</h3>
+        <mat-form-field appearance="outline">
+          <mat-label>Affecter au Sprint</mat-label>
+          <mat-select formControlName="sprintId" required [disabled]="tacheForm.get('sprintId')?.disabled ?? false">
+            <mat-option *ngIf="sprints.length === 0">Chargement des sprints...</mat-option>
+            <mat-option *ngIf="sprints.length > 0 && !(tacheForm.get('sprintId')?.disabled ?? false)" [value]="null">Aucun sprint (Non affecté)</mat-option>
+            <mat-option *ngFor="let sprint of sprints" [value]="sprint.idSprint">
+              {{ sprint.nom }} ({{ sprint.dateDebut | date:'shortDate' }} - {{ sprint.dateFin | date:'shortDate' }})
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="tacheForm.get('sprintId')?.hasError('required') && tacheForm.get('sprintId')?.touched && !(tacheForm.get('sprintId')?.disabled ?? false)">
+            Le sprint est requis.
+          </mat-error>
+          <mat-hint *ngIf="tacheForm.get('sprintId')?.disabled ?? false">Ce champ est pré-rempli et désactivé.</mat-hint>
+          <mat-hint *ngIf="!sprints.length && !(tacheForm.get('sprintId')?.disabled ?? false)">Aucun sprint disponible. Veuillez créer un sprint d'abord.</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="tacheForm.invalid">
+          <mat-icon>{{ editMode ? 'save' : 'add' }}</mat-icon>
+          {{ editMode ? 'Mettre à Jour la Tâche' : 'Créer la Tâche' }}
+        </button>
+        <button mat-raised-button type="button" (click)="onCancel()" color="warn">
+          <mat-icon>cancel</mat-icon>
+          Annuler
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<style>
+  .task-form-card {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .task-form-header {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+  }
+
+  .task-form-header mat-card-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #3f51b5;
+  }
+
+  .task-form-header mat-card-subtitle {
+    color: #666;
+  }
+
+  .task-form-grid {
+    display: grid;
+    gap: 20px;
+  }
+
+  .form-section {
+    padding: 15px 0;
+    border-bottom: 1px dashed #e0e0e0;
+  }
+
+  .form-section:last-child {
+    border-bottom: none;
+  }
+
+  .form-section h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #555;
+    border-left: 4px solid #3f51b5;
+    padding-left: 10px;
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .date-fields {
+    display: flex;
+    gap: 20px;
+  }
+
+  .date-fields mat-form-field {
+    flex: 1;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+  }
+
+  .form-actions button {
+    padding: 10px 25px;
+    font-size: 16px;
+  }
+
+  .mat-select-panel {
+    max-height: 250px !important;
+  }
+</style>

@@ -1,0 +1,75 @@
+.moyenne-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9fb;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.moyenne-container h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.moyenne-container .moyenne-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.moyenne-container .moyenne-table thead {
+  background-color: #34495e;
+  color: white;
+}
+
+.moyenne-container .moyenne-table th {
+  padding: 12px;
+  font-size: 16px;
+}
+
+.moyenne-container .moyenne-table tbody td {
+  padding: 10px;
+}
+
+.moyenne-container .moyenne-table .select-box {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 14px;
+  transition: border 0.2s ease-in-out;
+}
+
+.moyenne-container .moyenne-table .select-box:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.moyenne-container .moyenne-table .btn-calc {
+  background: linear-gradient(to right, #3498db, #2980b9);
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.moyenne-container .moyenne-table .btn-calc:hover {
+  background: linear-gradient(to right, #2980b9, #2471a3);
+}
+
+.moyenne-container .moyenne-table .result {
+  color: #27ae60;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.moyenne-container .moyenne-table .error-msg {
+  color: #e74c3c;
+  font-weight: bold;
+}

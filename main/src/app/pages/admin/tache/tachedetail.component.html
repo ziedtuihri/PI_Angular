@@ -1,0 +1,73 @@
+<mat-card class="cardWithShadow theme-card" *ngIf="tacheDetails">
+  <mat-card-header>
+    <mat-card-title>Détails de la Tâche: {{ tacheDetails.nom }}</mat-card-title>
+    
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Informations Générales</h4>
+        <p><strong>ID Tâche:</strong> {{ tacheDetails.idTache }}</p>
+        <p><strong>Nom:</strong> {{ tacheDetails.nom }}</p>
+        <p><strong>Description:</strong> {{ tacheDetails.description || 'N/A' }}</p>
+        <p><strong>Date de Début:</strong> {{ tacheDetails.dateDebut | date:'shortDate' }}</p>
+        <p><strong>Date de Fin:</strong> {{ tacheDetails.dateFin | date:'shortDate' }}</p>
+        <p><strong>Statut:</strong> {{ formatStatut(tacheDetails.statut) }}</p>
+        <p><strong>Story Points:</strong> {{ tacheDetails.storyPoints || 0 }}</p>
+        <p><strong>Heures Estimées:</strong> {{ tacheDetails.estimatedHours || 0 }}</p>
+        <p><strong>Heures Loggées:</strong> {{ tacheDetails.loggedHours || 0 }}</p>
+      </div>
+
+      </div>
+
+    <mat-divider class="m-y-20"></mat-divider>
+
+    <h4 class="m-t-20">Loguer des Heures</h4>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Heures à loguer</mat-label>
+          <input matInput type="number" [(ngModel)]="hoursToLog" name="hoursToLog" required min="0.1" step="0.5">
+          <mat-error *ngIf="hoursToLog !== null && hoursToLog <= 0 && hoursToLog !== undefined">
+            Veuillez entrer un nombre positif d'heures.
+          </mat-error>
+          <mat-hint>Ex: 1.5, 3, 0.5</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 d-flex align-items-center">
+        <button mat-raised-button color="accent" (click)="onLogTime()" [disabled]="!hoursToLog || hoursToLog <= 0">
+          <mat-icon>timer</mat-icon> Loguer
+        </button>
+      </div>
+    </div>
+    <div *ngIf="message" [class.text-success]="isSuccess" [class.text-danger]="!isSuccess" class="m-t-10">
+      {{ message }}
+    </div>
+
+    <mat-divider class="m-y-20"></mat-divider>
+
+    <div class="button-group">
+      <button mat-stroked-button color="primary" [routerLink]="['/taches/edit', tacheId]">
+        <mat-icon>edit</mat-icon> Modifier la Tâche
+      </button>
+      <button mat-stroked-button color="basic" class="m-l-8" [routerLink]="['/taches']">
+        <mat-icon>list</mat-icon> Retour aux Tâches
+      </button>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="cardWithShadow theme-card" *ngIf="!tacheDetails && tacheId">
+  <mat-card-content>
+    <mat-spinner diameter="50"></mat-spinner>
+    <p class="m-t-20">Chargement de la tâche...</p>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="cardWithShadow theme-card" *ngIf="!tacheId">
+  <mat-card-content>
+    <p>ID de tâche non spécifié.</p>
+    <button mat-button color="primary" routerLink="/taches">Retour à la liste des tâches</button>
+  </mat-card-content>
+</mat-card>

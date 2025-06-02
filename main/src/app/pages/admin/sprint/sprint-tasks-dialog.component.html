@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Tâches pour le Sprint: {{ sprint.nom }}</h2>
+
+<mat-dialog-content>
+  <div *ngIf="loadingTasks" class="loading-message">Chargement des tâches...</div>
+  <div *ngIf="!loadingTasks && tasks.length === 0" class="no-tasks-message">
+    Aucune tâche trouvée pour ce sprint.
+  </div>
+
+  <mat-list *ngIf="!loadingTasks && tasks.length > 0">
+    <mat-list-item *ngFor="let task of tasks">
+      <mat-card class="task-card">
+        <mat-card-header>
+          <mat-card-title>{{ task.nom }}</mat-card-title>
+          <mat-card-subtitle>Statut: {{ formatStatut(task.statut) }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="task.description">Description: {{ task.description }}</p>
+          <p>Date Début: {{ task.dateDebut | date:'shortDate' }}</p>
+          <p>Date Fin: {{ task.dateFin | date:'shortDate' }}</p>
+          <p *ngIf="task.storyPoints">Story Points: {{ task.storyPoints }}</p>
+          <p *ngIf="task.estimatedHours">Heures Estimées: {{ task.estimatedHours }}</p>
+          <p *ngIf="task.loggedHours">Heures Loggées: {{ task.loggedHours }}</p>
+          <p *ngIf="task.assignedTo">Affecté à: {{ task.assignedTo }}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="closeDialog()">Fermer</button>
+</mat-dialog-actions>
+
+<style>
+  .no-tasks-message, .loading-message {
+    text-align: center;
+    padding: 20px;
+    color: #555;
+  }
+  .task-list-card { /* This class is not directly used in this template but can be for external wrapping */
+    margin-top: 15px;
+  }
+  .task-card {
+    width: 100%; /* Make card fill the available width */
+    margin-bottom: 10px; /* Space between cards */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  mat-dialog-content {
+    min-width: 300px; /* Ensure a minimum width for the dialog content */
+    max-height: 60vh; /* Allow dialog content to scroll if too many tasks */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 0 24px 16px; /* Material Design standard padding for content */
+  }
+  mat-list-item {
+    height: auto !important; /* Allow mat-list-item to grow based on card content */
+  }
+</style>

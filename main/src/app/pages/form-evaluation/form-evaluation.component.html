@@ -1,0 +1,53 @@
+
+
+   <mat-card class="cardWithShadow theme-card">
+    <mat-card-header>
+      <mat-card-title class="m-b-0">Modifier l'Évaluation</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="b-t-1">
+      <form (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-lg-6">
+            <mat-label class="f-w-600 m-b-8 d-block">Titre</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput placeholder="Titre de l'évaluation" [(ngModel)]="evaluationToEdit.titre" name="titre" required />
+            </mat-form-field>
+          </div>
+  
+          <div class="col-lg-6">
+            <mat-label class="f-w-600 m-b-8 d-block">Description</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput placeholder="Description" [(ngModel)]="evaluationToEdit.description" name="description" />
+            </mat-form-field>
+          </div>
+  
+          <div class="col-lg-6">
+            <mat-label class="f-w-600 m-b-8 d-block">Date d'évaluation</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <!-- <input matInput type="date" [(ngModel)]="evaluationToEdit.dateEvaluation" name="dateEvaluation" required /> -->
+              <mat-form-field appearance="outline" class="w-100" color="primary">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="evaluationToEdit.dateEvaluation" name="dateEvaluation" [min]="minDate" required />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              
+              
+            </mat-form-field>
+          </div>
+  
+          <div class="col-lg-6">
+            <mat-label class="f-w-600 m-b-8 d-block">Coefficient</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput type="number" [(ngModel)]="evaluationToEdit.coef" name="coef" min="0" required />
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="m-t-12">
+          <button mat-flat-button color="primary" type="submit" class="m-r-8">Modifier</button>
+          <button mat-stroked-button color="warn" type="button" (click)="onCancel()">Annuler</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  

@@ -1,0 +1,192 @@
+<div class="max-w-7xl mx-auto px-4 py-10 bg-gray-50">
+  <h2 style="color:navy; font-size: 35px;">📋 Liste des Réunions</h2> <br>
+
+  <div class="flex justify-between items-center mb-6">
+    <label for="typeReunion" class="text-gray-800 font-medium text-lg">Filtrer par type de réunion :</label> &nbsp;
+    <select id="typeReunion" [(ngModel)]="selectedSearchType" (change)="filterReunionsByType()"
+      class="bg-gray-100 border border-gray-300 text-gray-700 text-lg px-4 py-2 rounded-lg shadow-md focus:ring-2 focus:ring-indigo-500 transition duration-300 hover:bg-gray-200">
+      <option value="" class="text-gray-500">Tous</option>
+      <option value="PRESENTIEL">Présentiel</option>
+      <option value="EN_LIGNE">En ligne</option>
+    </select>
+  </div>
+
+  <hr>
+
+  <!-- Liste des Réunions -->
+  <div class="space-y-8 mt-32" style="margin-top: 1em;">
+    <ng-container *ngFor="let reunion of filteredReunions; let last = last">
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 hover:shadow-md transition space-y-4"
+        [class.opacity-50]="isReunionPassed(reunion.date)">
+        <div class="flex justify-between items-center border-b pb-3">
+          <div style="margin-top: 1em; margin-left: 1em;">
+            <h2 class="text-xl font-semibold text-indigo-700" style="margin-top: 1em; margin-left: 0.5em;">
+              {{ reunion.titre }}</h2>
+            <h4 class="text-sm text-gray-500" style="margin-top: 1em; margin-left: 1em;">{{ reunion.description }}</h4>
+          </div>
+
+          <div style="margin-top: 1em; margin-left: 1em;">
+            <span class="inline-block px-4 py-2 text-white text-sm rounded-lg font-medium"
+              style="margin-top: 1em; margin-left: 1em;" [ngClass]="{
+                'bg-blue-600': reunion.type === 'EN_LIGNE',
+                'bg-green-600': reunion.type === 'PRESENTIEL',
+                'bg-yellow-500': reunion.type === 'AUTRE'
+              }">
+              {{ reunion.type }}
+            </span>
+          </div>
+        </div>
+
+        <div class="text-gray-700 text-sm space-y-1 flex flex-wrap" style="margin-top: 1em; margin-left: 1em;">
+          <!-- Ligne 1 : Date et Heure -->
+          <div class="flex items-center mr-4" style="margin-top: 1em; margin-left: 1em;">
+            <strong><i class="fas fa-calendar-alt text-indigo-600"></i> Date:</strong>
+            <span class="ml-2">{{ reunion.date }}</span>
+          </div>
+          <div class="flex items-center mr-4 border-l-2 pl-4" style="margin-top: 1em; margin-left: 1em;">
+            <strong><i class="fas fa-clock text-indigo-600"></i> Heure:</strong>
+            <span class="ml-2">{{ reunion.heure }}</span>
+          </div>
+
+          <!-- Ligne 2 : Durée et Lien Zoom -->
+          <div class="flex items-center mr-4 mt-2" style="margin-top: 1em; margin-left: 1em;">
+            <strong><i class="fas fa-hourglass-half text-indigo-600"></i> Durée:</strong>
+            <span class="ml-2">{{ reunion.duree }} min</span>
+          </div>
+          <div *ngIf="reunion.type === 'EN_LIGNE' && reunion.lienZoom"
+            class="flex items-center mr-4 mt-2 border-l-2 pl-4" style="margin-top: 1em; margin-left: 1em;">
+            <strong><i class="fa fa-link"></i> Lien Zoom:</strong>
+            <a [href]="reunion.lienZoom" target="_blank" class="text-blue-600 underline ml-2">{{ reunion.lienZoom }}</a>
+          </div>
+
+          <div *ngIf="reunion.type === 'PRESENTIEL' && reunion?.salle?.nom"
+            class="flex items-center mr-4 mt-2 border-l-2 pl-4" style="margin-top: 1em; margin-left: 1em;">
+            <strong> <i class="fa fa-building text-indigo-600 mr-2"></i> Salle:</strong>
+            <span class="text-blue-600 underline ml-2">{{ reunion?.salle?.nom }}</span>
+          </div>
+        </div>
+        <div class="form-actions flex justify-end gap-4 mt-6">
+          <button type="button" class="px-6 py-2 rounded-lg" [class]="{
+                  'bg-indigo-600 text-white hover:bg-indigo-700': !isReunionPassed(reunion.date),
+                  'bg-gray-300 text-gray-500 cursor-not-allowed': isReunionPassed(reunion.date)
+              }" [disabled]="isReunionPassed(reunion.date)" (click)="onEdit(reunion)">✏️ Modifier</button>
+
+          <button type="button" class="px-6 py-2 rounded-lg" [class]="{
+                  'bg-gray-300 text-gray-800 hover:bg-gray-400': !isReunionPassed(reunion.date),
+                  'bg-gray-200 text-gray-400 cursor-not-allowed': isReunionPassed(reunion.date)
+              }" [disabled]="isReunionPassed(reunion.date)" (click)="onDelete(reunion)">🗑️ Supprimer</button>
+        </div>
+
+      </div>
+
+      <hr *ngIf="!last" class="border-t border-gray-300 mt-6">
+    </ng-container>
+  </div>
+</div>
+
+<!-- Modal Update Form -->
+<div *ngIf="isModalOpen" class="modal-overlay">
+  <div class="modal-content">
+    <div class="reunion-form-container">
+      <h2 class="form-title text-center text-2xl font-semibold text-indigo-700 mb-6">Modifier la Réunion</h2>
+
+      <form [formGroup]="reunionForm">
+        <div class="form-card">
+          <div class="form-grid">
+            <!-- Titre -->
+            <div class="form-group">
+              <label for="titre">Titre</label>
+              <input id="titre" type="text" formControlName="titre" />
+            </div>
+
+            <!-- Description -->
+            <div class="form-group md:col-span-2">
+              <label for="description">Description</label>
+              <textarea id="description" formControlName="description" class="custom-textarea"></textarea>
+            </div>
+
+            <!-- Créateur -->
+            <div class="form-group">
+              <label for="createur">Créateur</label>
+              <select id="createur" formControlName="createur">
+                <option value="" disabled>-- Sélectionner un créateur --</option>
+                <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.nom }}</option>
+              </select>
+            </div>
+
+            <!-- Date -->
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input id="date" type="date" formControlName="date" />
+            </div>
+
+            <!-- Heure -->
+            <div class="form-group">
+              <label for="heure">Heure</label>
+              <input id="heure" type="time" formControlName="heure" />
+            </div>
+
+            <!-- Durée -->
+            <div class="form-group">
+              <label for="duree">Durée</label>
+              <input id="duree" type="text" formControlName="duree" />
+            </div>
+
+            <!-- Type -->
+            <div class="form-group">
+              <label for="type">Type</label>
+              <select id="type" formControlName="type">
+                <option *ngFor="let t of typesReunion" [value]="t.value">{{ t.label }}</option>
+              </select>
+            </div>
+
+            <!-- En ligne -->
+            <div *ngIf="selectedType === 'EN_LIGNE'" class="form-group md:col-span-2">
+              <label for="plateforme">Plateforme :</label>
+              <select id="plateforme" formControlName="plateforme">
+                <option value="zoom">Zoom</option>
+                <option value="teams">Teams</option>
+                <option value="autre">Autre</option>
+              </select>
+
+              <label for="lien">Lien de réunion :</label>
+              <input id="lien" type="text" formControlName="lien" />
+            </div>
+
+            <div *ngIf="selectedType === 'PRESENTIEL'" class="form-group">
+              <label>Salle</label>
+              <select formControlName="salle" (change)="onSalleChange($event)">
+                <option *ngFor="let salle of salles" [value]="salle.id">{{ salle.nom }}</option>
+              </select>
+            </div>
+            <div *ngIf="selectedSalle" class="form-group">
+              <label>Capacité</label>
+              <input type="number" formControlName="capacite" [value]="selectedSalle?.capacite" readonly />
+            </div>
+
+
+            <div class="form-group md:col-span-2" *ngIf="reunionForm.get('type')?.value === 'EN_LIGNE'">
+              <label>Participants</label>
+              <div *ngFor="let participant of participants">
+                <label>
+                  <input type="checkbox" [value]="participant.id" (change)="onParticipantToggle(participant.id, $event)"
+                    [checked]="isParticipantChecked(participant.id)" />
+                  {{ participant.email }}
+                </label>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- Actions -->
+          <div class="form-actions flex justify-end gap-4 mt-6">
+            <button type="button" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              (click)="onSaveEdit()" [disabled]="reunionForm.invalid">Modifier</button>
+            <button type="button" class="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
+              (click)="closeModal()">Annuler</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

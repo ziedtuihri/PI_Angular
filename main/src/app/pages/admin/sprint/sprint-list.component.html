@@ -1,0 +1,127 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <mat-card-title class="text-xl font-bold m-0">Liste des Sprints</mat-card-title>
+      <div class="d-flex align-items-center">
+        <mat-form-field appearance="outline" class="w-200 m-r-16">
+          <mat-label>Rechercher un sprint</mat-label>
+          <input matInput [formControl]="searchControl" placeholder="Par nom..." />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" (click)="addSprint()">
+          <mat-icon>add</mat-icon>
+          Ajouter un Sprint
+        </button>
+      </div>
+    </div>
+
+    <mat-divider class="m-y-16"></mat-divider>
+
+    <div class="m-b-24">
+      <h3 class="text-lg font-bold m-b-8">Vélocité des Sprints Terminés</h3>
+      <div *ngIf="sprintsForChart.length > 0; else noChartData" class="chart-container">
+        <app-velocity-chart [sprintsData]="sprintsForChart"></app-velocity-chart>
+      </div>
+      <ng-template #noChartData>
+        <p class="text-muted">Aucune donnée de vélocité disponible pour le graphique (pas de sprints terminés).</p>
+      </ng-template>
+    </div>
+
+    <mat-divider class="m-y-16"></mat-divider>
+
+    <div *ngIf="loading" class="flex-center-full-height">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p class="m-t-16">Chargement des sprints...</p>
+    </div>
+
+    <div *ngIf="errorMessage && !loading" class="alert alert-danger m-y-16">
+      <mat-icon color="warn">error_outline</mat-icon>
+      {{ errorMessage }}
+    </div>
+
+    <div class="table-responsive" *ngIf="!loading && !errorMessage">
+      <table mat-table [dataSource]="dataSource" class="w-full mat-elevation-z1">
+        <ng-container matColumnDef="nom">
+          <th mat-header-cell *matHeaderCellDef>Nom</th>
+          <td mat-cell *matCellDef="let sprint">{{ sprint.nom }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateDebut">
+          <th mat-header-cell *matHeaderCellDef>Date de début</th>
+          <td mat-cell *matCellDef="let sprint">{{ sprint.dateDebut | date:'dd/MM/yyyy' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateFin">
+          <th mat-header-cell *matHeaderCellDef>Date de fin</th>
+          <td mat-cell *matCellDef="let sprint">{{ sprint.dateFin | date:'dd/MM/yyyy' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="statut">
+          <th mat-header-cell *matHeaderCellDef>Statut</th>
+          <td mat-cell *matCellDef="let sprint">
+            <span [ngClass]="getStatutClass(sprint.statut)">
+              {{ sprint.statut.split('_').join(' ') | titlecase }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="velocity">
+          <th mat-header-cell *matHeaderCellDef>Vélocité</th>
+          <td mat-cell *matCellDef="let sprint">
+            <span *ngIf="sprint.velocity !== undefined && sprint.velocity !== -1; else calculatingVelocity">
+              {{ sprint.velocity }}
+            </span>
+            <ng-template #calculatingVelocity>
+              <mat-progress-spinner *ngIf="sprint.velocity === undefined" mode="indeterminate" diameter="20"></mat-progress-spinner>
+              <span *ngIf="sprint.velocity === -1">Erreur</span>
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let sprint">
+            <button mat-icon-button color="primary" (click)="editSprint(sprint.idSprint!)" matTooltip="Modifier le sprint">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteSprint(sprint.idSprint!)" matTooltip="Supprimer le sprint">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="viewTasks">
+          <th mat-header-cell *matHeaderCellDef>Tâches</th>
+          <td mat-cell *matCellDef="let sprint">
+            <button mat-icon-button color="accent" (click)="viewTasks(sprint.idSprint!)" matTooltip="Voir les tâches du sprint">
+              <mat-icon>list_alt</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="addTask">
+          <th mat-header-cell *matHeaderCellDef>Ajouter Tâche</th>
+          <td mat-cell *matCellDef="let sprint">
+            <button mat-icon-button color="primary" (click)="addTaskToSprint(sprint.idSprint!)" matTooltip="Ajouter une tâche à ce sprint">
+              <mat-icon>add_task</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="999">Aucun sprint trouvé correspondant à votre recherche.</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                     [pageSize]="pageSize" [pageIndex]="pageIndex"
+                     (page)="handlePageEvent($event)"
+                     aria-label="Sélectionner la page des sprints">
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

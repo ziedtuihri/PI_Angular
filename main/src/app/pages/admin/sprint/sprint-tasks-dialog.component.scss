@@ -1,0 +1,32 @@
+// Basic styling for the table and dialog
+.mat-dialog-content {
+  max-height: 70vh; // Limit height to prevent dialog from being too tall
+  overflow-y: auto; // Add scroll if content exceeds max-height
+  padding-bottom: 20px; // Add some space above the buttons
+}
+
+.mat-table {
+  width: 100%;
+  margin-top: 15px;
+}
+
+// Styling for task statuses
+.task-statut-todo {
+  color: #607d8b; // Blue Grey
+  font-weight: bold;
+}
+
+.task-statut-in-progress {
+  color: #ff9800; // Orange
+  font-weight: bold;
+}
+
+.task-statut-done {
+  color: #4caf50; // Green
+  font-weight: bold;
+}
+
+.task-statut-blocked {
+  color: #f44336; // Red
+  font-weight: bold;
+}
