@@ -18,6 +18,7 @@ import {
   CandidatureManagementComponent
 } from "./pages/ui-components/EntrepriseUI/Candidatures/candidature-management.component";
 import {StudentOffreComponent} from "./pages/ui-components/EtudiantUI/Student - OffrePFE/student-offre.component";
+import {StudentEventComponent} from "./pages/ui-components/EtudiantUI/Student-Events/student-event.component";
 export const routes: Routes = [
   {
     path: '',
@@ -79,6 +80,6 @@ export const routes: Routes = [
   {path: 'entreprise/candidatures', component:    CandidatureManagementComponent},
   {path: 'student/dashboard', component:  StudentViewComponent},
   {path: 'student/offres', component:  StudentOffreComponent},
-
+  {path: 'student/events', component:  StudentEventComponent}
 
 ];

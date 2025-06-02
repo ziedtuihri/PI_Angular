@@ -46,4 +46,20 @@ export class EventEntrepriseService {
     const errorMsg = error.error?.message || 'Erreur inconnue!';
     return throwError(() => new Error(errorMsg));
   }
+
+  acceptParticipation(participationId: number): Observable<void> {
+    const url = `${environment.apiUrl}/participations/${participationId}/status`;
+    const body = { status: 'VALIDE' }; // or whatever value the backend expects
+    return this.http.patch<void>(url, body, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  rejectParticipation(participationId: number): Observable<void> {
+    const url = `${environment.apiUrl}/participations/${participationId}/status`;
+    const body = { status: 'REFUSE' }; // adjust the status value if needed
+    return this.http.patch<void>(url, body, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+
 }

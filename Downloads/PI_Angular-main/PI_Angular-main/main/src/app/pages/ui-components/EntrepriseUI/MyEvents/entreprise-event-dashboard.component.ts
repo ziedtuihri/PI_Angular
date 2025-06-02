@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {ParticipationService} from "../../../../services/Etudiant.Service/participation.service";
+ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -19,13 +20,22 @@ import {DatePipe} from "@angular/common";
 import {MatNativeDateModule} from "@angular/material/core";
 import {Router} from "@angular/router";
 
+
+
+interface EventWithParticipations extends Event {
+  participations?: {
+    id: number;
+    etudiantEmail: string;
+    status: string;
+  }[];
+}
 @Component({
   selector: 'app-event-entreprise',
   templateUrl: './entreprise-event-dashboard.component.html',
   styleUrls: ['./entreprise-event-dashboard.component.css'],
   standalone: true,
   imports: [
-    ReactiveFormsModule,
+    CommonModule,
     MatProgressSpinnerModule,
     MatCardModule,
     MatInputModule,
@@ -37,36 +47,52 @@ import {Router} from "@angular/router";
     EditEventDialogComponent,
     DatePipe,
     MatNativeDateModule,
-    CommonModule
-  ]
+  ],
 })
 export class EventEntrepriseComponent implements OnInit {
-  events: Event[] = [];
+  events: EventWithParticipations[] = [];
   isLoading = false;
 
   constructor(
     private eventService: EventEntrepriseService,
+    private participationService: ParticipationService,
     private dialog: MatDialog,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadEvents();
+    this.loadEventsWithParticipations();
   }
 
-  loadEvents(): void {
+  loadEventsWithParticipations(): void {
     this.isLoading = true;
     this.eventService.getByEntrepriseId(1).subscribe({
       next: (data) => {
-        this.events = data;
+        const events: EventWithParticipations[] = data;
+        const fetchParticipations = events.map((event) =>
+          this.participationService.getByEventId(event.id!).toPromise().then((participations) => {
+            event.participations = participations;
+          })
+        );
+
+        Promise.all(fetchParticipations).then(() => {
+          this.events = events;
+          this.isLoading = false;
+        }).catch(() => {
+          this.isLoading = false;
+        });
+      },
+      error: () => {
         this.isLoading = false;
       },
-      error: () => this.isLoading = false
     });
   }
 
-  goToDashboard() {
-    this.router.navigate(['entreprise/dashboard']);
+  updateParticipationStatus(participationId: number, status: string): void {
+    this.participationService.updateStatus(participationId, status).subscribe({
+      next: () => this.loadEventsWithParticipations(),
+      error: (err) => console.error('Error updating status:', err),
+    });
   }
 
   openEditDialog(event?: Event): void {
@@ -74,22 +100,26 @@ export class EventEntrepriseComponent implements OnInit {
       width: '400px',
       data: {
         event: event || null,
-        isNew: !event
-      } as EditEventDialogData
+        isNew: !event,
+      } as EditEventDialogData,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (!result) return;
 
       if (result.action === 'save') {
         if (result.event.id) {
-          this.eventService.update(result.event.id, result.event).subscribe(() => this.loadEvents());
+          this.eventService.update(result.event.id, result.event).subscribe(() => this.loadEventsWithParticipations());
         } else {
-          this.eventService.create(result.event).subscribe(() => this.loadEvents());
+          this.eventService.create(result.event).subscribe(() => this.loadEventsWithParticipations());
         }
       } else if (result.action === 'delete') {
-        this.eventService.delete(result.event.id!).subscribe(() => this.loadEvents());
+        this.eventService.delete(result.event.id!).subscribe(() => this.loadEventsWithParticipations());
       }
     });
+  }
+
+  goToDashboard(): void {
+    this.router.navigate(['entreprise/dashboard']);
   }
 }

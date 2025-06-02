@@ -98,7 +98,7 @@ export class StudentViewComponent implements OnInit {
   }
 
   goToEvents() {
-    this.router.navigate(['admin/evenements']);
+    this.router.navigate(['student/events']);
   }
 
   goToOffrePFE() {
