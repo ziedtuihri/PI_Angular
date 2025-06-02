@@ -1,11 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { MaterialModule } from 'src/app/material.module';
 import { ReunionService } from 'src/app/services/ReunionService';
 
 @Component({
   selector: 'app-participants',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatTableModule,
+    CommonModule,
+    MatCardModule,
+    MaterialModule,
+    MatIconModule,
+    MatMenuModule,
+    MatButtonModule,],
   templateUrl: './participants.component.html',
   styleUrl: './participants.component.scss'
 })
@@ -15,9 +27,10 @@ export class ParticipantsComponent implements OnInit {
   participantForm!: FormGroup;
   participant: any | undefined;
   isModalOpen = false;
+  displayedColumnsParticipants = ['participant', 'status', 'actions'];
 
-  currentPage: number = 1;  
-  itemsPerPage: number = 5; 
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -44,6 +57,12 @@ export class ParticipantsComponent implements OnInit {
       }
     });
   }
+
+  viewParticipant(participant: any) {
+    console.log('Voir participant:', participant);
+  }
+
+
 
   loadParticipants() {
     this.reunionService.getParticipants().subscribe({

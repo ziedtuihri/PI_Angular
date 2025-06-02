@@ -62,7 +62,7 @@
         flex: 1;
         position: relative;
         border-left: 1px solid #f4f4f4;
-        height: 70px;
+        height: 120px;
 
         .cell {
           height: 100%;
@@ -71,19 +71,29 @@
 
         .event {
           position: absolute;
-          top: 5px;
+          top: 2px;
           left: 8px;
           right: 8px;
-          background: #71a3ca;
-          color: white;
           font-size: 13px;
           padding: 8px;
           border-radius: 8px;
           box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
           display: flex;
           flex-direction: column;
-          gap: 2px;
+          gap: 1px;
           transition: all 0.3s ease;
+
+          &.event-en-ligne {
+            background: #2094f3;
+            /* bleu */
+            color: white;
+          }
+
+          &.event-presentiel {
+            background: #58aec8;
+            /* vert */
+            color: white;
+          }
 
           .event-title {
             font-weight: 600;
@@ -93,13 +103,13 @@
           .join-btn {
             align-self: start;
             background: white;
-            color: #0078d4;
+            color: #4d93c9;
             border: none;
-            padding: 4px 10px;
+            padding: 6px 22px;
             font-size: 12px;
             font-weight: 500;
             border-radius: 5px;
-            cursor: pointer;
+            cursor: pointer !important;
             transition: all 0.2s ease;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
@@ -108,11 +118,14 @@
               color: white;
             }
           }
+
         }
       }
     }
   }
 }
+
+
 
 .calendar-title {
   font-size: 35px;

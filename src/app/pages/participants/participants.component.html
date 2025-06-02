@@ -37,25 +37,28 @@
 <div *ngIf="isModalOpen" class="modal-overlay">
     <div class="modal-content">
         <div class="reunion-form-container">
-            <h2 class="form-title text-center text-2xl font-semibold text-indigo-700 mb-6">Modifier la Réunion</h2>
+            <h2 class="form-title text-center text-2xl font-semibold text-indigo-700 mb-6">
+                Modifier la Réunion
+            </h2>
             <form [formGroup]="participantForm" class="space-y-6">
                 <!-- Nom -->
                 <div>
-                    <label for="nom" class="block text-sm font-medium text-gray-700 mb-2">👤 Nom:</label>
+                    <label for="nom" class="block text-sm font-medium text-gray-700 mb-2">👤 Nom:</label> &nbsp;
                     <input id="nom" type="text" formControlName="nom"
                         class="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm px-4 py-2" />
                 </div>
 
                 <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">📧 Email:</label>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">📧 Email:</label>&nbsp;
                     <input id="email" type="email" formControlName="email"
                         class="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm px-4 py-2" />
                 </div>
 
                 <!-- Utilisateur -->
                 <div>
-                    <label for="userId" class="block text-sm font-medium text-gray-700 mb-2">👥 Utilisateur:</label>
+                    <label for="userId" class="block text-sm font-medium text-gray-700 mb-2">👥
+                        Utilisateur:</label>&nbsp;
                     <select id="userId" formControlName="userId"
                         class="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm px-4 py-2 bg-white">
                         <option *ngFor="let user of users" [value]="user.id">
@@ -68,11 +71,12 @@
                 <div class="mb-3 text-end">
                     <button class="btn btn-secondary btn-md" (click)="updateParticipant()">
                         <i class="fas fa-save me-2"></i>&nbsp; Sauvegarder
-                    </button> &nbsp;
-                    <button type="button" class="btn btn-secondary btn-md"
-                        (click)="isModalOpen = false">Annuler</button>
+                    </button>
+                    &nbsp;
+                    <button type="button" class="btn btn-secondary btn-md" (click)="isModalOpen = false">
+                        Annuler
+                    </button>
                 </div>
-
             </form>
         </div>
     </div>
@@ -80,11 +84,17 @@
 
 <!-- Pagination Controls -->
 <div class="pagination-controls mt-4">
-    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+        Previous
+    </button>
 
     <span *ngFor="let page of [].constructor(totalPages); let i = index">
-        <button (click)="changePage(i + 1)" [class.active]="i + 1 === currentPage">{{ i + 1 }}</button>
+        <button (click)="changePage(i + 1)" [class.active]="i + 1 === currentPage">
+            {{ i + 1 }}
+        </button>
     </span>
 
-    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+        Next
+    </button>
 </div>

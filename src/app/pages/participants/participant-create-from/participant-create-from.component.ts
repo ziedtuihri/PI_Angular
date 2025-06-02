@@ -3,9 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { ReunionService } from 'src/app/services/ReunionService';
 
 @Component({
@@ -14,8 +18,23 @@ import { ReunionService } from 'src/app/services/ReunionService';
     MatChipsModule,
     MatIconModule,
     MatCardModule,
-
-    MatButtonModule],
+    MatFormFieldModule,
+    MatChipsModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    MatButtonModule,
+    MatCardModule,
+    MatInputModule,
+    MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule
+  ],
   standalone: true,
   templateUrl: './participant-create-from.component.html',
   styleUrl: './participant-create-from.component.scss'
@@ -38,7 +57,7 @@ export class ParticipantCreateFromComponent implements OnInit {
 
     this.reunionService.getUsers().subscribe({
       next: (data: any) => {
-        console.log('Données reçues de getUsers():', data); 
+        console.log('Données reçues de getUsers():', data);
         this.users = Array.isArray(data) ? data : [];
       },
       error: (err) => {
@@ -46,8 +65,10 @@ export class ParticipantCreateFromComponent implements OnInit {
       }
     });
 
-  }
 
+
+  }
+  
 
   onSubmit(): void {
     if (this.participantForm.invalid) {
