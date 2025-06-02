@@ -110,7 +110,7 @@
               <label for="createur">Créateur</label>
               <select id="createur" formControlName="createur">
                 <option value="" disabled>-- Sélectionner un créateur --</option>
-                <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.nom }}</option>
+                <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.firstName }}</option>
               </select>
             </div>
 
@@ -139,18 +139,23 @@
                 <option *ngFor="let t of typesReunion" [value]="t.value">{{ t.label }}</option>
               </select>
             </div>
-
-            <!-- En ligne -->
-            <div *ngIf="selectedType === 'EN_LIGNE'" class="form-group md:col-span-2">
-              <label for="plateforme">Plateforme :</label>
-              <select id="plateforme" formControlName="plateforme">
+            <!-- EN LIGNE -->
+            <div *ngIf="selectedType === 'EN_LIGNE'" class="form-group">
+              <select formControlName="plateforme" (change)="setDefaultLien($event)">
                 <option value="zoom">Zoom</option>
                 <option value="teams">Teams</option>
                 <option value="autre">Autre</option>
               </select>
 
-              <label for="lien">Lien de réunion :</label>
-              <input id="lien" type="text" formControlName="lien" />
+
+              <label>Lien de réunion :</label>
+              <div class="link-generator">
+                <input type="text" formControlName="lien" placeholder="Lien de réunion" />
+              </div>
+
+              <div *ngIf="reunionForm.get('lien')?.invalid && reunionForm.get('lien')?.touched" class="error">
+                Lien valide requis (http(s)://...).
+              </div>
             </div>
 
             <div *ngIf="selectedType === 'PRESENTIEL'" class="form-group">

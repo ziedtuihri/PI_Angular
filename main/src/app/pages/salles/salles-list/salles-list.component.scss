@@ -27,7 +27,7 @@
 }
 
 .btn-primary:hover {
-    background-color: #7599c1;
+    background-color: #1367c7;
 }
 
 .card-title-with-icon {
@@ -60,19 +60,19 @@
     background-color: #007BFF;
 }
 
-  
-  .edit-icon,
-  .delete-icon {
+
+.edit-icon,
+.delete-icon {
     cursor: pointer;
     font-size: 1.2rem;
-    margin-left: 0; 
-  }
-  
-  .edit-icon:hover,
-  .delete-icon:hover {
+    margin-left: 0;
+}
+
+.edit-icon:hover,
+.delete-icon:hover {
     color: #007bff;
-  }
-  
+}
+
 
 .edit-icon:hover {
     color: #0056b3;
@@ -128,7 +128,7 @@
     text-align: center;
     margin-bottom: 35px;
     padding: 40px 20px;
-    background-color: #afc7e2;
+    background-color: #6d99c6;
     border-radius: 16px;
     box-shadow: 0 6px 18px rgba(127, 126, 126, 0.1);
 }
@@ -169,7 +169,7 @@
 }
 
 .btn {
-    background-color: #9bafc5;
+    background-color: #115baa;
     color: white;
     padding: 14px 22px;
     font-size: 1.2rem;
@@ -185,14 +185,14 @@
 }
 
 .btn-md {
-  font-size: 16px;
-  padding: 8px 20px;
-  border-radius: 5px;
+    font-size: 16px;
+    padding: 8px 20px;
+    border-radius: 5px;
 }
 
 
 .primary {
-    background-color: #7599c1;
+    background-color: #0e427e;
 }
 
 
@@ -252,28 +252,25 @@ h4 {
 }
 
 
-
-
-
 .btn-secondary {
-    background-color: #7599c1;
+    background-color: #115baa;
     color: #f4f3f3;
 }
 
 .btn-secondary:hover {
-    background-color: #7599c1;
+    background-color: #115baa;
 }
 
 .search-container {
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: center;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
 }
 
 .search-input {
-  width: 100%;
-  padding: 1em;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+    width: 100%;
+    padding: 1em;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }

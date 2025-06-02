@@ -2,18 +2,38 @@ import { Component, OnInit } from '@angular/core';
 import { ReunionService } from 'src/app/services/ReunionService';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'salles-list',
   templateUrl: './salles-list.component.html',
   styleUrls: ['./salles-list.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule,
+    MatChipsModule,
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule, MatDividerModule, MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatTooltipModule, MatCardModule, MatInputModule, MatCheckboxModule]
 })
 export class SallesListComponent implements OnInit {
 
   reunions: any[] = [];
   salles: any[] = [];
+
   reunionsPresentielles: any[] = [];
   filteredSalles: any[] = [];
 
@@ -23,6 +43,7 @@ export class SallesListComponent implements OnInit {
   isModalOpenModifSalle = false;
 
   selectedSalle: any = null;
+
   searchTerm: string = '';
 
   constructor(private readonly fb: FormBuilder, private readonly reunionService: ReunionService) { }
@@ -38,7 +59,10 @@ export class SallesListComponent implements OnInit {
     });
 
     this.fetchSalles();
+    this.loadReunions();
+  }
 
+  loadReunions() {
     this.reunionService.getReunions().subscribe({
       next: (data: any) => {
         this.reunions = Array.isArray(data) ? data : [];
@@ -49,8 +73,6 @@ export class SallesListComponent implements OnInit {
       }
     });
   }
-
-
 
   filterSalles(): void {
     const searchTerm = this.searchTerm.trim().toLowerCase();
@@ -85,6 +107,7 @@ export class SallesListComponent implements OnInit {
       next: (data: any) => {
         this.salles = data;
         this.filteredSalles = this.salles;
+        console.log('salle', this.filteredSalles)
       },
       error: (err) => {
         alert('Une erreur est survenue lors de la récupération des salles.');
@@ -145,7 +168,6 @@ export class SallesListComponent implements OnInit {
   }
 
 
-
   modifieSalleMeme(salle: any): void {
     this.selectedSalle = salle;
     this.salleForm.patchValue({
@@ -158,17 +180,31 @@ export class SallesListComponent implements OnInit {
     this.isModalOpenModifSalle = true;
   }
 
-
-
-
   supprimerSalle(id: number): void {
-    if (confirm('Voulez-vous vraiment supprimer ce participant ?')) {
+    const salle = this.salles.find(s => s.id === id);
+
+    if (salle?.reunion) {
+      const reunionDate = new Date(salle.reunion.date);
+      const maintenant = new Date();
+
+      if (reunionDate > maintenant) {
+        alert(
+          `Impossible de supprimer cette salle car elle est déjà réservée pour une réunion le ${reunionDate.toLocaleDateString()} à ${reunionDate.toLocaleTimeString()}.`
+        );
+        return;
+      }
+    }
+
+    if (confirm('Voulez-vous vraiment supprimer cette salle ?')) {
       this.reunionService.deleteSalle(id).subscribe({
         next: () => {
-          alert('Salle supprimé avec succès');
+          alert('Salle supprimée avec succès');
           this.fetchSalles();
         },
-        error: err => console.error('Erreur lors de la suppression :', err)
+        error: err => {
+          console.error('Erreur lors de la suppression :', err);
+          alert('Cette salle est réservée à une réunion et ne peut pas être supprimée.');
+        }
       });
     }
   }

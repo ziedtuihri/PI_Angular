@@ -1,11 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { MaterialModule } from 'src/app/material.module';
 import { ReunionService } from 'src/app/services/ReunionService';
 
 @Component({
   selector: 'app-participants',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatTableModule,
+    CommonModule,
+    MatCardModule,
+    MaterialModule,
+    MatIconModule,
+    MatMenuModule,
+    MatButtonModule,],
   templateUrl: './participants.component.html',
   styleUrl: './participants.component.scss'
 })
@@ -15,9 +27,10 @@ export class ParticipantsComponent implements OnInit {
   participantForm!: FormGroup;
   participant: any | undefined;
   isModalOpen = false;
+  displayedColumnsParticipants = ['participant', 'status', 'actions'];
 
-  currentPage: number = 1;  // current page number
-  itemsPerPage: number = 5; // items per page
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -31,17 +44,24 @@ export class ParticipantsComponent implements OnInit {
       userId: ['', Validators.required]
     });
 
-
     this.loadParticipants();
-    // Fetching users
+    this.loadUsers();
+
+  }
+
+  loadUsers() {
     this.reunionService.getUsers().subscribe({
       next: (data: any) => this.users = Array.isArray(data) ? data : [],
       error: (error) => {
         console.error('Error fetching users:', error);
       }
     });
-
   }
+
+  viewParticipant(participant: any) {
+    console.log('Voir participant:', participant);
+  }
+
 
 
   loadParticipants() {
@@ -84,7 +104,6 @@ export class ParticipantsComponent implements OnInit {
   }
 
 
-  
   deleteParticipant(id: number): void {
     if (confirm('Voulez-vous vraiment supprimer ce participant ?')) {
       this.reunionService.deleteParticipant(id).subscribe({
@@ -94,16 +113,14 @@ export class ParticipantsComponent implements OnInit {
           this.isModalOpen = false;
         },
         error: err => {
-          if (err.error) {
-            alert(err.error.message);
-          } else {
-            console.error('Erreur lors de la suppression :', err);
-          }
+          alert(err.error.message);
+
         }
       });
     }
+
+
   }
-  
 
 
   updateParticipant(): void {
@@ -119,8 +136,6 @@ export class ParticipantsComponent implements OnInit {
       user: { id: this.participantForm.get('userId')?.value }
     };
 
-    console.log('Données du participant à envoyer pour la mise à jour :', updatedParticipant);
-
     this.reunionService.updateParticipant(updatedParticipant).subscribe({
       next: (data: any) => {
         alert('Participant mis à jour avec succès !');
@@ -130,7 +145,10 @@ export class ParticipantsComponent implements OnInit {
 
       },
       error: (err) => {
-        alert('Erreur lors de la mise à jour du participant');
+        this.isModalOpen = false;
+        alert('Participant mis à jour avec succès !');
+        this.loadParticipants();
+
       }
     });
   }
@@ -138,6 +156,6 @@ export class ParticipantsComponent implements OnInit {
 
   resetForm(): void {
     this.participantForm.reset();
-    this.participantForm.markAsUntouched(); // Réinitialisation des états de validation
+    this.participantForm.markAsUntouched();
   }
 }

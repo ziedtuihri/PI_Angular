@@ -21,7 +21,7 @@
           <label>Créateur</label>
           <select formControlName="createur">
             <option value="" disabled>-- Sélectionner un créateur --</option>
-            <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.nom }}</option>
+            <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.firstName }}</option>
           </select>
           <div *ngIf="reunionForm.get('createur')?.invalid && reunionForm.get('createur')?.touched" class="error">
             Le créateur est requis.
@@ -76,7 +76,6 @@
           <label>Lien de réunion :</label>
           <div class="link-generator">
             <input type="text" formControlName="lien" placeholder="Lien de réunion" />
-            <button type="button" (click)="generateMeetingLink(reunionForm.get('plateforme')?.value)">Générer</button>
           </div>
 
           <div *ngIf="reunionForm.get('lien')?.invalid && reunionForm.get('lien')?.touched" class="error">

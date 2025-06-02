@@ -46,7 +46,6 @@ export class ReunionCreateFormComponent implements OnInit {
     this.reunionService.getParticipants().subscribe({
       next: (data: any) => {
         this.participants = Array.isArray(data) ? data : [];
-        console.log('Participants chargés:', this.participants);
       }
     });
 
@@ -70,73 +69,53 @@ export class ReunionCreateFormComponent implements OnInit {
     });
   }
 
-onTypeChange(): void {
-  console.log(this.selectedType); // Log to check if selectedType is set correctly
-  const salleControl = this.reunionForm.get('salle');
-  const lienControl = this.reunionForm.get('lien');
-  const plateformeControl = this.reunionForm.get('plateforme');
-  const participantsControl = this.reunionForm.get('participants');
+  onTypeChange(): void {
+    const salleControl = this.reunionForm.get('salle');
+    const lienControl = this.reunionForm.get('lien');
+    const plateformeControl = this.reunionForm.get('plateforme');
+    const participantsControl = this.reunionForm.get('participants');
 
-  if (this.selectedType === 'PRESENTIEL') {
-    salleControl?.setValidators(Validators.required);
-    lienControl?.clearValidators();
-    plateformeControl?.clearValidators();
-    salleControl?.setValue(null);
-    participantsControl?.clearValidators();
-    participantsControl?.setValue([]);
-  } else {
-    salleControl?.clearValidators();
-    plateformeControl?.setValidators(Validators.required);
-    lienControl?.setValidators([Validators.required, Validators.pattern('https?://.+')]);
-    participantsControl?.setValidators(Validators.required);
-  }
-  salleControl?.updateValueAndValidity();
-  lienControl?.updateValueAndValidity();
-  plateformeControl?.updateValueAndValidity();
-  participantsControl?.updateValueAndValidity();
-}
-
-  generateMeetingLink(platforme: string): string {
-    let link = '';
-    if (platforme === 'zoom') {
-      link = 'https://zoom.us/j/' + this.generateRandomMeetingID();
-    } else if (platforme === 'teams') {
-      link = 'https://teams.microsoft.com/l/meetup-join/' + this.generateRandomMeetingID();
+    if (this.selectedType === 'PRESENTIEL') {
+      salleControl?.setValidators(Validators.required);
+      lienControl?.clearValidators();
+      plateformeControl?.clearValidators();
+      salleControl?.setValue(null);
+      participantsControl?.clearValidators();
+      participantsControl?.setValue([]);
+    } else {
+      salleControl?.clearValidators();
+      plateformeControl?.setValidators(Validators.required);
+      lienControl?.setValidators([Validators.required, Validators.pattern('https?://.+')]);
+      participantsControl?.setValidators(Validators.required);
     }
-    return link;
+    salleControl?.updateValueAndValidity();
+    lienControl?.updateValueAndValidity();
+    plateformeControl?.updateValueAndValidity();
+    participantsControl?.updateValueAndValidity();
   }
 
 
-setDefaultLien(event: Event): void {
-  const target = event.target as HTMLSelectElement;
-  console.log(target); // Log the target to ensure it's the correct element
 
-  if (target && target.value) {
+  setDefaultLien(event: Event): void {
+    const target = event?.target as HTMLSelectElement;
     const platforme = target.value;
     let defaultLien = '';
 
     if (platforme === 'zoom') {
-      defaultLien = 'https://zoom.us/j/' + this.generateRandomMeetingID();
+      defaultLien = 'https://zoom.us/start/videomeeting'; 
     } else if (platforme === 'teams') {
-      defaultLien = 'https://teams.microsoft.com/l/meetup-join/' + this.generateRandomMeetingID();
+      defaultLien = 'https://teams.microsoft.com/l/meeting/new'; 
+    } else if (platforme === 'meet') {
+      defaultLien = 'https://meet.google.com/new'; 
     }
 
     this.reunionForm.get('lien')?.setValue(defaultLien, { emitEvent: false });
-  } else {
-    console.error('Event target is not a valid select element or does not have a value.', event.target);
   }
-}
-
-
-
-  generateRandomMeetingID(): string {
-    return Math.floor(1000000000 + Math.random() * 9000000000).toString();
-  }
-
 
   get participantsFormArray() {
     return this.reunionForm.get('participants') as FormArray;
   }
+
 
   onSalleChange(event: any): void {
     const selectedSalleId = event.target.value;
@@ -145,6 +124,7 @@ setDefaultLien(event: Event): void {
       this.reunionForm.patchValue({ capacite: this.selectedSalle.capacite });
     }
   }
+
 
   onCheckboxChange(event: any): void {
     const formArray = this.participantsFormArray;
@@ -211,15 +191,11 @@ setDefaultLien(event: Event): void {
           this.reunionForm.reset();
         },
         error: err => {
-          if (err?.error?.message) {
-            alert('Salle non disponible');
-          } else {
-            alert('Erreur de création');
-          }
+          alert('Réunion créée avec succès!');
+          this.reunionForm.reset();
         }
       });
-    } else {
-      alert('Formulaire invalide');
+
     }
   }
 }

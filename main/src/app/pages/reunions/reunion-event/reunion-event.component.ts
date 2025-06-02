@@ -53,37 +53,46 @@ export class ReunionEventComponent implements OnInit {
           const eventEnd = new Date(event.end);
           return {
             ...event,
-            isPast: eventEnd < now  
+            isPast: eventEnd < now
           };
         });
         console.log('events', this.events);
-        this.startReminder();
       },
       complete: () => { }
     });
+    this.startReminder();
+
   }
 
-  startReminder() {
+  startReminder(): void {
     this.intervalId = setInterval(() => {
       const now = new Date();
       console.log("Vérification des rappels à", now.toLocaleTimeString());
 
       this.events.forEach(event => {
         const eventStart = new Date(event.start);
-        const eventStartTime = new Date(event.start);
-        eventStartTime.setMinutes(eventStart.getMinutes() - 10);
-        const isReminderTime =
-          now.getHours() === eventStartTime.getHours() &&
-          now.getMinutes() === eventStartTime.getMinutes();
+        const diffInMs = eventStart.getTime() - now.getTime();
+        const diffInMinutes = Math.floor(diffInMs / 60000);
 
-        console.log(`Événement "${event.title}" rappel à ${eventStartTime.toLocaleTimeString()}`);
+        console.log(`Événement "${event.title}" commence dans ${diffInMinutes} minutes`);
 
-        if (isReminderTime) {
-          console.log(`Rappel pour l'événement "${event.title}"`);
+        if (diffInMinutes === 10 && !this.notifiedEventIds.has(event.id)) {
+          this.notifiedEventIds.add(event.id);
           alert(`Votre réunion "${event.title}" commence dans 10 minutes.`);
         }
       });
-    }, 60000);
+    }, 60000); 
+  }
+
+  joinMeeting(event: any): void {
+    console.log("joinMeeting called with event:", event);
+    if (event.type === 'EN_LIGNE' && event.link) {
+      window.open(event.link, '_blank');
+    } else if (event.type === 'EN_LIGNE' && !event.link) {
+      alert("Le lien de la réunion n'est pas disponible.");
+    } else {
+      alert("Cet événement n'est pas en ligne.");
+    }
   }
 
 
@@ -92,6 +101,7 @@ export class ReunionEventComponent implements OnInit {
   }
 
   getEvent(dayName: string, hour: string) {
+
     const day = this.weekDays.find(d => d.name === dayName);
     if (!day) return null;
 
@@ -107,15 +117,5 @@ export class ReunionEventComponent implements OnInit {
     });
   }
 
- joinMeeting(event: any): void {
-  if (event.type === 'EN_LIGNE' && event.link) {
-    // Ouvre le lien de la réunion dans un nouvel onglet
-    window.open(event.link, '_blank');
-  } else if (event.type === 'EN_LIGNE' && !event.link) {
-    alert("Le lien de la réunion n'est pas disponible.");
-  } else {
-    alert("Cet événement n'est pas en ligne.");
-  }
-}
 
 }

@@ -18,27 +18,27 @@
       <div class="time-row" *ngFor="let hour of hours">
         <div class="hour-column">{{ hour }}</div>
         <div class="day-column" *ngFor="let day of weekDays">
-          <div class="cell">
-            <div class="event" *ngIf="getEvent(day.name, hour)"
-              [ngClass]="{'past-event': getEvent(day.name, hour).isPast}">
-
+          <div class="cell" *ngIf="getEvent(day.name, hour) as event">
+            <div class="event" [ngClass]="{
+       'past-event': event.isPast,
+       'event-en-ligne': event.type === 'EN_LIGNE',
+       'event-presentiel': event.type !== 'EN_LIGNE'
+     }">
               <div class="event-title">
-                {{ getEvent(day.name, hour).title }}
+                {{ event.title }}
                 <br />
                 <small>
-                  {{ getEvent(day.name, hour).start | date:'HH:mm' }} -
-                  {{ getEvent(day.name, hour).end | date:'HH:mm' }}
+                  {{ event.start | date:'HH:mm' }} -
+                  {{ event.end | date:'HH:mm' }}
                 </small>
               </div>
 
-              <button *ngIf="getEvent(day.name, hour)?.type === 'EN_LIGNE' && !getEvent(day.name, hour)?.isPast"
-                class="join-btn" (click)="joinMeeting(getEvent(day.name, hour))">
-                📹 Rejoindre
+              <button *ngIf="event.type === 'EN_LIGNE' && !event.isPast" class="join-btn" (click)="joinMeeting(event)">
+                <span>📹 Rejoindre</span>
               </button>
-
             </div>
-
           </div>
+
         </div>
       </div>
     </div>

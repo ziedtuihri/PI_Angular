@@ -10,33 +10,42 @@
       class="p-4 max-w-md mx-auto bg-white rounded-2xl shadow-md space-y-4">
 
 
-
-      <div>
-        <label for="nom"> Nom:</label> &nbsp;
-        <input id="nom" type="text" formControlName="nom" placeholder="Nom du participant" />
-        <div *ngIf="participantForm.get('nom')?.invalid && participantForm.get('nom')?.touched"
-          style="color: red;font-size: 12px;">
-          Le nom est requis.
-        </div>
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Nom</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput placeholder="Nom du participant" formControlName="nom" />
+          <mat-error *ngIf="participantForm.get('nom')?.invalid && participantForm.get('nom')?.touched">
+            Le nom est requis.
+          </mat-error>
+        </mat-form-field>
       </div>
+
       <br>
 
-      <div>
-        <label for="email"> Email:</label> &nbsp;
-        <input id="email" type="email" formControlName="email" placeholder="Email" />
-        <div *ngIf="participantForm.get('email')?.invalid && participantForm.get('email')?.touched"
-          style="color: red;font-size: 12px;">
-          Email invalide ou requis.
-        </div>
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Email</mat-label>
+        <mat-form-field appearance="outline" class="w-100" color="primary">
+          <input matInput type="email" placeholder="Email" formControlName="email" />
+          <mat-error *ngIf="participantForm.get('email')?.invalid && participantForm.get('email')?.touched">
+            Email invalide ou requis.
+          </mat-error>
+        </mat-form-field>
       </div>
+
       <br>
 
-      <div>
-        <label for="user"> Utilisateur:</label> &nbsp;
-        <select id="user" formControlName="userId">
-          <option *ngFor="let user of users" [value]="user.id">{{ user.nom }}</option>
-        </select>
+      <div class="col-lg-6">
+        <mat-label class="f-w-600 m-b-8 d-block">Utilisateur</mat-label>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="userId" placeholder="Sélectionnez un utilisateur">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{ user.firstName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
+
+
       <br>
 
       <div class="mb-3 text-end">
