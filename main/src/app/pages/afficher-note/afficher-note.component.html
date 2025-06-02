@@ -1,0 +1,17 @@
+<div *ngFor="let user of notesGrouped" class="user-note-card">
+  <h2 class="user-title">{{ user.userName }}</h2>
+  <table class="note-table">
+    <thead>
+      <tr>
+        <th>Sprint</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let note of user.notes">
+        <td>{{ note.sprintName }}</td>
+        <td>{{ note.valeur }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

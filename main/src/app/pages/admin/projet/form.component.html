@@ -2,78 +2,136 @@
   <mat-card-header>
     <mat-card-title class="m-b-0">{{ editMode ? 'Modifier le projet' : 'Ajouter un projet' }}</mat-card-title>
   </mat-card-header>
+
   <mat-card-content class="b-t-1">
     <form [formGroup]="projetForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Nom du projet</mat-label>
+          <mat-label class="f-w-600 m-b-8 d-block">Nom du projet *</mat-label>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput formControlName="nom" required maxlength="255">
-            <mat-error *ngIf="projetForm.get('nom')?.hasError('required')">Le nom du projet est requis.</mat-error>
-            <mat-error *ngIf="projetForm.get('nom')?.hasError('maxlength')">Le nom du projet ne doit pas dépasser 255 caractères.</mat-error>
+            <input matInput formControlName="nom" maxlength="255" required />
+            <mat-error *ngIf="projetForm.get('nom')?.hasError('required') && projetForm.get('nom')?.touched">
+              Le nom du projet est requis.
+            </mat-error>
+            <mat-error *ngIf="projetForm.get('nom')?.hasError('maxlength') && projetForm.get('nom')?.touched">
+              Le nom du projet ne doit pas dépasser 255 caractères.
+            </mat-error>
           </mat-form-field>
         </div>
+
         <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Statut</mat-label>
+          <mat-label class="f-w-600 m-b-8 d-block">Statut *</mat-label>
           <mat-form-field appearance="outline" class="w-100">
             <mat-select formControlName="statut" required>
-              <mat-option value="NOTSTARTED">Non démarré</mat-option>
-              <mat-option value="INPROGRESS">En cours</mat-option>
-              <mat-option value="CANCELLED">Annulé</mat-option>
-              <mat-option value="DONE">Terminé</mat-option>
+              <mat-option *ngFor="let status of projectStatuses" [value]="status">
+                {{ status.split('_').join(' ') | titlecase }}
+              </mat-option>
             </mat-select>
-            <mat-error *ngIf="projetForm.get('statut')?.hasError('required')">Le statut est requis.</mat-error>
+            <mat-error *ngIf="projetForm.get('statut')?.hasError('required') && projetForm.get('statut')?.touched">
+              Le statut est requis.
+            </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-lg-12">
+
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Type de Projet *</mat-label>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-select formControlName="projectType" required>
+              <mat-option *ngFor="let type of projectTypes" [value]="type">
+                {{ type.split('_').join(' ') }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="projetForm.get('projectType')?.hasError('required') && projetForm.get('projectType')?.touched">
+              Le type de projet est requis.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6">
           <mat-label class="f-w-600 m-b-8 d-block">Description</mat-label>
           <mat-form-field appearance="outline" class="w-100">
             <textarea matInput formControlName="description" rows="3" maxlength="1000"></textarea>
-            <mat-error *ngIf="projetForm.get('description')?.hasError('maxlength')">La description ne doit pas dépasser 1000 caractères.</mat-error>
+            <mat-error *ngIf="projetForm.get('description')?.hasError('maxlength') && projetForm.get('description')?.touched">
+              La description ne doit pas dépasser 1000 caractères.
+            </mat-error>
           </mat-form-field>
         </div>
+
         <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Date de début</mat-label>
+          <mat-label class="f-w-600 m-b-8 d-block">Date de début *</mat-label>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput [matDatepicker]="debutPicker" formControlName="dateDebut" required>
+            <input matInput [matDatepicker]="debutPicker" formControlName="dateDebut" required />
             <mat-datepicker-toggle matSuffix [for]="debutPicker"></mat-datepicker-toggle>
             <mat-datepicker #debutPicker></mat-datepicker>
-            <mat-error *ngIf="projetForm.get('dateDebut')?.hasError('required')">La date de début est requise.</mat-error>
+            <mat-error *ngIf="projetForm.get('dateDebut')?.hasError('required') && projetForm.get('dateDebut')?.touched">
+              La date de début est requise.
+            </mat-error>
           </mat-form-field>
         </div>
+
         <div class="col-lg-6">
-          <mat-label class="f-w-600 m-b-8 d-block">Date de fin prévue</mat-label>
+          <mat-label class="f-w-600 m-b-8 d-block">Date de fin prévue *</mat-label>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput [matDatepicker]="finPrevuePicker" formControlName="dateFinPrevue" required>
+            <input matInput [matDatepicker]="finPrevuePicker" formControlName="dateFinPrevue" required />
             <mat-datepicker-toggle matSuffix [for]="finPrevuePicker"></mat-datepicker-toggle>
             <mat-datepicker #finPrevuePicker></mat-datepicker>
-            <mat-error *ngIf="projetForm.get('dateFinPrevue')?.hasError('required')">La date de fin prévue est requise.</mat-error>
+            <mat-error *ngIf="projetForm.get('dateFinPrevue')?.hasError('required') && projetForm.get('dateFinPrevue')?.touched">
+              La date de fin prévue est requise.
+            </mat-error>
+            <mat-error *ngIf="projetForm.hasError('dateFinPrevueBeforeDebut') && projetForm.get('dateFinPrevue')?.touched">
+              La date de fin prévue ne peut pas être antérieure à la date de début.
+            </mat-error>
           </mat-form-field>
         </div>
+
         <div class="col-lg-6">
           <mat-label class="f-w-600 m-b-8 d-block">Fichier (optionnel)</mat-label>
-          <input type="file" (change)="onFileSelected($event)" class="form-control">
+          <input type="file" (change)="onFileSelected($event)" class="form-control" />
         </div>
+
         <div class="col-lg-6" *ngIf="editMode">
           <mat-label class="f-w-600 m-b-8 d-block">Date de fin réelle</mat-label>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput [matDatepicker]="finReellePicker" formControlName="dateFinReelle">
+            <input matInput [matDatepicker]="finReellePicker" formControlName="dateFinReelle" />
             <mat-datepicker-toggle matSuffix [for]="finReellePicker"></mat-datepicker-toggle>
             <mat-datepicker #finReellePicker></mat-datepicker>
+            <mat-error *ngIf="projetForm.hasError('dateFinReelleBeforeDebut') && projetForm.get('dateFinReelle')?.touched">
+              La date de fin réelle ne peut pas être antérieure à la date de début.
+            </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-lg-12">
-          <mat-label class="f-w-600 m-b-8 d-block">Étudiants (séparés par des virgules)</mat-label>
+
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Email de l'encadrant</mat-label>
           <mat-form-field appearance="outline" class="w-100">
-            <input matInput formControlName="listeEtudiantsInput" maxlength="500">
-            <mat-hint>Entrez les noms des étudiants séparés par des virgules.</mat-hint>
-            <mat-error *ngIf="projetForm.get('listeEtudiantsInput')?.hasError('maxlength')">La liste des étudiants ne doit pas dépasser 500 caractères.</mat-error>
+            <input matInput formControlName="encadrantEmail" type="email" />
+            <mat-error *ngIf="projetForm.get('encadrantEmail')?.hasError('email') && projetForm.get('encadrantEmail')?.touched">
+              Veuillez entrer une adresse email valide.
+            </mat-error>
           </mat-form-field>
         </div>
+
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Emails étudiants (séparés par des virgules)</mat-label>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput formControlName="listeEtudiantsInput" maxlength="500" />
+            <mat-hint>Entrez les adresses email des étudiants séparées par des virgules.</mat-hint>
+            <mat-error *ngIf="projetForm.get('listeEtudiantsInput')?.hasError('maxlength') && projetForm.get('listeEtudiantsInput')?.touched">
+              La liste des emails ne doit pas dépasser 500 caractères.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div *ngIf="formErrorMessage" class="text-danger m-t-12">
+        {{ formErrorMessage }}
       </div>
 
       <div class="m-t-12">
-        <button mat-flat-button color="primary" class="m-r-8" type="submit">{{ editMode ? 'Enregistrer' : 'Ajouter' }}</button>
+        <button mat-flat-button color="primary" class="m-r-8" type="submit" [disabled]="projetForm.invalid">
+          {{ editMode ? 'Enregistrer' : 'Ajouter' }}
+        </button>
         <button mat-stroked-button color="warn" type="button" (click)="onCancel()">Annuler</button>
       </div>
     </form>

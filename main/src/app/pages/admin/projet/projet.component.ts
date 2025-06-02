@@ -1,12 +1,14 @@
+// src/app/components/projet/projet.component.ts
+
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common'; 
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Projet, ProjetService } from '../../../services/projet.service';
+import { Projet, ProjetService } from '../../../services/projet.service'; // Adjust path if necessary
 import { Router, RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -22,6 +24,8 @@ import { jwtDecode } from 'jwt-decode';
     authorities: string[];
   }
 
+// Import the new AuthService you just created
+import { AuthService } from '../../../services/auth.service'; // Adjust path if necessary
 
 @Component({
   selector: 'app-projet',
@@ -39,15 +43,29 @@ import { jwtDecode } from 'jwt-decode';
   ],
   templateUrl: './projet.component.html',
   styleUrls: ['./projet.component.scss'],
-  providers: [DatePipe], 
+  providers: [DatePipe],
 })
 
 
 export class ProjetComponent implements OnInit {
   projets: Projet[] = [];
-  displayedColumns: string[] = ['nom', 'statut', 'fichier', 'dateDebut', 'dateFinPrevue', 'actions'];
+  displayedColumns: string[] = [
+    'nom',
+    'projectType',
+    'statut',
+    'fichier',
+    'dateDebut',
+    'dateFinPrevue',
+    'actions',
+  ];
 
-  constructor(private projetService: ProjetService, private router: Router, private datePipe: DatePipe) {}
+  constructor(
+    private projetService: ProjetService,
+    private router: Router,
+    private datePipe: DatePipe,
+    // Inject the new AuthService here
+    public authService: AuthService
+  ) {}
 
 
 
@@ -73,31 +91,44 @@ export class ProjetComponent implements OnInit {
 
   }
 
-  loadProjets() {
-    this.projetService.getAll().subscribe({
+  loadProjets(): void {
+    this.projetService.getAllProjets().subscribe({
       next: (data) => (this.projets = data),
       error: (err) => console.error('Erreur lors du chargement des projets', err),
     });
   }
 
-  onAddProjet() {
+  onAddProjet(): void {
     this.router.navigate(['/projet/form']);
   }
 
-  onEditProjet(id: number | undefined) {
-    this.router.navigate(['/projet/form', id]);
-  }
-
-  onDeleteProjet(id: number | undefined) {
-    if (!id) return;
-    if (confirm('Voulez-vous vraiment supprimer ce projet ?')) {
-      this.projetService.delete(id).subscribe(() => this.loadProjets());
+  onEditProjet(id: number | undefined): void {
+    if (id) {
+      this.router.navigate(['/projet/form', id]);
     }
   }
 
-  downloadFile(idProjet: number): void {
-    this.projetService.downloadFile(idProjet).subscribe(response => {
-      this.downloadBlob(response.body!, this.getFileNameFromContentDisposition(response.headers.get('Content-Disposition')));
+  onDeleteProjet(id: number | undefined): void {
+    if (!id) return;
+    if (confirm('Voulez-vous vraiment supprimer ce projet ?')) {
+      this.projetService.delete(id).subscribe({
+        next: () => this.loadProjets(),
+        error: (err) => console.error('Erreur lors de la suppression du projet', err),
+      });
+    }
+  }
+
+  downloadFile(idProjet: number | undefined): void {
+    if (idProjet === undefined) {
+      console.error('Project ID is undefined for file download.');
+      return;
+    }
+    this.projetService.downloadFile(idProjet).subscribe({
+      next: (blobData) => {
+        const fileName = `projet_${idProjet}_fichier.pdf`;
+        this.downloadBlob(blobData, fileName);
+      },
+      error: (err) => console.error('Erreur lors du téléchargement du fichier', err),
     });
   }
 
@@ -112,18 +143,7 @@ export class ProjetComponent implements OnInit {
     document.body.removeChild(a);
   }
 
-  private getFileNameFromContentDisposition(contentDisposition: string | null): string {
-    if (!contentDisposition) {
-      return 'fichier';
-    }
-    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-    const matches = filenameRegex.exec(contentDisposition);
-    if (matches != null && matches.length > 1) {
-      return matches[1].replace(/['"]/g, '');
-    }
-    return 'fichier';
-  }
-  onViewDetail(id: number | undefined) {
+  onViewDetail(id: number | undefined): void {
     if (id) {
       this.router.navigate(['/projet/detail', id]);
     }

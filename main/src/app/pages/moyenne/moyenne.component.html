@@ -1,0 +1,44 @@
+<div class="moyenne-container">
+  <h2>Calcul de la moyenne d’un utilisateur pour un projet</h2>
+  <table class="moyenne-table">
+    <thead>
+      <tr>
+        <th>Utilisateur</th>
+        <th>Projet</th>
+        <th>Action</th>
+        <th>Moyenne</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <select [(ngModel)]="selectedUserId" class="select-box">
+            <option [ngValue]="null">-- Sélectionner --</option>
+            <option *ngFor="let user of users" [ngValue]="user.id">
+              {{ user.firstName }} {{ user.lastName }}
+            </option>
+          </select>
+        </td>
+        <td>
+          <select [(ngModel)]="selectedProjetId" class="select-box">
+            <option [ngValue]="null">-- Sélectionner --</option>
+            <option *ngFor="let projet of projets" [ngValue]="projet.id">
+              {{ projet.nom }}
+            </option>
+          </select>
+        </td>
+        <td>
+          <button class="btn-calc" (click)="calculerMoyenne()">Calculer</button>
+        </td>
+        <td>
+          <span *ngIf="moyenne !== null" class="result">
+            {{ moyenne | number:'1.2-2' }}
+          </span>
+          <span *ngIf="errorMessage" class="error-msg">
+            {{ errorMessage }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

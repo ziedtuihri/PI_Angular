@@ -1,0 +1,43 @@
+.user-note-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.user-note-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.user-title {
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+  color: #333;
+  border-left: 4px solid #4CAF50;
+  padding-left: 12px;
+}
+
+.note-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.note-table th,
+.note-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.note-table th {
+  background-color: #f1f1f1;
+  color: #555;
+}
+
+.note-table tr:last-child td {
+  border-bottom: none;
+}

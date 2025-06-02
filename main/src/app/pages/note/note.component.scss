@@ -1,0 +1,108 @@
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.note-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.note-table th,
+.note-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.eval-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.project-name {
+  font-weight: bold;
+  color: #005792;
+}
+
+.evaluation-title {
+  font-weight: 500;
+  color: #222;
+}
+
+.sprint-name {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.user-col {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.note-input {
+  width: 60px;
+  padding: 6px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.note-input:disabled {
+  background-color: #eaeaea;
+  color: #999;
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.submit-btn {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #218838;
+}
+
+.error-messages {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #dc3545;
+  background-color: #f8d7da;
+  color: #721c24;
+  border-radius: 5px;
+}
+
+.error-messages ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}

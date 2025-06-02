@@ -1,0 +1,36 @@
+/* Exemple pour modifier la couleur de l'en-tête */
+.p-datepicker-header {
+  background-color: #f8f9fa; /* Gris clair comme Google Agenda */
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.5rem;
+}
+
+.p-datepicker-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Exemple pour les jours de la semaine */
+.p-datepicker-dow th {
+  padding: 0.5rem;
+  color: #757575; /* Gris moyen */
+}
+
+/* Exemple pour les cellules de jour */
+.p-datepicker-calendar td {
+  padding: 0.75rem;
+  border: 1px solid transparent; /* Supprimer les bordures par défaut */
+}
+
+.p-datepicker-calendar td:not(.p-datepicker-empty):hover {
+  background-color: #f0f0f0; /* Gris clair au survol */
+  cursor: pointer;
+}
+
+.p-datepicker-today a {
+  background-color: #1976d2 !important; /* Bleu Google Agenda */
+  color: white !important;
+  border-radius: 50%;
+}
+
+/* ... et ainsi de suite pour les autres éléments */

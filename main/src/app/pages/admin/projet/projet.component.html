@@ -3,7 +3,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
       <mat-card-title class="text-xl font-bold m-0">Liste des projets</mat-card-title>
       <div>
-        <button mat-flat-button color="primary" (click)="onAddProjet()">
+        <button mat-flat-button color="primary" (click)="onAddProjet()" *ngIf="authService.isTeacherOrHR()">
           <mat-icon>add</mat-icon>
           Ajouter un projet
         </button>
@@ -17,14 +17,19 @@
           <td mat-cell *matCellDef="let projet">{{ projet.nom }}</td>
         </ng-container>
 
+        <ng-container matColumnDef="projectType">
+          <th mat-header-cell *matHeaderCellDef>Type de Projet</th>
+          <td mat-cell *matCellDef="let projet">{{ projet.projectType }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="statut">
           <th mat-header-cell *matHeaderCellDef>Statut</th>
           <td mat-cell *matCellDef="let projet">
             <span [ngClass]="{
-              'statut-non-demarre': projet.statut === 'NOTSTARTED',
-              'statut-en-cours': projet.statut === 'INPROGRESS',
-              'statut-annule': projet.statut === 'CANCELLED',
-              'statut-termine': projet.statut === 'DONE'
+              'statut-not-started': projet.statut === 'NOTSTARTED',
+              'statut-in-progress': projet.statut === 'INPROGRESS',
+              'statut-cancelled': projet.statut === 'CANCELLED',
+              'statut-done': projet.statut === 'DONE'
             }">
               {{ projet.statut }}
             </span>
@@ -58,15 +63,20 @@
             <button mat-icon-button color="accent" (click)="onViewDetail(projet.idProjet)" matTooltip="Voir les détails">
               <mat-icon>visibility</mat-icon>
             </button>
+
+            <button mat-icon-button color="warn" (click)="onEvaluateProjet(projet.idProjet)" matTooltip="Évaluer le projet" *ngIf="authService.isTeacher()">
+              <mat-icon>star_rate</mat-icon>
+            </button>
+
             <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="onEditProjet(projet.idProjet)">
+              <button mat-menu-item (click)="onEditProjet(projet.idProjet)" *ngIf="authService.isTeacherOrHR()">
                 <mat-icon>edit</mat-icon>
                 <span>Modifier</span>
               </button>
-              <button mat-menu-item (click)="onDeleteProjet(projet.idProjet)">
+              <button mat-menu-item (click)="onDeleteProjet(projet.idProjet)" *ngIf="authService.isTeacherOrHR()">
                 <mat-icon>delete</mat-icon>
                 <span>Supprimer</span>
               </button>

@@ -9,15 +9,11 @@ import {SprintEtudiantsComponent} from './pages/admin/sprint/sprint-etudiants.co
 import { AuthGuard } from './services/auth.guard';
 import { ProjetFormComponent } from './pages/admin/projet/form.component';
 import {SprintListComponent} from './pages/admin/sprint/sprint-list.component';
-import { SprintFormComponent } from './pages/admin/sprint/sprint-form.component';
+import { SprintFormAdminComponent } from './pages/admin/sprint/sprint-form.component';
 import { SprintDetailsComponent} from './pages/admin/sprint/sprint-details.component'
-import { ListtacheComponent } from './pages/admin/tache/listtache.component';
-import { TacheFormAdminComponent } from './pages/admin/tache/tache-form-admin.component';
+import { ListtacheComponent } from './pages/admin/tache/listtache.component'; // Make sure this is imported
+import { TacheFormComponent } from './pages/admin/tache/tache-form-admin.component';
 import { TacheDetailsComponent } from './pages/admin/tache/tachedetail.component';
-import { AddEvaluationComponent } from './pages/add-evaluation/add-evaluation.component';
-import { EvaluationComponent } from './pages/evaluation/evaluation.component';
-import { NoteComponent } from './pages/note/note.component';
-
 
 export const routes: Routes = [
   {
@@ -31,84 +27,78 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'projet', 
+        path: 'projet',
         component :ProjetComponent,
       },
       {
-        path: 'projet/form', 
+        path: 'projet/form',
         component: ProjetFormComponent,
       },
       {
-        path: 'projet/form/:id', 
+        path: 'projet/form/:id',
         component: ProjetFormComponent,
       },
       {
-        path: 'projet/detail/:id', 
-        component: ProjetDetailComponent, 
-      },
-      {
-        path: 'sprints/details/:id', 
-        component: SprintDetailsComponent, 
+        path: 'projet/detail/:id',
+        component: ProjetDetailComponent,
       },
 
+
       {
-        path: 'sprints', 
+        path: 'sprints/details/:id',
+        component: SprintDetailsComponent,
+      },
+      
+
+      {
+        path: 'sprints',
         component: SprintListComponent,
       },
       {
         path: 'sprints/add',
-        component: SprintFormComponent,
+        component: SprintFormAdminComponent,
       },
 
       {
         path: 'sprints/:id/edit',
-        component: SprintFormComponent,
+        component: SprintFormAdminComponent,
       },
       {
-        path: 'sprints/:id/etudiants/manage', 
+        path: 'sprints/:id/etudiants/manage',
         component: SprintEtudiantsComponent,
       },
+       
+      // Route for adding a new task to a specific sprint
+      { path: 'sprints/:sprintId/tasks/add', component: TacheFormComponent}, // Or TaskAddComponent, etc.
+
+      // If you also have an edit task route
+      { path: 'sprints/:sprintId/tasks/edit/:taskId', component: TacheFormComponent },
+
+      // <<< ADD THIS ROUTE TO DISPLAY TASKS FOR A SPECIFIC SPRINT >>>
+      { path: 'sprints/:sprintId/tasks', component: ListtacheComponent }, // <<< THIS IS THE MISSING ROUTE
+
+        { path: 'general-calendar', component: CalendarListComponent }, // **Changed to CalendarListComponent**
+
       {
-        path: 'taches', 
+        path: 'taches',
         component: ListtacheComponent,
       },
       {
-        path: 'taches/add', 
+        path: 'taches/add',
+        component: TacheFormComponent,
+      },
+       // Route for displaying task details
+  // The parameters in the URL pattern MUST match what you extract in the component
+  { path: 'sprints/:sprintId/tasks/details/:id', component: TacheDetailsComponent },
+
+      {
+         path: 'taches/edit/:id',
         component: TacheFormAdminComponent,
       },
       {
-       path: 'taches/edit/:id',
-        component: TacheFormAdminComponent,
-      },
-      {
-        path: 'taches/details/:id', 
+        path: 'taches/details/:id',
         component: TacheDetailsComponent,
       },
-
-      {
-        path: 'evaluation',
-        component: EvaluationComponent,
-      },
-
-        {
-        path: 'note',
-        component: NoteComponent,
-      },
-
-  /* The code snippet you provided is defining the routing configuration for an Angular application. */
-
- 
-
-      {
-        path: 'add-evaluation/:idProjet',
-        component: AddEvaluationComponent,
-      },
-
-
-
-
-      
-
       {
         path: 'dashboard',
         loadChildren: () =>

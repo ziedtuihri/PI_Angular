@@ -1,44 +1,56 @@
 <mat-card class="cardWithShadow theme-card">
-    <mat-card-header>
-      <mat-card-title class="m-b-0">Détails du Sprint</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="b-t-1">
-      <div *ngIf="loading" class="spinner-container">
-        <mat-spinner></mat-spinner>
-      </div>
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-      <div *ngIf="sprintDetails && !loading && !errorMessage">
-        <p><strong>Nom:</strong> {{ sprintDetails.nom }}</p>
-        <p><strong>Date de Début:</strong> {{ sprintDetails.dateDebut | date }}</p>
-        <p><strong>Date de Fin:</strong> {{ sprintDetails.dateFin | date }}</p>
-        <p><strong>Statut:</strong> <span [ngClass]="getStatutClass(sprintDetails.statut)">{{ sprintDetails.statut }}</span></p>
-        <p><strong>Description:</strong> {{ sprintDetails.description || 'Aucune description fournie.' }}</p>
-        <p><strong>Projet:</strong> {{ sprintDetails.projet?.nom || 'Non associé' }}</p>
-  
-        <div *ngIf="sprintDetails.etudiantsAffectes && sprintDetails.etudiantsAffectes.length > 0" class="m-t-16">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Détails du Sprint</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div *ngIf="loading" class="spinner-container">
+      <mat-spinner></mat-spinner>
+      <p>Chargement des détails du sprint...</p>
+    </div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    <div *ngIf="sprintDetails as sprint; else noSprint">
+      <div *ngIf="!loading && !errorMessage">
+        <p><strong>Nom:</strong> {{ sprint.nom }}</p>
+        <p><strong>Objectif:</strong> {{ sprint.objectif || 'Non défini' }}</p>
+        <p><strong>Date de Début:</strong> {{ sprint.dateDebut | date:'shortDate' }}</p>
+        <p><strong>Date de Fin:</strong> {{ sprint.dateFin | date:'shortDate' }}</p>
+        <p><strong>Statut:</strong> <span [ngClass]="getStatutClass(sprint.statut)">{{ sprint.statut }}</span></p>
+        <p><strong>Vélocité:</strong> {{ sprint.velocity || 'N/A' }}</p>
+        <p><strong>ID Projet:</strong> {{ sprint.projetId || 'Non associé' }}</p>
+        <p><strong>Description:</strong> {{ sprint.description || 'Aucune description fournie.' }}</p>
+
+        <div class="m-t-16">
           <strong>Étudiants Affectés:</strong>
-          <ul>
-            <li *ngFor="let etudiant of sprintDetails.etudiantsAffectes">{{ etudiant }}</li>
-          </ul>
+          <div *ngIf="sprint.etudiantsAffectes && sprint.etudiantsAffectes.length > 0; else noStudentsAssigned">
+            <mat-chip-listbox aria-label="Étudiants Affectés">
+              <mat-chip-row *ngFor="let etudiant of sprint.etudiantsAffectes">
+                <mat-icon matChipAvatar>person</mat-icon>
+                {{ etudiant }}
+              </mat-chip-row>
+            </mat-chip-listbox>
+          </div>
+          <ng-template #noStudentsAssigned>
+            <p class="text-muted">Aucun étudiant affecté à ce sprint.</p>
+          </ng-template>
         </div>
-        <div *ngIf="sprintDetails.etudiantsAffectes && sprintDetails.etudiantsAffectes.length === 0" class="m-t-16">
-          <strong>Étudiants Affectés:</strong> Aucun étudiant affecté à ce sprint.
+
+        <div class="m-t-12">
+          <button mat-stroked-button color="primary" routerLink="/sprints">Retour à la liste des sprints</button>
+          <button mat-stroked-button color="accent" class="m-l-8" [routerLink]="['/sprints', sprint.idSprint, 'etudiants', 'manage']">
+            Gérer les Étudiants
+          </button>
         </div>
       </div>
-      <div class="m-t-12">
-        <button mat-stroked-button color="primary" routerLink="/sprints">Retour à la liste des sprints</button>
-        <button mat-stroked-button color="accent" class="m-l-8" [routerLink]="['/sprints', sprintDetails?.idSprint, 'etudiants', 'manage']">
-          Gérer les Étudiants
-        </button>
-      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #noSprint>
+  <mat-card class="cardWithShadow theme-card">
+    <mat-card-content>
+      <p class="error-message">Sprint non trouvé ou non accessible.</p>
+      <button mat-stroked-button color="primary" routerLink="/sprints">Retour à la liste des sprints</button>
     </mat-card-content>
   </mat-card>
-  
-  <ng-template #noSprint>
-    <mat-card class="cardWithShadow theme-card">
-      <mat-card-content>
-        <p>Sprint non trouvé.</p>
-        <button mat-stroked-button color="primary" routerLink="/sprints">Retour à la liste des sprints</button>
-      </mat-card-content>
-    </mat-card>
-  </ng-template>
+</ng-template>
