@@ -53,4 +53,19 @@ export class ParticipationService {
     return this.http.patch<void>(`${this.baseUrl}/${participationId}/status`, { status });
   }
 
+  hasStudentApplied(eventId: number, studentEmail: string): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiUrl}/participations/hasApplied`, {
+      params: {
+        evenementId: eventId.toString(),
+        studentEmail
+      }
+    });
+  }
+
+  deleteParticipation(participationId: number, studentEmail: string) {
+    return this.http.delete(`${this.baseUrl}/${participationId}`);
+  }
+
+
+
 }

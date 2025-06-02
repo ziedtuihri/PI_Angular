@@ -1,21 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService, Event } from 'src/app/services/Admin-Service/EventService';
+import { EventService } from 'src/app/services/Admin-Service/EventService';
 import { ParticipationService } from 'src/app/services/Etudiant.Service/participation.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {FormsModule} from "@angular/forms";
-import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
-import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
-import {MatToolbar} from "@angular/material/toolbar";
-import {MatCard, MatCardActions, MatCardContent, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import { DatePipe, NgForOf, NgIf } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerToggle
+} from '@angular/material/datepicker';
+import {
+  MatFormField,
+  MatInput,
+  MatLabel
+} from '@angular/material/input';
+import { MatToolbar } from '@angular/material/toolbar';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardSubtitle,
+  MatCardTitle
+} from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatButton} from "@angular/material/button";
+import { MatButton } from '@angular/material/button';
+import {MatButtonToggleGroup, MatButtonToggleModule} from '@angular/material/button-toggle';
+
+
 @Component({
   selector: 'app-student-event',
   templateUrl: './student-event.component.html',
   standalone: true,
+  styleUrls: ['./student-event.component.css'],
   imports: [
     MatProgressSpinner,
     DatePipe,
@@ -35,32 +53,29 @@ import {MatButton} from "@angular/material/button";
     NgForOf,
     NgIf,
     MatInput,
-    MatButton
-  ],
-  styleUrls: ['./student-event.component.css']
+    MatButton,
+    MatButtonToggleGroup, MatButtonToggleModule
+
+      ]
 })
 export class StudentEventComponent implements OnInit {
-  events: {
+  events: Awaited<{
     date: Date | null;
     entreprise?: { id: number; nom: string };
     titre: string;
+    hasApplied: boolean;
     description: string;
     id?: number;
     lieu: string;
-    status?: string
-  }[] = [];
-  filteredEvents: {
-    date: Date | null;
-    entreprise?: { id: number; nom: string };
-    titre: string;
-    description: string;
-    id?: number;
-    lieu: string;
-    status?: string
-  }[] = [];
+    status?: string;
+
+  }>[] = [];
+
+  filteredEvents: typeof this.events = [];
   today = new Date();
   isLoading = false;
-  studentEmail: string = 'student@example.com'; // Replace manually or later via Auth
+
+  studentEmail: string = 'student@example.com'; // Replace with actual auth when available
 
   filters = {
     title: '',
@@ -68,7 +83,7 @@ export class StudentEventComponent implements OnInit {
     startDateFrom: null as Date | null,
     startDateTo: null as Date | null
   };
-
+  viewMode: 'all' | 'mine' = 'all'; // default is "All Events"
   constructor(
     private eventService: EventService,
     private participationService: ParticipationService,
@@ -82,15 +97,31 @@ export class StudentEventComponent implements OnInit {
 
   loadUpcomingEvents(): void {
     this.isLoading = true;
+
     this.eventService.getAll().subscribe({
-      next: (data) => {
-        this.events = data
+      next: async (data) => {
+        const mappedEvents = data
           .map(event => ({
             ...event,
-            date: this.parseDateSafe(event.date)
+            date: this.parseDateSafe(event.date),
+            hasApplied: false // default
           }))
           .filter(event => event.date && event.date >= this.today);
 
+        const statusChecks = mappedEvents.map(async event => {
+          try {
+            const applied = await this.participationService
+              .hasStudentApplied(event.id ?? 0, this.studentEmail)
+              .toPromise();
+            event.hasApplied = applied ?? false; // fix for TS2322
+          } catch (e) {
+            console.error(`Error checking application for event ${event.id}`, e);
+            event.hasApplied = false;
+          }
+          return event;
+        });
+
+        this.events = await Promise.all(statusChecks);
         this.applyFilters();
         this.isLoading = false;
       },
@@ -101,11 +132,11 @@ export class StudentEventComponent implements OnInit {
     });
   }
 
-  apply(eventId: number): void {
-    this.participationService.applyToEvent(eventId, this.studentEmail).subscribe({
+  apply(event: any): void {
+    this.participationService.applyToEvent(event.id, this.studentEmail).subscribe({
       next: () => {
         this.snackBar.open('Successfully applied to event!', 'Close', { duration: 3000 });
-        this.loadUpcomingEvents();
+        event.hasApplied = true; // ✅ update UI without reload
       },
       error: (err) => {
         console.error('Apply error', err);
@@ -113,6 +144,7 @@ export class StudentEventComponent implements OnInit {
       }
     });
   }
+
 
   applyFilters(): void {
     this.filteredEvents = this.events.filter(event => {
@@ -131,19 +163,19 @@ export class StudentEventComponent implements OnInit {
         : true;
 
       const dateFromMatch = this.filters.startDateFrom
-        ? (event.date && new Date(event.date) >= this.filters.startDateFrom)
+        ? event.date && event.date >= this.filters.startDateFrom
         : true;
 
       const dateToMatch = this.filters.startDateTo
-        ? (event.date && new Date(event.date) <= this.filters.startDateTo)
+        ? event.date && event.date <= this.filters.startDateTo
+        : true;
+      const viewModeMatch = this.viewMode === 'mine'
+        ? event.hasApplied
         : true;
 
-      return titleMatch && companyMatch && dateFromMatch && dateToMatch;
+      return titleMatch && companyMatch && dateFromMatch && dateToMatch && viewModeMatch;
     });
   }
-
-
-
 
   parseDateSafe(date: any): Date | null {
     if (!date) return null;
@@ -151,9 +183,36 @@ export class StudentEventComponent implements OnInit {
     return isNaN(parsed.getTime()) ? null : parsed;
   }
 
+  cancelParticipation(event: any): void {
+    this.participationService.getByEventId(event.id).subscribe({
+      next: (participations) => {
+        const target = participations.find(p => p.studentEmail === this.studentEmail);
+        if (target) {
+          this.participationService.deleteParticipation(target.id, this.studentEmail).subscribe({
+            next: () => {
+              this.snackBar.open('Participation canceled successfully.', 'Close', { duration: 3000 });
+              event.hasApplied = false;
+            },
+            error: (err) => {
+              console.error('Error canceling participation', err);
+              this.snackBar.open('Failed to cancel participation.', 'Close', { duration: 4000 });
+            }
+          });
+        } else {
+          this.snackBar.open('Participation not found.', 'Close', { duration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error('Error retrieving participation', err);
+        this.snackBar.open('Failed to find participation.', 'Close', { duration: 4000 });
+      }
+    });
+  }
+
+
+
+
   goToDashboard(): void {
     this.router.navigate(['student/dashboard']);
   }
-
-  protected readonly ParticipationService = ParticipationService;
 }

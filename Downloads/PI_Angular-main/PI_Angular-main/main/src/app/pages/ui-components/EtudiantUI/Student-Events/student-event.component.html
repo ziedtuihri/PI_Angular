@@ -1,5 +1,29 @@
 <mat-toolbar color="primary" class="toolbar">
-  <span>Upcoming Events</span>
+  <span class="toolbar-title">Upcoming Events</span>
+  <mat-button-toggle-group
+    [(ngModel)]="viewMode"
+    (change)="applyFilters()"
+    appearance="standard"
+    class="view-toggle"
+    aria-label="View mode toggle"
+  >
+    <mat-button-toggle value="all" class="toggle-btn">
+      <img
+        src="https://cdn-icons-png.flaticon.com/128/14035/14035648.png"
+        alt="All Events Icon"
+        class="toggle-icon"
+      />
+      <span>All Events</span>
+    </mat-button-toggle>
+    <mat-button-toggle value="mine" class="toggle-btn">
+      <img
+        src="https://cdn-icons-png.flaticon.com/128/9490/9490091.png"
+        alt="My Events Icon"
+        class="toggle-icon"
+      />
+      <span>My Events</span>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
 </mat-toolbar>
 
 <div class="filters-container mat-elevation-z2">
@@ -87,15 +111,30 @@
       {{ event.description }}
     </p>
     <div class="event-actions">
-      <button mat-flat-button color="primary" (click)="apply(event.id!)">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="apply(event)"
+        [disabled]="event.hasApplied"
+        *ngIf="!event.hasApplied"
+      >
         Apply
       </button>
+
+
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="cancelParticipation(event)"
+        *ngIf="event.hasApplied"
+      >
+        Cancel Participation
+      </button>
+
     </div>
-    <!-- NEW: show this message if event status is VALIDE -->
-    <p *ngIf="event.status === 'VALIDE'" class="event-calendar-message">
-      📅 This event is added to your Calendar
-    </p>
-      </mat-card>
+
+
+  </mat-card>
 </div>
 
 <ng-template #loading>
