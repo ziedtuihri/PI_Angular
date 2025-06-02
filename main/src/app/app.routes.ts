@@ -9,11 +9,17 @@ import {SprintEtudiantsComponent} from './pages/admin/sprint/sprint-etudiants.co
 import { AuthGuard } from './services/auth.guard';
 import { ProjetFormComponent } from './pages/admin/projet/form.component';
 import {SprintListComponent} from './pages/admin/sprint/sprint-list.component';
-import { SprintFormComponent } from './pages/admin/sprint/sprint-form.component';
+
 import { SprintDetailsComponent} from './pages/admin/sprint/sprint-details.component'
 import { ListtacheComponent } from './pages/admin/tache/listtache.component';
-import { TacheFormAdminComponent } from './pages/admin/tache/tache-form-admin.component';
+
 import { TacheDetailsComponent } from './pages/admin/tache/tachedetail.component';
+
+import { SprintFormAdminComponent } from './pages/admin/sprint/sprint-form.component';
+import { TacheFormComponent } from './pages/admin/tache/tache-form-admin.component';
+
+import { CalendarListComponent } from './pages/admin/sprint/calendar-list.component';
+
 
 export const routes: Routes = [
   {
@@ -26,60 +32,76 @@ export const routes: Routes = [
         redirectTo: '/dashboard',
         pathMatch: 'full',
       },
-      {
-        path: 'projet', 
-        component :ProjetComponent,
+        {
+        path: 'projet',
+        component: ProjetComponent,
       },
       {
-        path: 'projet/form', 
+        path: 'projet/form',
         component: ProjetFormComponent,
       },
       {
-        path: 'projet/form/:id', 
+        path: 'projet/form/:id',
         component: ProjetFormComponent,
       },
       {
-        path: 'projet/detail/:id', 
-        component: ProjetDetailComponent, 
+        path: 'projet/detail/:id',
+        component: ProjetDetailComponent,
       },
+ 
+      // --- Sprint Routes ---
       {
-        path: 'sprints/details/:id', 
-        component: SprintDetailsComponent, 
-      },
-
-      {
-        path: 'sprints', 
+        path: 'sprints',
         component: SprintListComponent,
       },
       {
-        path: 'sprints/add',
-        component: SprintFormComponent,
-      },
-
-      {
-        path: 'sprints/:id/edit',
-        component: SprintFormComponent,
+        // This path will now handle both adding and editing based on the component's internal logic
+        // The error 'sprint/form' was trying to match this kind of pattern
+        path: 'sprint/form', // Consistent with your navigate(['/sprint/form']) call
+        component: SprintFormAdminComponent,
       },
       {
-        path: 'sprints/:id/etudiants/manage', 
+        path: 'sprint/form/:id', // For editing
+        component: SprintFormAdminComponent,
+      },
+      {
+        path: 'sprints/details/:id',
+        component: SprintDetailsComponent,
+      },
+      {
+        path: 'sprints/:id/etudiants/manage',
         component: SprintEtudiantsComponent,
       },
+ 
+      // --- Task Routes (nested under sprints and general) ---
+      // Route for displaying tasks for a specific sprint
+      { path: 'sprints/:sprintId/tasks', component: ListtacheComponent },
+      // Route for adding a new task to a specific sprint
+      { path: 'sprints/:sprintId/tasks/add', component: TacheFormComponent },
+      // If you also have an edit task route for a specific sprint
+      { path: 'sprints/:sprintId/tasks/edit/:taskId', component: TacheFormComponent },
+      // Route for displaying task details for a specific sprint
+      { path: 'sprints/:sprintId/tasks/details/:id', component: TacheDetailsComponent },
+ 
+ 
+      // General task routes (not tied to a specific sprint in the URL)
       {
-        path: 'taches', 
+        path: 'taches',
         component: ListtacheComponent,
       },
       {
-        path: 'taches/add', 
-        component: TacheFormAdminComponent,
+        path: 'taches/add',
+        component: TacheFormComponent,
       },
       {
-         path: 'taches/edit/:id',
-        component: TacheFormAdminComponent,
+        path: 'taches/edit/:id',
+        component: TacheFormComponent,
       },
       {
-        path: 'taches/details/:id', 
+        path: 'taches/details/:id',
         component: TacheDetailsComponent,
       },
+      { path: 'calendar', component: CalendarListComponent },
       {
         path: 'dashboard',
         loadChildren: () =>

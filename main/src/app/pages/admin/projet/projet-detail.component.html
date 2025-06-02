@@ -7,12 +7,21 @@
     <mat-card-content class="b-t-1">
       <p>Date de début: {{ projet.dateDebut | date }}</p>
       <p>Date de fin prévue: {{ projet.dateFinPrevue | date }}</p>
-      <p>Statut: {{ projet.statut }}</p>
+      <p *ngIf="projet.dateFinReelle">Date de fin réelle: {{ projet.dateFinReelle | date }}</p>
+      <p>Type de projet: {{ projet.projectType ? projet.projectType.split('_').join(' ') : 'N/A' }}</p>
+
+      <div *ngIf="projet.teacherEmail">
+        <h3>Encadrant</h3>
+        <p>{{ projet.teacherEmail }}</p>
+      </div>
+      <div *ngIf="!projet.teacherEmail">
+        <p>Aucun encadrant assigné.</p>
+      </div>
 
       <h3>Liste des étudiants</h3>
-      <ul *ngIf="projet.listeEtudiants && projet.listeEtudiants.length > 0; else noEtudiants">
-        <li *ngFor="let etudiant of projet.listeEtudiants">
-          {{ etudiant }}
+      <ul *ngIf="projet.studentEmailsList && projet.studentEmailsList.length > 0; else noEtudiants">
+        <li *ngFor="let email of projet.studentEmailsList">
+          {{ email }}
         </li>
       </ul>
       <ng-template #noEtudiants>

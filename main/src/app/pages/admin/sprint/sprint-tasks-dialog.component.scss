@@ -1,0 +1,77 @@
+/* src/app/pages/admin/sprint/sprint-tasks-dialog/sprint-tasks-dialog.component.scss */
+
+.loading-message, .no-tasks-message {
+  text-align: center;
+  padding: 20px;
+  color: #555;
+  display: flex; /* Use flexbox for centering content (like spinner/icon) */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  margin-top: 10px;
+}
+
+.message-icon {
+  font-size: 48px; /* Larger icon for visual emphasis */
+  color: #9e9e9e; /* Grey color for info/no data */
+  margin-bottom: 10px;
+}
+
+.task-list-card {
+  /* This class is not directly used in the current template,
+     but keep it here if it's intended for an outer wrapper or future use. */
+  margin-top: 15px;
+}
+
+.task-card {
+  width: 100%; /* Make card fill the available width */
+  margin-bottom: 10px; /* Space between cards */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+mat-dialog-content {
+  min-width: 300px; /* Ensure a minimum width for the dialog content */
+  max-height: 60vh; /* Allow dialog content to scroll if too many tasks */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 0 24px 16px; /* Material Design standard padding for content */
+}
+
+mat-list-item {
+  height: auto !important; /* Override default fixed height of mat-list-item */
+  padding: 0 !important; /* Remove default padding to allow card to fill */
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75em; /* Slightly smaller text for badges */
+  font-weight: bold;
+  display: inline-block;
+  margin-left: 8px; /* Space from 'Statut:' label */
+  text-transform: uppercase; /* Optional: Make status text uppercase */
+}
+
+/* Status-specific badge colors */
+.status-todo {
+  background-color: #e0e0e0; /* Light grey */
+  color: #424242; /* Dark grey text */
+}
+.status-in-progress {
+  background-color: #e3f2fd; /* Light blue */
+  color: #1976d2; /* Darker blue text */
+}
+.status-done {
+  background-color: #e8f5e9; /* Light green */
+  color: #388e3c; /* Darker green text */
+}
+.status-blocked {
+  background-color: #ffebee; /* Light red */
+  color: #d32f2f; /* Darker red text */
+}
+.status-review {
+  background-color: #fffde7; /* Light yellow */
+  color: #fbc02d; /* Darker yellow text */
+}
