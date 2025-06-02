@@ -25,6 +25,29 @@ export const navItems: NavItem[] = [
     iconName: 'solar:atom-line-duotone',
     route: '/taches',
   },
+
+    { displayName: "Evaluation",
+    iconName: "solar:file-text-line-duotone",
+    route: '/evaluation', },
+
+
+
+
+     { displayName: "Ajouter Note",
+    iconName: "solar:file-text-line-duotone",
+    route: '/note', },
+
+
+
+  {
+    displayName: "Afficher Notes",
+    iconName: "solar:file-text-line-duotone",
+    route: '/afficher-notes',
+  },
+
+  { displayName: "Moyenne",
+    iconName: "solar:file-text-line-duotone",
+    route: '/moyenne', },
     {
     displayName: 'Anwer',
     iconName: 'solar:user-circle-line-duotone', // You can change the icon here

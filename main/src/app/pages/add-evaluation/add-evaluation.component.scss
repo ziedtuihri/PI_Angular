@@ -1,0 +1,42 @@
+.cardWithShadow {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.col-md-6 {
+  flex: 1 1 calc(50% - 1rem);
+}
+
+.col-md-12 {
+  flex: 1 1 100%;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
