@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { MessageDisplayComponent } from 'src/app/shared/components/message-display/message-display.component';
+// Update the path below to the correct relative path if needed
 import { JobApplication } from 'src/app/shared/models/job-application';
 import { JobApplicationService } from 'src/app/shared/services/job-application.service';
 import { TestPreviewComponent } from '../test-preview/test-preview.component';
@@ -21,7 +21,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MessageDisplayComponent,
     TestPreviewComponent,
     PdfViewerComponent,
   ],

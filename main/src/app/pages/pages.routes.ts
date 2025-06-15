@@ -12,5 +12,15 @@ export const PagesRoutes: Routes = [
         { title: 'Starter' },
       ],
     },
-  }
+  },
+  {
+    path: 'frontoffice',
+    loadChildren: () =>
+      import('../esprit/frontoffice/frontoffice.module').then((m) => m.FrontofficeModule),
+  },
+  {
+    path: 'backoffice',
+    loadChildren: () =>
+      import('../esprit/backoffice/backoffice.module').then((m) => m.BackofficeModule),
+  },
 ];

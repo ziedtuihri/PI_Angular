@@ -4,12 +4,7 @@
   <p>Loading application details...</p>
 </div>
 
-<!-- Show success/error messages -->
-<app-message-display
-  [errorMessage]="errorMessage"
-  [successMessage]="successMessage"
-  (clearMessages)="clearMessages()"
-></app-message-display>
+
 
 <!-- Main application details -->
 <div *ngIf="application" class="application-details-container">

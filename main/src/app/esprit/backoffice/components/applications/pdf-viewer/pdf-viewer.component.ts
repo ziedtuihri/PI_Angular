@@ -4,10 +4,10 @@ import { getDocument, PDFDocumentProxy } from 'pdfjs-dist';
 import * as pdfjsLib from 'pdfjs-dist';
 import 'pdfjs-dist/build/pdf.worker.entry'; // just import it — no assignment
 
-import { GlobalWorkerOptions } from 'pdfjs-dist/build/pdf';
+//import { GlobalWorkerOptions } from 'pdfjs-dist/build/pdf';
 
 // Set the workerSrc to the correct path (pdfjs takes care of it internally with Vite)
-GlobalWorkerOptions.workerSrc = '/node_modules/pdfjs-dist/build/pdf.worker.entry.js';
+//GlobalWorkerOptions.workerSrc = '/node_modules/pdfjs-dist/build/pdf.worker.entry.js';
 
 @Component({
   selector: 'app-pdf-viewer',
