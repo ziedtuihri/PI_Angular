@@ -1,0 +1,74 @@
+.evaluation-container {
+    padding: 2rem;
+    background: #f7f9fc;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  
+    h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #333;
+    }
+  
+    .empty-message {
+      text-align: center;
+      color: #999;
+      font-style: italic;
+    }
+  
+    .table-container {
+      overflow-x: auto;
+    }
+  
+    .evaluation-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+      thead {
+        background: #4e73df;
+        color: white;
+  
+        th {
+          padding: 1rem;
+          text-align: left;
+          font-weight: 600;
+        }
+      }
+  
+      tbody {
+        tr {
+          &:nth-child(even) {
+            background: #f2f4f8;
+          }
+  
+          &:hover {
+            background: #e2e6f0;
+          }
+  
+          td {
+            padding: 1rem;
+            color: #333;
+          }
+        }
+      }
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    
+      input {
+        flex: 1;
+        padding: 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    }
+    
+  }
+  

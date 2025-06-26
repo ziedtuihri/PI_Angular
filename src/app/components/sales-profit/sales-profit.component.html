@@ -1,0 +1,26 @@
+<mat-card class="cardWithShadow">
+    <mat-card-content>
+        <div class="hstack align-items-center flex-column flex-lg-row m-b-20">
+            <mat-card-title>Sales Profit</mat-card-title>
+            <div class="m-l-auto">
+                <mat-form-field class="theme-select" appearance="outline">
+                    <mat-select value="mar">
+                        @for(month of months; track month.viewValue ) {
+                        <mat-option [value]="month.value">
+                            {{ month.viewValue }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <apx-chart [series]="salesprofitChart.series" [dataLabels]="salesprofitChart.dataLabels"
+            [chart]="salesprofitChart.chart" [legend]="salesprofitChart.legend" [colors]="salesprofitChart.colors"
+            [grid]="salesprofitChart.grid" [fill]="salesprofitChart.fill" [stroke]="salesprofitChart.stroke"
+            [tooltip]="salesprofitChart.tooltip" [markers]="salesprofitChart.markers" [xaxis]="salesprofitChart.xaxis"
+            [responsive]="salesprofitChart.responsive" [yaxis]="salesprofitChart.yaxis">
+        </apx-chart>
+
+    </mat-card-content>
+</mat-card>

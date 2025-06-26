@@ -1,0 +1,33 @@
+<h2>Gestion des Étudiants du Sprint {{ sprintId }}</h2>
+
+<mat-card>
+  <mat-card-title>Étudiants Affectés</mat-card-title>
+  <mat-card-content>
+    <mat-list *ngIf="etudiantsAffectes.length > 0; else aucunEtudiant">
+      <mat-list-item *ngFor="let etudiant of etudiantsAffectes">
+        {{ etudiant }}
+        <button mat-icon-button color="warn" (click)="supprimerEtudiant(etudiant)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+    <ng-template #aucunEtudiant>
+      <p>Aucun étudiant n'est affecté à ce sprint.</p>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-3">
+  <mat-card-title>Affecter un Étudiant</mat-card-title>
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Nom de l'étudiant à affecter</mat-label>
+      <input matInput [(ngModel)]="nouveauEtudiantNom">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="affecterEtudiant()">Affecter</button>
+  </mat-card-content>
+</mat-card>
+
+<div class="mt-3">
+  <button mat-button color="accent" routerLink="/sprints">Retour à la liste des sprints</button>
+</div>

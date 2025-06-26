@@ -1,0 +1,46 @@
+<h2 class="calendar-title">📅 Mon calendrier des réunions</h2>
+<hr>
+<div class="teams-calendar" style="margin-top: 1em;">
+  <div class="calendar-header">
+    <div class="hour-column"></div>
+    <div class="day-column" *ngFor="let day of weekDays">
+      <div class="day-label">
+        <strong>{{ day.name }}</strong>
+        <br />
+        <small>{{ day.date }}</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⬇️ Ajout du wrapper pour scroll -->
+  <div class="calendar-scroll-wrapper">
+    <div class="calendar-body">
+      <div class="time-row" *ngFor="let hour of hours">
+        <div class="hour-column">{{ hour }}</div>
+        <div class="day-column" *ngFor="let day of weekDays">
+          <div class="cell">
+            <div class="event" *ngIf="getEvent(day.name, hour)"
+              [ngClass]="{'past-event': getEvent(day.name, hour).isPast}">
+
+              <div class="event-title">
+                {{ getEvent(day.name, hour).title }}
+                <br />
+                <small>
+                  {{ getEvent(day.name, hour).start | date:'HH:mm' }} -
+                  {{ getEvent(day.name, hour).end | date:'HH:mm' }}
+                </small>
+              </div>
+
+              <button *ngIf="getEvent(day.name, hour)?.type === 'EN_LIGNE' && !getEvent(day.name, hour)?.isPast"
+                class="join-btn" (click)="joinMeeting(getEvent(day.name, hour))">
+                📹 Rejoindre
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

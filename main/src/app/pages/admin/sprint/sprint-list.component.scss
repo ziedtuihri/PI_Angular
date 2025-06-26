@@ -1,0 +1,28 @@
+.search-and-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    gap: 16px; 
+  }
+  
+  .search-container {
+   
+    max-width: 300px;
+    width: 30%; 
+  }
+  
+
+  .search-and-title .mat-card-title {
+   
+  }
+
+  .pagination-container {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Espacement entre le paginator et l'indicateur */
+  }
+  
+  .page-size-indicator {
+    font-size: 0.8em;
+    color: gray;
+  }

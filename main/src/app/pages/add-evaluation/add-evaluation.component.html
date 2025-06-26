@@ -1,0 +1,44 @@
+<mat-card class="evaluation-card">
+  <mat-card-title>Ajouter une évaluation</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="evaluationForm" (ngSubmit)="onSubmit()" class="evaluation-form">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Titre</mat-label>
+        <input matInput formControlName="titre" placeholder="Titre de l’évaluation" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="Description" rows="3"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Date d’évaluation</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dateEvaluation" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Coefficient</mat-label>
+        <input matInput type="number" formControlName="coef" placeholder="Coefficient" min="0" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Sprint</mat-label>
+        <mat-select formControlName="sprintId" (selectionChange)="onValueChange($event)">
+          <mat-option *ngFor="let sprint of sprints" [value]="sprint.idSprint">
+            {{ sprint.nom }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="evaluationForm.invalid">
+          Ajouter l’évaluation
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
