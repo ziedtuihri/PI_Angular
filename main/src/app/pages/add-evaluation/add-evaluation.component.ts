@@ -32,7 +32,7 @@ import {NgForOf} from "@angular/common";
     NgForOf
   ],
   templateUrl: './add-evaluation.component.html',
-  styleUrls: ['./add-evaluation.component.css']
+  styleUrls: ['./add-evaluation.component.scss']
 })
 export class AddEvaluationComponent implements OnInit {
   evaluationForm!: FormGroup;
@@ -101,31 +101,39 @@ export class AddEvaluationComponent implements OnInit {
       return;
     }
 
-    const requestData = {
-      titre: evaluationData.titre,
-      description: evaluationData.description,
-      dateEvaluation: dateEvaluation.toISOString().split('T')[0],
-      coef: evaluationData.coef
-    };
-
-    this.evaluationService.addEvaluationToProjet(this.projetId, this.sprintId,requestData).subscribe({
-      next: (res) => {
-        console.log('Évaluation ajoutée avec succès', res);
-        // Afficher un message de succès
-        this.snackBar.open('Évaluation ajoutée avec succès', 'Fermer', {
-          duration: 3000, // Durée de la notification en millisecondes
-          horizontalPosition: 'right', // Position horizontale
-          verticalPosition: 'top' // Position verticale
-        });
-        //ici
-        this.router.navigate(['/projets']);
-      },
-      error: (err) => {
-        console.error('Erreur lors de l’ajout de l’évaluation :', err);
-        alert(err.error || 'Erreur lors de l\'ajout de l\'évaluation.');
+    // ➤ Étape 1 : vérifier qu'aucune évaluation n'existe déjà pour ce sprint
+    this.evaluationService.getAll().subscribe(allEvaluations => {
+      const exists = allEvaluations.some(ev => ev.sprint?.idSprint === this.sprintId);
+      if (exists) {
+        alert('Une évaluation existe déjà pour ce sprint.');
+        return;
       }
+
+      // ➤ Étape 2 : si ok, envoyer la requête
+      const requestData = {
+        titre: evaluationData.titre,
+        description: evaluationData.description,
+        dateEvaluation: dateEvaluation.toISOString().split('T')[0],
+        coef: evaluationData.coef
+      };
+
+      this.evaluationService.addEvaluationToProjet(this.projetId, this.sprintId, requestData).subscribe({
+        next: (res) => {
+          this.snackBar.open('Évaluation ajoutée avec succès', 'Fermer', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          });
+          this.router.navigate(['/projets']);
+        },
+        error: (err) => {
+          console.error('Erreur lors de l’ajout de l’évaluation :', err);
+          alert(err.error || 'Erreur lors de l\'ajout de l\'évaluation.');
+        }
+      });
     });
   }
+
 
 
   /* onValueChange($event: Event) {

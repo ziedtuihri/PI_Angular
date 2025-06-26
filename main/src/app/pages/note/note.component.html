@@ -1,6 +1,47 @@
-<h2>Liste des utilisateurs</h2>
-<ul>
-  <li *ngFor="let user of users">
-    {{ user.firstName }} {{ user.lastName }} (ID: {{ user.id }})
-  </li>
-</ul>
+<h2 class="section-title">📊 Attribution des notes par sprint</h2>
+
+<form *ngIf="formReady" [formGroup]="noteForm" (ngSubmit)="onSubmit()" class="note-form">
+  <div class="table-container">
+    <table class="note-table">
+      <thead>
+      <tr>
+        <th class="user-col">Utilisateur</th>
+        <th *ngFor="let evaluation of evaluations" class="eval-col">
+          <div class="eval-header">
+            <div class="project-name">{{ evaluation.projet?.nom || 'Projet inconnu' }}</div>
+            <div class="evaluation-title">{{ evaluation.titre }}</div>
+            <div class="sprint-name">Sprint : {{ evaluation.sprint?.nom || 'Non défini' }}</div>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td class="user-name">{{ user.firstName }} {{ user.lastName }}</td>
+        <td *ngFor="let evaluation of evaluations">
+          <input
+            type="number"
+            [formControlName]="getFormKey(user.id, evaluation.idEvaluation)"
+            [disabled]="noteForm.get(getFormKey(user.id, evaluation.idEvaluation))?.disabled ?? false"
+            min="0"
+            max="20"
+            placeholder="Note"
+            class="note-input"
+          />
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="submit-btn">✅ Enregistrer les notes</button>
+  </div>
+</form>
+
+<div *ngIf="errorMessages.length > 0" class="error-messages">
+  <h4>⚠️ Notes déjà affectées :</h4>
+  <ul>
+    <li *ngFor="let message of errorMessages">{{ message }}</li>
+  </ul>
+</div>

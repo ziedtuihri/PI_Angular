@@ -36,7 +36,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatNativeDateModule,
         MatSnackBarModule,
         MatDatepickerModule
-        
+
   ],
   templateUrl: './form-evaluation.component.html',
   styleUrls: ['./form-evaluation.component.scss'],
@@ -52,22 +52,25 @@ export class FormEvaluationComponent {
   evaluationToEdit: Evaluation = { ...this.data.evaluationToEdit };
 
   onSubmit(): void {
+    if (!this.evaluationToEdit.titre || !this.evaluationToEdit.dateEvaluation) {
+      alert('Veuillez remplir les champs requis.');
+      return;
+    }
+
     if (!this.evaluationToEdit.idEvaluation) {
-      //this.toastr.error('ID de l’évaluation manquant', 'Erreur');
       return;
     }
 
     this.evaluationService.update(this.evaluationToEdit.idEvaluation, this.evaluationToEdit).subscribe({
       next: () => {
-        //this.toastr.success('Évaluation modifiée avec succès ✅', 'Succès');
         this.dialogRef.close('updated');
       },
       error: (err) => {
         console.error('Erreur lors de la mise à jour de l’évaluation :', err);
-
       }
     });
   }
+
 
   onCancel(): void {
     this.dialogRef.close();

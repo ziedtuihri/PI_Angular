@@ -9,7 +9,7 @@ export const navItems: NavItem[] = [
     iconName: 'solar:atom-line-duotone',
     route: '/dashboard',
   },
-  
+
   {
     displayName: 'Projet',
     iconName: 'solar:atom-line-duotone',
@@ -25,19 +25,34 @@ export const navItems: NavItem[] = [
     iconName: 'solar:atom-line-duotone',
     route: '/taches',
   },
-  
-  { displayName: "Evaluation", 
-    iconName: "solar:file-text-line-duotone", 
-    route: '/evaluation', }, 
 
-     { displayName: "Note", 
-    iconName: "solar:file-text-line-duotone", 
-    route: '/note', }, 
+  { displayName: "Evaluation",
+    iconName: "solar:file-text-line-duotone",
+    route: '/evaluation', },
 
 
 
 
-  
+     { displayName: "Ajouter Note",
+    iconName: "solar:file-text-line-duotone",
+    route: '/note', },
+
+
+
+  {
+    displayName: "Afficher Notes",
+    iconName: "solar:file-text-line-duotone",
+    route: '/afficher-notes',
+  },
+
+  { displayName: "Moyenne",
+    iconName: "solar:file-text-line-duotone",
+    route: '/moyenne', },
+
+
+
+
+
   /*
   {
     displayName: 'Analytics',
@@ -533,7 +548,7 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Liste des réunions',
-    iconName: 'fa-list', 
+    iconName: 'fa-list',
     route: '/reunions/reunion-list',
   },
   {
@@ -547,7 +562,7 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Liste des salles',
-    iconName: 'fa-list', 
+    iconName: 'fa-list',
     route: '/salles/salles-list',
   }
   ,
@@ -562,12 +577,12 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Liste des participants',
-    iconName: 'fa-list', 
+    iconName: 'fa-list',
     route: '/participants/participants-list',
   },
 
- 
- 
+
+
   /*
     {
       divider: true,
@@ -678,7 +693,7 @@ export const navItems: NavItem[] = [
       chipClass: 'bg-secondary text-white',
       chipContent: 'PRO',
     },
-  
+
     {
       divider: true,
       navCap: 'Tables',
@@ -842,7 +857,7 @@ export const navItems: NavItem[] = [
       chipClass: 'bg-secondary text-white',
       chipContent: 'PRO',
     },
-  
+
     {
       divider: true,
       navCap: 'Chart',

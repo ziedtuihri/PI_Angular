@@ -1,4 +1,4 @@
-<!-- <div class="evaluation-container">
+<div class="evaluation-container">
   <h2>📋 Liste de toutes les évaluations</h2>
 
   <div class="search-bar">
@@ -30,7 +30,7 @@
         <td>{{ evaluation.description }}</td>
         <td>{{ evaluation.dateEvaluation | date: 'yyyy-MM-dd' }}</td>
         <td>{{ evaluation.coef }}</td>
-        <td>{{ evaluation.projet?.nom }}</td>
+        <td>{{ evaluation.projet?.nom || 'Non spécifié' }}</td>
         <td>{{ evaluation.sprint?.nom || 'Aucun sprint' }}</td>
         <td>
           <button class="btn btn-warning btn-sm me-2" (click)="modifierEvaluation(evaluation)">
@@ -39,59 +39,10 @@
           <button class="btn btn-danger btn-sm" (click)="confirmerEtSupprimer(evaluation.idEvaluation!)">
             🗑 Supprimer
           </button>
+
         </td>
       </tr>
       </tbody>
     </table>
   </div>
-</div> -->
-
-
-<div class="evaluation-container">
-  <h2>📋 Liste de toutes les évaluations</h2>
-
-  <div class="search-bar">
-    <input type="text" [(ngModel)]="searchTitre" placeholder="🔍 Rechercher par titre" />
-    <input type="date" [(ngModel)]="searchDate" placeholder="📅 Rechercher par date" />
-    <input type="text" [(ngModel)]="searchProjet" placeholder="🏗️ Rechercher par projet" />
-  </div>
-
-  <div *ngIf="filteredEvaluations().length === 0" class="empty-message">
-    <p>Aucune évaluation trouvée.</p>
-  </div>
-
-  <div *ngIf="filteredEvaluations().length > 0" class="table-container">
-    <table class="evaluation-table">
-      <thead>
-        <tr>
-          <th>Titre</th>
-          <th>Description</th>
-          <th>Date</th>
-          <th>Coef</th>
-          <th>Projet</th>
-          <th>Sprint</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let evaluation of filteredEvaluations()">
-          <td>{{ evaluation.titre }}</td>
-          <td>{{ evaluation.description }}</td>
-          <td>{{ evaluation.dateEvaluation | date: 'yyyy-MM-dd' }}</td>
-          <td>{{ evaluation.coef }}</td>
-          <td>{{ evaluation.projet?.nom || 'Non spécifié' }}</td>
-          <td>{{ evaluation.sprint?.nom || 'Aucun sprint' }}</td>
-          <td>
-            <button class="btn btn-warning btn-sm me-2" (click)="modifierEvaluation(evaluation)">
-              ✏️ Modifier
-            </button>
-            <button class="btn btn-danger btn-sm" (click)="confirmerEtSupprimer(evaluation.idEvaluation!)">
-              🗑 Supprimer
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </div>
-

@@ -17,6 +17,10 @@ import { TacheDetailsComponent } from './pages/admin/tache/tachedetail.component
 import { AddEvaluationComponent } from './pages/add-evaluation/add-evaluation.component';
 import { EvaluationComponent } from './pages/evaluation/evaluation.component';
 import { NoteComponent } from './pages/note/note.component';
+import { AfficherNotesComponent } from './pages/afficher-notes/afficher-notes.component';
+import {MoyenneComponent} from "./pages/moyenne/moyenne.component";
+
+
 
 
 export const routes: Routes = [
@@ -31,28 +35,28 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'projet', 
+        path: 'projet',
         component :ProjetComponent,
       },
       {
-        path: 'projet/form', 
+        path: 'projet/form',
         component: ProjetFormComponent,
       },
       {
-        path: 'projet/form/:id', 
+        path: 'projet/form/:id',
         component: ProjetFormComponent,
       },
       {
-        path: 'projet/detail/:id', 
-        component: ProjetDetailComponent, 
+        path: 'projet/detail/:id',
+        component: ProjetDetailComponent,
       },
       {
-        path: 'sprints/details/:id', 
-        component: SprintDetailsComponent, 
+        path: 'sprints/details/:id',
+        component: SprintDetailsComponent,
       },
 
       {
-        path: 'sprints', 
+        path: 'sprints',
         component: SprintListComponent,
       },
       {
@@ -65,15 +69,15 @@ export const routes: Routes = [
         component: SprintFormComponent,
       },
       {
-        path: 'sprints/:id/etudiants/manage', 
+        path: 'sprints/:id/etudiants/manage',
         component: SprintEtudiantsComponent,
       },
       {
-        path: 'taches', 
+        path: 'taches',
         component: ListtacheComponent,
       },
       {
-        path: 'taches/add', 
+        path: 'taches/add',
         component: TacheFormAdminComponent,
       },
       {
@@ -81,7 +85,7 @@ export const routes: Routes = [
         component: TacheFormAdminComponent,
       },
       {
-        path: 'taches/details/:id', 
+        path: 'taches/details/:id',
         component: TacheDetailsComponent,
       },
 
@@ -90,14 +94,24 @@ export const routes: Routes = [
         component: EvaluationComponent,
       },
 
-        {
+      {
         path: 'note',
         component: NoteComponent,
       },
+      {
+      path: 'moyenne',
+  component: MoyenneComponent,
+},
 
-  /* The code snippet you provided is defining the routing configuration for an Angular application. */
+      {
+        path: 'afficher-notes',
+        component: AfficherNotesComponent,
+      },
 
- 
+
+      /* The code snippet you provided is defining the routing configuration for an Angular application. */
+
+
 
       {
         path: 'add-evaluation/:idProjet',
@@ -107,7 +121,7 @@ export const routes: Routes = [
 
 
 
-      
+
 
       {
         path: 'dashboard',

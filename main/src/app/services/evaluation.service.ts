@@ -1,7 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+// Interface de l'évaluation
 export interface Evaluation {
   idEvaluation?: number;
   titre: string;
@@ -18,6 +20,11 @@ export interface Evaluation {
   };
 }
 
+// Interface de sprint utilisée pour les listes déroulantes
+export interface Sprint {
+  idSprint: number;
+  nom: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -25,11 +32,16 @@ export interface Evaluation {
 export class EvaluationService {
   private baseUrl = 'http://localhost:8081/api';
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
+  /**
+   * Récupère toutes les évaluations.
+   * Utilise un fallback [] si null est retourné pour éviter les erreurs comme `.some` sur null.
+   */
   getAll(): Observable<Evaluation[]> {
-    return this.http.get<Evaluation[]>(`${this.baseUrl}/evaluations/get_all_evaluations`);
+    return this.http
+      .get<Evaluation[]>(`${this.baseUrl}/evaluations/get_all_evaluations`)
+      .pipe(map(evals => evals ?? []));
   }
 
   /** Supprime une évaluation par ID */
@@ -37,43 +49,29 @@ export class EvaluationService {
     return this.http.delete<void>(`${this.baseUrl}/evaluations/delete_evaluation/${id}`);
   }
 
-  //modification
-  update(id: number, evaluation: Evaluation): Observable<any> {
-    return this.http.put(`${this.baseUrl}/evaluations/update_evaluation/${id}`, evaluation);
+  /** Met à jour une évaluation */
+  update(id: number, evaluation: Evaluation): Observable<Evaluation> {
+    return this.http.put<Evaluation>(`${this.baseUrl}/evaluations/update_evaluation/${id}`, evaluation);
   }
 
-  /* addEvaluationToProjet(projetId: number, evaluation: Evaluation): Observable<Evaluation> {
-    return this.http.post<Evaluation>(`${this.baseUrl}/evaluations/add_evaluation/${projetId}`, evaluation);
-  }*/
-
-  addEvaluationToProjet(projetId: number,sprintId:number, evaluation: Evaluation) {
-    return this.http.post(`${this.baseUrl}/evaluations/add_evaluation/${projetId}/${sprintId}`, evaluation);
+  /**
+   * Ajoute une évaluation à un projet et un sprint.
+   * @param projetId ID du projet
+   * @param sprintId ID du sprint
+   * @param evaluation Données de l'évaluation
+   */
+  addEvaluationToProjet(projetId: number, sprintId: number, evaluation: Evaluation): Observable<Evaluation> {
+    return this.http.post<Evaluation>(
+      `${this.baseUrl}/evaluations/add_evaluation/${projetId}/${sprintId}`,
+      evaluation
+    );
   }
 
-
-  // liste deroulante:
-
-  getSprintsByProjetId(projetId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/sprints/projet/${projetId}`);
+  /**
+   * Récupère tous les sprints associés à un projet
+   * @param projetId ID du projet
+   */
+  getSprintsByProjetId(projetId: number): Observable<Sprint[]> {
+    return this.http.get<Sprint[]>(`${this.baseUrl}/sprints/projet/${projetId}`);
   }
-
-
-  // addEvaluationToProjet(projetId: number, evaluation: any): Observable<any> {
-  //   return this.http.post(`${this.baseUrl}/add_evaluation/${projetId}`, evaluation);
-  // }
-
-//   addEvaluationToProjet(projetId: number, evaluationData: {
-//   titre: string;
-//   description: string;
-//   dateEvaluation: string;
-//   coef: number;
-//   sprintId?: number | null;
-// }): Observable<Evaluation> {
-//   return this.http.post<Evaluation>(
-//     `${this.baseUrl}/add_evaluation/${projetId}`,
-//     evaluationData
-//   );
-// }
-
-
 }
