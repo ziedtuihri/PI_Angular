@@ -15,7 +15,7 @@ COPY package*.json ./
 # Copy the rest of the application source code
 COPY . .
 
-RUN npm run build -- --prod
+# RUN npm run build -- --prod
 
 # Ensure correct ownership
 RUN chown -R node:node /home/node/app
