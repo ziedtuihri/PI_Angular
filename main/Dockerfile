@@ -7,10 +7,15 @@ WORKDIR /home/node/app
 
 # Copy package files and install dependencies
 COPY package*.json ./
-RUN npm install --production
+
+RUN npm ci
+
+#RUN npm install --production
 
 # Copy the rest of the application source code
 COPY . .
+
+RUN npm run build -- --prod
 
 # Ensure correct ownership
 RUN chown -R node:node /home/node/app
