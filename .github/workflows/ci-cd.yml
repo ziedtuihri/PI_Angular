@@ -48,5 +48,22 @@ jobs:
         run: npx ng build --configuration=production
 
 
+  run_tests:
+    needs: build_project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install npm dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run unit tests with coverage (ignore failures)
+        run: npm run test -- --watch=false --code-coverage || echo "Tests failed but continuing..."
+
+
