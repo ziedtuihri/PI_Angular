@@ -80,7 +80,7 @@ jobs:
       - name: SonarCloud analysis
         uses: SonarSource/sonarqube-scan-action@v2.0.0
         with:
-          projectBaseDir: .
+          projectBaseDir: ./main
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
@@ -102,11 +102,4 @@ jobs:
         run: docker build -t ziedth/school-app:latest -f main/Dockerfile main
 
       - name: Push Docker image
-        run: docker push ziedth/school
-
-
-
-
-
-
-        
+        run: docker push ziedth/school-app:latest
