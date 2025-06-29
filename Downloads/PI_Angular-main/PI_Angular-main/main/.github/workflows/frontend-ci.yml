@@ -2,9 +2,9 @@ name: Frontend CI
 
 on:
   push:
-    branches: [main]
+    branches: [siwar-dev]
   pull_request:
-    branches: [main]
+    branches: [siwar-dev]
 
 jobs:
   test:
