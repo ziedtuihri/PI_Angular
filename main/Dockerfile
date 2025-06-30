@@ -15,7 +15,7 @@ FROM nginx:alpine
 COPY --from=build /app/dist/materialm /usr/share/nginx/html
 
 # Optional: Add custom nginx config for SPA routing
-COPY main/nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 

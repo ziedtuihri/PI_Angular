@@ -47,7 +47,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./main
           file: ./main/Dockerfile
           push: true
           tags: siwarhmedi/materialm:latest
