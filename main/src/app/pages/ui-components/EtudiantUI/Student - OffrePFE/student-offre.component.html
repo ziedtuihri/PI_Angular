@@ -1,0 +1,91 @@
+<mat-toolbar color="primary" class="toolbar">
+  <span>Available PFE Offers</span>
+</mat-toolbar>
+
+<div class="filters-container mat-elevation-z2">
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Filter by Competence</mat-label>
+    <input matInput placeholder="Ex: Angular, Java..." [(ngModel)]="filters.competence" (ngModelChange)="applyFilters()" />
+    <img src="https://cdn-icons-png.flaticon.com/128/9375/9375367.png" alt="Search Icon" class="suffix-icon" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Filter by Company</mat-label>
+    <input matInput placeholder="Company name..." [(ngModel)]="filters.company" (ngModelChange)="applyFilters()" />
+    <img src="https://cdn-icons-png.flaticon.com/128/17908/17908212.png" alt="Company Icon" class="suffix-icon" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Start Date From</mat-label>
+    <input matInput [matDatepicker]="startPicker" [(ngModel)]="filters.startDateFrom" (dateChange)="applyFilters()" />
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker #startPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Start Date To</mat-label>
+    <input matInput [matDatepicker]="startPickerTo" [(ngModel)]="filters.startDateTo" (dateChange)="applyFilters()" />
+    <mat-datepicker-toggle matSuffix [for]="startPickerTo"></mat-datepicker-toggle>
+    <mat-datepicker #startPickerTo></mat-datepicker>
+  </mat-form-field>
+</div>
+
+<div class="offers-container" *ngIf="!isLoading; else loading">
+  <mat-card class="offer-card" *ngFor="let offre of filteredOffres">
+    <div class="offer-header">
+      <img src="https://cdn-icons-png.flaticon.com/128/2245/2245126.png" alt="Work icon" class="offer-icon" />
+      <div class="offer-title-group">
+        <h2 class="offer-title">{{ offre.titre }}</h2>
+        <p class="offer-company" *ngIf="offre.entrepriseName">
+          <img src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png" alt="Company icon" class="inline-icon" />
+          {{ offre.entrepriseName }}
+        </p>
+        <p class="offer-location" *ngIf="offre.localisation">
+          <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Location icon" class="inline-icon" />
+          {{ offre.localisation }}
+        </p>
+      </div>
+    </div>
+
+    <div class="offer-dates">
+      <p>
+        <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="Calendar icon" class="inline-icon" />
+        <strong>Start:</strong> {{ offre.dateDebut | date: 'mediumDate' }}
+      </p>
+      <p>
+        <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="Calendar icon" class="inline-icon" />
+        <strong>End:</strong> {{ offre.dateFin | date: 'mediumDate' }}
+      </p>
+    </div>
+
+    <p class="offer-description" *ngIf="offre.description">{{ offre.description }}</p>
+
+    <p class="offer-applicants">
+      <img src="https://cdn-icons-png.flaticon.com/128/2641/2641333.png" alt="Applicants icon" class="inline-icon" />
+      <strong>Applicants:</strong> {{ offre.candidatureCount || 0 }}
+    </p>
+
+    <div class="offer-actions">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="apply(offre.id)"
+        [disabled]="appliedOfferIds.has(offre.id)"
+        [ngClass]="{ 'applied': appliedOfferIds.has(offre.id) }"
+      >
+        {{ appliedOfferIds.has(offre.id) ? 'Applied' : 'Apply' }}
+      </button>
+    </div>
+
+  </mat-card>
+</div>
+
+<ng-template #loading>
+  <div class="loading-shade">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+</ng-template>
+
+<div class="action-buttons">
+  <button mat-flat-button color="primary" (click)="goToDashboard()">🏠 Dashboard</button>
+</div>

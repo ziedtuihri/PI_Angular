@@ -1,0 +1,81 @@
+<div class="edit-encadrant-card">
+  <!-- Header with Icon -->
+  <div class="edit-header">
+    <img src="https://cdn-icons-png.flaticon.com/128/1077/1077063.png" alt="Edit Icon" class="header-icon" />
+    <h2 class="dialog-title">Ajouter / Modifier Encadrant</h2>
+  </div>
+
+  <!-- Form Starts -->
+  <form [formGroup]="encadrantForm" (ngSubmit)="onSave()" class="encadrant-form">
+
+    <!-- Nom -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/1077/1077114.png" class="form-icon" alt="Nom Icon" />
+        Nom
+      </mat-label>
+      <input matInput formControlName="nom" required />
+    </mat-form-field>
+
+    <!-- Prénom -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/1077/1077114.png" class="form-icon" alt="Prénom Icon" />
+        Prénom
+      </mat-label>
+      <input matInput formControlName="prenom" required />
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/561/561127.png" class="form-icon" alt="Email Icon" />
+        Email
+      </mat-label>
+      <input matInput formControlName="email" type="email" required />
+    </mat-form-field>
+
+    <!-- Téléphone -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/724/724664.png" class="form-icon" alt="Téléphone Icon" />
+        Téléphone
+      </mat-label>
+      <input matInput formControlName="telephone" required />
+    </mat-form-field>
+
+    <!-- Spécialité -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/3468/3468379.png" class="form-icon" alt="Spécialité Icon" />
+        Spécialité
+      </mat-label>
+      <input matInput formControlName="specialite" required />
+    </mat-form-field>
+
+    <!-- Entreprise -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/1239/1239525.png" class="form-icon" alt="Entreprise Icon" />
+        Entreprise
+      </mat-label>
+      <mat-select formControlName="entrepriseId" required>
+        <mat-option *ngFor="let entreprise of entreprises" [value]="entreprise.id">
+          {{ entreprise.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button mat-stroked-button color="warn" type="button" (click)="onCancel()">
+        <img src="https://cdn-icons-png.flaticon.com/128/1828/1828665.png" class="btn-icon" alt="Annuler Icon" />
+        Annuler
+      </button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="encadrantForm.invalid">
+        <img src="https://cdn-icons-png.flaticon.com/128/942/942748.png" class="btn-icon" alt="Enregistrer Icon" />
+        Enregistrer
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,20 @@
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 300px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 10px;
+}
+.dialog-content-wrapper {
+  padding: 16px 24px; /* Top-bottom: 16px, Left-right: 24px */
+}

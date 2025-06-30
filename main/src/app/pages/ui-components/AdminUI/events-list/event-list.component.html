@@ -1,0 +1,125 @@
+<!-- Top Navigation Bar (Consistent Style) -->
+<mat-toolbar class="modern-navbar" color="primary">
+  <div class="nav-button" (click)="goToEntreprise()">
+    <img src="https://cdn-icons-png.flaticon.com/128/2640/2640740.png" alt="Entreprise Icon" />
+    <span>Gestion Entreprise</span>
+  </div>
+  <div class="nav-button" (click)="goToEvents()">
+    <img src="https://cdn-icons-png.flaticon.com/128/1968/1968779.png" alt="Events Icon" />
+    <span>Gestion Events</span>
+  </div>
+  <div class="nav-button" (click)="goToOffrePFE()">
+    <img src="https://cdn-icons-png.flaticon.com/128/16847/16847393.png" alt="PFE Icon" />
+    <span>Gestion Offre PFE</span>
+  </div>
+  <div class="nav-button" (click)="goToEncadrants()">
+    <img src="https://cdn-icons-png.flaticon.com/128/3829/3829922.png" alt="Encadrants Icon" />
+    <span>Liste Encadrants</span>
+  </div>
+</mat-toolbar>
+
+<!-- Page Header -->
+<div class="page-header">
+  <h1>Event Management</h1>
+</div>
+
+<!-- Sub Toolbar -->
+<mat-toolbar color="accent" class="sub-toolbar">
+  <span>Manage Your Events</span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="primary" (click)="addEvent()">➕ Add Event</button>
+</mat-toolbar>
+
+<!-- Events Table -->
+<div class="table-container" *ngIf="!isLoading; else loading">
+  <table mat-table [dataSource]="events" class="mat-elevation-z8 modern-table">
+
+    <!-- ID -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>#ID</th>
+      <td mat-cell *matCellDef="let event">{{ event.id }}</td>
+    </ng-container>
+
+    <!-- Title -->
+    <ng-container matColumnDef="titre">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let event">{{ event.titre }}</td>
+    </ng-container>
+
+    <!-- Description -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let event">{{ event.description }}</td>
+    </ng-container>
+
+    <!-- Date -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let event">{{ event.date | date: 'shortDate' }}</td>
+    </ng-container>
+
+    <!-- Location -->
+    <ng-container matColumnDef="lieu">
+      <th mat-header-cell *matHeaderCellDef>Location</th>
+      <td mat-cell *matCellDef="let event">{{ event.lieu }}</td>
+    </ng-container>
+
+    <!-- Entreprise -->
+    <ng-container matColumnDef="entreprise">
+      <th mat-header-cell *matHeaderCellDef>Entreprise</th>
+      <td mat-cell *matCellDef="let event">
+        {{ event.entreprise?.nom || 'N/A' }}
+      </td>
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let event">
+        <mat-chip
+          [ngClass]="{
+            'pending-chip': event.status === 'PENDING',
+            'valid-chip': event.status === 'ACTIVE',
+            'rejected-chip': event.status === 'INACTIVE'
+          }"
+          color="primary"
+          selected
+        >
+          {{ event.status }}
+        </mat-chip>
+      </td>
+    </ng-container>
+
+    <!-- Actions -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let event">
+        <div class="action-buttons">
+          <button mat-icon-button (click)="editEvent(event)" matTooltip="Edit">
+            <img src="https://cdn-icons-png.flaticon.com/128/1250/1250615.png" alt="Edit" class="action-icon" />
+          </button>
+          <button mat-icon-button (click)="deleteEvent(event.id)" matTooltip="Delete">
+            <img src="https://cdn-icons-png.flaticon.com/128/1214/1214428.png" alt="Delete" class="action-icon" />
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+<!-- Loading Template -->
+<ng-template #loading>
+  <div class="loading-shade">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<!-- Back to Dashboard Button -->
+<div class="back-dashboard">
+  <button mat-stroked-button color="primary" (click)="goToDashboard()">
+    <mat-icon>arrow_back</mat-icon> Back to Dashboard
+  </button>
+</div>

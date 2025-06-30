@@ -1,0 +1,31 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [siwar-devopsfront]
+  pull_request:
+    branches: [siwar-devopsfront]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install dependencies for ChromeHeadless
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libxss1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libpango1.0-0 libatspi2.0-0
+
+      - name: Run tests
+        run: npm run test -- --watch=false --browsers=ChromeHeadless

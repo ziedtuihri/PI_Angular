@@ -1,0 +1,148 @@
+<mat-toolbar color="primary" class="toolbar">
+  <span class="toolbar-title">Upcoming Events</span>
+  <mat-button-toggle-group
+    [(ngModel)]="viewMode"
+    (change)="applyFilters()"
+    appearance="standard"
+    class="view-toggle"
+    aria-label="View mode toggle"
+  >
+    <mat-button-toggle value="all" class="toggle-btn">
+      <img
+        src="https://cdn-icons-png.flaticon.com/128/14035/14035648.png"
+        alt="All Events Icon"
+        class="toggle-icon"
+      />
+      <span>All Events</span>
+    </mat-button-toggle>
+    <mat-button-toggle value="mine" class="toggle-btn">
+      <img
+        src="https://cdn-icons-png.flaticon.com/128/9490/9490091.png"
+        alt="My Events Icon"
+        class="toggle-icon"
+      />
+      <span>My Events</span>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</mat-toolbar>
+
+<div class="filters-container mat-elevation-z2">
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Filter by Title</mat-label>
+    <input
+      matInput
+      placeholder="Event title..."
+      [(ngModel)]="filters.title"
+      (ngModelChange)="applyFilters()"
+    />
+    <img
+      src="https://cdn-icons-png.flaticon.com/128/9375/9375367.png"
+      alt="Search Icon"
+      class="suffix-icon"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Filter by Company</mat-label>
+    <input
+      matInput
+      placeholder="Company name..."
+      [(ngModel)]="filters.company"
+      (ngModelChange)="applyFilters()"
+    />
+    <img
+      src="https://cdn-icons-png.flaticon.com/128/17908/17908212.png"
+      alt="Company Icon"
+      class="suffix-icon"
+    />
+  </mat-form-field>
+
+</div>
+
+<div class="events-container" *ngIf="!isLoading; else loading">
+  <mat-card class="event-card" *ngFor="let event of filteredEvents">
+    <div class="event-header">
+      <img
+        src="https://cdn-icons-png.flaticon.com/128/1968/1968779.png"
+        alt="Event icon"
+        class="event-icon"
+      />
+      <div class="event-title-group">
+        <h2 class="event-title">{{ event.titre }}</h2>
+        <p class="event-company" *ngIf="event.entreprise?.nom">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png"
+            alt="Company icon"
+            class="inline-icon"
+          />
+          {{ event.entreprise?.nom }}
+        </p>
+        <p class="event-location" *ngIf="event.lieu">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/684/684908.png"
+            alt="Location icon"
+            class="inline-icon"
+          />
+          {{ event.lieu }}
+        </p>
+      </div>
+    </div>
+
+    <div class="event-dates">
+      <p>
+        <img
+          Src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png"
+          alt="Calendar icon"
+          class="inline-icon"
+        />
+        <strong>Date:</strong> {{ event.date | date: 'mediumDate' }}
+      </p>
+      <p *ngIf="event.status">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/565/565547.png"
+          alt="Status icon"
+          class="inline-icon"
+        />
+        <strong>Status:</strong> {{ event.status }}
+      </p>
+    </div>
+
+    <p class="event-description" *ngIf="event.description">
+      {{ event.description }}
+    </p>
+    <div class="event-actions">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="apply(event)"
+        [disabled]="event.hasApplied"
+        *ngIf="!event.hasApplied"
+      >
+        Apply
+      </button>
+
+
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="cancelParticipation(event)"
+        *ngIf="event.hasApplied"
+      >
+        Cancel Participation
+      </button>
+
+    </div>
+
+
+  </mat-card>
+</div>
+
+<ng-template #loading>
+  <div class="loading-shade">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+</ng-template>
+
+<div class="action-buttons">
+  <button mat-flat-button color="primary" (click)="goToDashboard()">🏠 Dashboard</button>
+</div>

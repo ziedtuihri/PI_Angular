@@ -1,0 +1,43 @@
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-container>
+
+  <div>
+    <h1 class="dashboard-title" style="margin-bottom: 200px;">Entreprise Management</h1>
+    <div class="dashboard-grid">
+
+      <!-- Profile -->
+      <button mat-raised-button class="dashboard-button" color="primary" (click)="goToEntreprise()">
+        <img src="https://cdn-icons-png.flaticon.com/128/7902/7902033.png" alt="Profile" class="dashboard-icon">
+        Entreprise List
+      </button>
+
+      <!-- PFE Offers -->
+      <button mat-raised-button class="dashboard-button" color="primary" (click)="goToOffrePFE()" >
+        <img src="https://cdn-icons-png.flaticon.com/128/8552/8552492.png" alt="Offers" class="dashboard-icon">
+        Published PFE Offers
+      </button>
+
+      <!-- Events -->
+      <button mat-raised-button class="dashboard-button" color="primary" (click)="goToEvents()" >
+        <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" alt="Events" class="dashboard-icon">
+        Published Events
+      </button>
+
+      <!-- Encadrants -->
+      <button mat-raised-button class="dashboard-button" color="primary" (click)="goToEncadrants()" >
+        <img src="https://cdn-icons-png.flaticon.com/512/2995/2995620.png" alt="Encadrants" class="dashboard-icon">
+        Encadrants List
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Back to Dashboard Button -->
+  <div class="back-dashboard" style="margin-top: 100px;">
+    <button mat-stroked-button color="primary" (click)="goToMainDashboard()">
+      <mat-icon>arrow_back</mat-icon> Back to Dashboard
+    </button>
+  </div>

@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "https://api.adzuna.com/v1/api",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

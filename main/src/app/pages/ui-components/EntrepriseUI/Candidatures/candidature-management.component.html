@@ -1,0 +1,48 @@
+<div class="candidature-container">
+  <h2>📂 My Application Management Portal</h2>
+
+  <!-- Filter Dropdown -->
+  <div class="filter-bar">
+    <label for="offerFilter">🔍 Filter by Offer Title:</label>
+    <select id="offerFilter" [(ngModel)]="selectedTitle" (change)="onFilterChange()">
+      <option value="ALL">All Offers</option>
+      <option *ngFor="let title of offerTitles" [value]="title">{{ title }}</option>
+    </select>
+  </div>
+
+  <!-- No data message -->
+  <div *ngIf="filteredCandidatures.length === 0" class="no-data">
+    <p>No candidatures found.</p>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- Candidature Cards -->
+  <div *ngFor="let c of filteredCandidatures" class="card">
+    <h3>{{ c.offre.titre }}</h3>
+    <p>👤 {{ c.studentEmail }}</p>
+    <p>📅 {{ c.dateCandidature | date:'medium' }}</p>
+    <p>Status:
+      <span [class]="c.statut.toLowerCase()">{{ c.statut }}</span>
+    </p>
+
+    <div class="actions" *ngIf="c.statut === 'EN_ATTENTE'">
+      <button (click)="updateStatus(c.id, 'VALIDE')" title="Accept">
+        <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" alt="Accept">
+      </button>
+      <button (click)="updateStatus(c.id, 'REFUSE')" title="Refuse">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828665.png" alt="Reject">
+      </button>
+    </div>
+
+    <div class="status-icon" *ngIf="c.statut !== 'EN_ATTENTE'">
+      <img *ngIf="c.statut === 'VALIDE'" src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Accepted">
+      <img *ngIf="c.statut === 'REFUSE'" src="https://cdn-icons-png.flaticon.com/512/753/753345.png" alt="Refused">
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard Button -->
+<div class="action-buttons">
+  <button mat-flat-button color="primary" (click)="goToDashboard()">🏠 Dashboard</button>
+</div>

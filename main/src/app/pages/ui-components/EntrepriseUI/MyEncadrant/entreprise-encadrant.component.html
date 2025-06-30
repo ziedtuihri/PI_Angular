@@ -1,0 +1,60 @@
+<div class="encadrant-container">
+
+  <!-- Header & Filter (unchanged) -->
+  <mat-card class="header-card">
+    <h1>Mes Encadrants</h1>
+    <div class="spacer"></div>
+    <div class="filter-add-row">
+      <mat-form-field appearance="outline" class="filter-input">
+        <mat-label>Filtrer par compétence</mat-label>
+        <input matInput [formControl]="competenceFilter" placeholder="Ex: Java, Angular...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="openEditDialog()">
+        + Ajouter un Encadrant
+      </button>
+    </div>
+  </mat-card>
+
+  <!-- Card Layout -->
+  <div class="card-grid" *ngIf="!isLoading; else loading">
+    <mat-card class="encadrant-card" *ngFor="let e of filteredEncadrants">
+      <div class="card-content">
+        <div class="card-header">
+          <img class="profile-icon" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Icon" />
+          <div>
+            <h2>{{ e.nom }} {{ e.prenom }}</h2>
+            <p class="specialite">{{ e.specialite }}</p>
+          </div>
+        </div>
+
+        <div class="encadrant-details">
+          <p><strong>ID:</strong> {{ e.id }}</p>
+          <p><strong>Email:</strong> {{ e.email }}</p>
+          <p><strong>Téléphone:</strong> {{ e.telephone || '-' }}</p>
+        </div>
+
+        <div class="card-actions">
+          <button mat-icon-button color="primary" (click)="openEditDialog(e)" aria-label="Modifier">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteEncadrant(e.id)" aria-label="Supprimer">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Loading Spinner -->
+  <ng-template #loading>
+    <div class="loading-shade">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Dashboard Button -->
+<div class="action-buttons">
+  <button mat-flat-button color="primary" (click)="goToDashboard()">🏠 Dashboard</button>
+</div>

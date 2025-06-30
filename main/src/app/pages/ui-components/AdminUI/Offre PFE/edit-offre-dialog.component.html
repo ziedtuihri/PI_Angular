@@ -1,0 +1,87 @@
+<div class="edit-offre-card">
+  <div class="edit-header">
+    <img src="https://cdn-icons-png.flaticon.com/128/16847/16847393.png" alt="Offre Icon" class="header-icon" />
+    <h2>{{ offre.id ? 'Edit Offre' : 'Add Offre' }}</h2>
+  </div>
+
+  <form>
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/11067/11067912.png" class="form-icon" alt="Titre" />
+        Titre
+      </mat-label>
+      <input matInput [(ngModel)]="offre.titre" name="titre" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/7032/7032407.png" class="form-icon" alt="Description" />
+        Description
+      </mat-label>
+      <textarea matInput [(ngModel)]="offre.description" name="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/684/684908.png" class="form-icon" alt="Localisation" />
+        Localisation
+      </mat-label>
+      <input matInput [(ngModel)]="offre.localisation" name="localisation" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/9192/9192463.png" class="form-icon" alt="Compétences" />
+        Compétences
+      </mat-label>
+      <input matInput [(ngModel)]="offre.competences" name="competences" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/2921/2921222.png" class="form-icon" alt="Date Début" />
+        Date Début
+      </mat-label>
+      <input matInput [matDatepicker]="picker1" [(ngModel)]="offre.dateDebut" name="dateDebut" />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/2921/2921222.png" class="form-icon" alt="Date Fin" />
+        Date Fin
+      </mat-label>
+      <input matInput [matDatepicker]="picker2" [(ngModel)]="offre.dateFin" name="dateFin" />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/2640/2640740.png" class="form-icon" alt="Entreprise" />
+        Entreprise
+      </mat-label>
+      <mat-select [(ngModel)]="offre.entrepriseId" name="entrepriseId">
+        <mat-option *ngFor="let e of entreprises" [value]="e.id">
+          {{ e.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-checkbox [(ngModel)]="offre.disponible" name="disponible" class="mb-4">
+      Disponible
+    </mat-checkbox>
+
+    <div class="action-buttons">
+      <button mat-stroked-button color="warn" (click)="onCancel()" type="button">
+        <img src="https://cdn-icons-png.flaticon.com/128/1828/1828665.png" class="btn-icon" alt="Cancel" />
+        Cancel
+      </button>
+      <button mat-flat-button color="primary" (click)="onSave()" type="button">
+        <img src="https://cdn-icons-png.flaticon.com/128/942/942748.png" class="btn-icon" alt="Save" />
+        Save
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,183 @@
+<mat-toolbar color="primary" class="toolbar">
+  <img src="https://cdn-icons-png.flaticon.com/128/16847/16847393.png" alt="Offres Icon" class="toolbar-icon" />
+  <span class="toolbar-title">📄 Mes Offres PFE</span>
+  <span class="spacer"></span>
+  <button mat-flat-button color="accent" (click)="createNewOffre()" aria-label="Ajouter une offre">
+    <img src="https://cdn-icons-png.flaticon.com/128/1828/1828817.png" class="btn-icon" alt="Add" />
+    Ajouter une offre
+  </button>
+</mat-toolbar>
+
+<div *ngIf="isLoading" class="center">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
+
+<mat-card *ngIf="!isLoading && offres.length === 0" class="empty-card">
+  <img src="https://cdn-icons-png.flaticon.com/128/4076/4076549.png" alt="Empty" class="empty-icon" />
+  <p>Aucune offre disponible.</p>
+</mat-card>
+
+<!-- === FORM MOVED HERE TO APPEAR ON TOP WHEN EDITING OR CREATING === -->
+<mat-card *ngIf="isEditing || isCreating" class="edit-offre-card">
+  <div class="edit-header">
+    <img src="https://cdn-icons-png.flaticon.com/128/16847/16847393.png" alt="Offre Icon" class="header-icon" />
+    <h2>{{ isEditing ? 'Modifier l\'offre' : 'Créer une nouvelle offre' }}</h2>
+  </div>
+
+  <form [formGroup]="offreForm" (ngSubmit)="saveOffre()">
+    <mat-card class="mb-4">
+      <mat-card-title>
+        {{ isEditing ? 'Modifier une Offre' : isCreating ? 'Créer une Nouvelle Offre' : 'Détails de l\'offre' }}
+      </mat-card-title>
+      <mat-card-content>
+        <div class="form-group">
+          <!-- Titre -->
+          <mat-form-field appearance="outline" class="w-full mb-4">
+            <mat-label>Titre</mat-label>
+            <input matInput formControlName="titre" required />
+            <mat-error *ngIf="offreForm.get('titre')?.hasError('required')">
+              Le titre est obligatoire.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Description -->
+          <mat-form-field appearance="outline" class="w-full mb-4">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" rows="3" required></textarea>
+            <mat-error *ngIf="offreForm.get('description')?.hasError('required')">
+              La description est obligatoire.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Compétences -->
+          <mat-form-field appearance="outline" class="w-full mb-4">
+            <mat-label>Compétences</mat-label>
+            <input matInput formControlName="competences" />
+          </mat-form-field>
+
+          <!-- Localisation -->
+          <mat-form-field appearance="outline" class="w-full mb-4">
+            <mat-label>Localisation</mat-label>
+            <input matInput formControlName="localisation" />
+          </mat-form-field>
+
+          <!-- Dates -->
+          <div class="date-fields flex flex-col md:flex-row gap-4">
+            <!-- Date Début -->
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/2921/2921222.png"
+                  class="form-icon"
+                  alt="Date Début"
+                />
+                Date Début
+              </mat-label>
+              <input
+                matInput
+                [matDatepicker]="pickerDebut"
+                formControlName="dateDebut"
+                [min]="minDate"
+                required
+              />
+              <mat-datepicker-toggle matSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+              <mat-datepicker #pickerDebut></mat-datepicker>
+              <mat-error *ngIf="offreForm.get('dateDebut')?.hasError('matDatepickerMin') || offreForm.get('dateDebut')?.hasError('dateInPast')">
+                La date de début ne peut pas être dans le passé.
+              </mat-error>
+              <mat-error *ngIf="offreForm.get('dateDebut')?.hasError('required')">
+                La date de début est obligatoire.
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Date Fin -->
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/2921/2921222.png"
+                  class="form-icon"
+                  alt="Date Fin"
+                />
+                Date Fin
+              </mat-label>
+              <input
+                matInput
+                [matDatepicker]="pickerFin"
+                formControlName="dateFin"
+                [min]="offreForm.get('dateDebut')?.value || minDate"
+                required
+              />
+              <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFin></mat-datepicker>
+              <mat-error *ngIf="offreForm.hasError('dateFinBeforeDateDebut')">
+                La date de fin doit être égale ou postérieure à la date de début.
+              </mat-error>
+              <mat-error *ngIf="offreForm.get('dateFin')?.hasError('required')">
+                La date de fin est obligatoire.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Disponible -->
+          <mat-checkbox formControlName="disponible" class="mt-4">Offre Disponible</mat-checkbox>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end" class="mt-4">
+        <button mat-raised-button color="primary" type="submit" [disabled]="offreForm.invalid">
+          {{ isEditing ? 'Mettre à jour' : 'Créer' }}
+        </button>
+        <button mat-button color="warn" type="button" (click)="cancel()">Annuler</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</mat-card>
+
+<!-- === OFFERS LIST === -->
+<div *ngFor="let offre of offres" class="offre-card">
+  <mat-card>
+    <mat-card-header>
+      <img src="https://cdn-icons-png.flaticon.com/128/16847/16847393.png" alt="Offre" class="card-icon" />
+      <mat-card-title>{{ offre.titre }}</mat-card-title>
+      <mat-card-subtitle>{{ offre.localisation || 'Localisation non spécifiée' }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p>{{ offre.description }}</p>
+      <p>
+        <img src="https://cdn-icons-png.flaticon.com/128/9192/9192463.png" class="content-icon" alt="Compétences" />
+        <strong>Compétences:</strong> {{ offre.competences || '-' }}
+      </p>
+      <p>
+        <img src="https://cdn-icons-png.flaticon.com/128/2921/2921222.png" class="content-icon" alt="Dates" />
+        <strong>Dates:</strong> {{ offre.dateDebut }} → {{ offre.dateFin }}
+      </p>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button
+        mat-icon-button
+        color="primary"
+        matTooltip="Modifier"
+        (click)="editOffre(offre)"
+        aria-label="Modifier offre"
+      >
+        <img src="https://cdn-icons-png.flaticon.com/128/1827/1827933.png" alt="Edit" class="action-icon" />
+      </button>
+      <button
+        mat-icon-button
+        color="warn"
+        matTooltip="Supprimer"
+        (click)="deleteOffre(offre.id)"
+        aria-label="Supprimer offre"
+      >
+        <img src="https://cdn-icons-png.flaticon.com/128/1214/1214428.png" alt="Delete" class="action-icon" />
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<!-- Back to Dashboard Button -->
+<div class="action-buttons">
+  <button mat-flat-button color="primary" (click)="goToDashboard()">🏠 Dashboard</button>
+</div>
+

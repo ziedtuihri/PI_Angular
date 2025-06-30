@@ -1,0 +1,88 @@
+.candidature-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.filter-bar select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  padding: 16px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.01);
+}
+
+.actions button {
+  border: none;
+  background: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.actions img {
+  width: 24px;
+  height: 24px;
+}
+
+.status-icon img {
+  width: 24px;
+  height: 24px;
+}
+
+.valide {
+  color: green;
+  font-weight: bold;
+}
+
+.refuse {
+  color: red;
+  font-weight: bold;
+}
+
+.en_attente {
+  color: orange;
+  font-weight: bold;
+}
+
+.spacer {
+  height: 25px;
+}
+
+.no-data {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.action-buttons {
+  margin-top: 30px;
+  text-align: center;
+}

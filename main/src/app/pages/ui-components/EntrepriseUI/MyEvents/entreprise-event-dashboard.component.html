@@ -1,0 +1,52 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary" class="toolbar">
+  <img src="https://cdn-icons-png.flaticon.com/128/2558/2558944.png" class="toolbar-icon" alt="Events" />
+  <span class="toolbar-title"> My Events</span>
+  <span class="spacer"></span>
+  <button mat-flat-button color="accent" (click)="openEditDialog()">
+    <img src="https://cdn-icons-png.flaticon.com/128/9546/9546379.png" class="btn-icon" alt="Add" />
+    Ajouter un événement
+  </button>
+</mat-toolbar>
+
+<!-- Loading spinner -->
+<div *ngIf="isLoading" class="center">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
+
+<!-- No events message -->
+<mat-card *ngIf="!isLoading && events.length === 0" class="empty-card">
+  <img src="https://cdn-icons-png.flaticon.com/128/11696/11696635.png" class="empty-icon" alt="No events" />
+  <p>Aucun événement disponible.</p>
+</mat-card>
+
+<!-- Events List -->
+<div *ngFor="let event of events" class="offre-card">
+  <mat-card>
+    <mat-card-header>
+      <img src="https://cdn-icons-png.flaticon.com/128/7037/7037197.png" class="card-icon" alt="Event" />
+      <mat-card-title>{{ event.titre }}</mat-card-title>
+      <mat-card-subtitle>{{ event.lieu }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ event.description }}</p>
+      <p>
+        <img src="https://cdn-icons-png.flaticon.com/128/2921/2921222.png" class="content-icon" alt="Date" />
+        <strong>Date:</strong> {{ event.date | date:'mediumDate' }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-icon-button color="primary" (click)="openEditDialog(event)" aria-label="Edit event">
+        <img src="https://cdn-icons-png.flaticon.com/128/1827/1827933.png" class="action-icon" alt="Edit" />
+      </button>
+      <button mat-icon-button color="warn" (click)="openEditDialog(event)" aria-label="Delete event">
+        <img src="https://cdn-icons-png.flaticon.com/128/1214/1214428.png" class="action-icon" alt="Delete" />
+      </button>
+      </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- Back to Dashboard Button -->
+<div class="action-buttons">
+  <button mat-flat-button color="primary" (click)="goToDashboard()">🏠 Dashboard</button>
+</div>

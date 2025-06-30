@@ -1,0 +1,58 @@
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-container *ngIf="!isLoading">
+  <!-- ✅ If entreprise is validated, show dashboard -->
+  <div *ngIf="isEntrepriseValidated(); else notValidated">
+    <h1 class="dashboard-title">Welcome, {{ entreprise?.nom }}</h1>
+    <div class="dashboard-grid">
+
+      <!-- Profile -->
+      <button mat-raised-button class="dashboard-button" color="primary" (click)="goToProfile()">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile" class="dashboard-icon">
+        My Profile
+      </button>
+
+      <!-- PFE Offers -->
+      <button mat-raised-button class="dashboard-button" color="primary" (click)="goToOffer()">
+        <img src="https://cdn-icons-png.flaticon.com/512/10485/10485169.png" alt="Offers" class="dashboard-icon">
+        My PFE Offers
+      </button>
+
+      <!-- Events -->
+      <button mat-raised-button class="dashboard-button" color="primary" (click)="goToEvent()">
+        <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" alt="Events" class="dashboard-icon">
+        My Events
+      </button>
+
+      <!-- Encadrants -->
+      <button mat-raised-button class="dashboard-button" color="primary" (click)="goToEncdrants()">
+        <img src="https://cdn-icons-png.flaticon.com/512/2995/2995620.png" alt="Encadrants" class="dashboard-icon">
+        My Encadrants
+      </button>
+
+      <!-- Archive PFE -->
+      <button mat-raised-button class="dashboard-button">
+        <img src="https://cdn-icons-png.flaticon.com/512/12492/12492317.png" alt="Archive" class="dashboard-icon">
+        My ArchivePFE
+      </button>
+
+      <!-- Students -->
+      <button mat-raised-button class="dashboard-button"  color="primary" (click)="goToApplication()">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png" alt="Students" class="dashboard-icon">
+        Application Management
+      </button>
+    </div>
+  </div>
+
+  <!-- ❌ Not validated -->
+  <ng-template #notValidated>
+    <div class="validation-warning">
+      <mat-icon color="warn">warning</mat-icon>
+      <h2>Your entreprise is not validated yet.</h2>
+      <p>You cannot access dashboard features until approval.</p>
+    </div>
+  </ng-template>
+</ng-container>
+

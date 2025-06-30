@@ -1,0 +1,47 @@
+<div class="edit-entreprise-card">
+  <div class="edit-header">
+    <img src="https://cdn-icons-png.flaticon.com/128/1077/1077063.png" alt="Edit Icon" class="header-icon" />
+    <h2>Edit Entreprise</h2>
+  </div>
+
+  <form>
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/1077/1077114.png" class="form-icon" alt="Name" />
+        Name
+      </mat-label>
+      <input matInput [(ngModel)]="entreprise.nom" name="nom" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/561/561127.png" class="form-icon" alt="Email" />
+        Email
+      </mat-label>
+      <input matInput [(ngModel)]="entreprise.email" name="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>
+        <img src="https://cdn-icons-png.flaticon.com/128/1828/1828884.png" class="form-icon" alt="Status" />
+        Status
+      </mat-label>
+      <mat-select [(ngModel)]="entreprise.statut" name="statut">
+        <mat-option value="EN_ATTENTE">🕓 En attente</mat-option>
+        <mat-option value="VALIDE">✅ Validé</mat-option>
+        <mat-option value="REFUSE">❌ Refusé</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="action-buttons">
+      <button mat-stroked-button color="warn" (click)="onCancel()">
+        <img src="https://cdn-icons-png.flaticon.com/128/1828/1828665.png" class="btn-icon" alt="Cancel" />
+        Cancel
+      </button>
+      <button mat-flat-button color="primary" (click)="onSave()">
+        <img src="https://cdn-icons-png.flaticon.com/128/942/942748.png" class="btn-icon" alt="Save" />
+        Save
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,69 @@
+<h2 mat-dialog-title class="dialog-title">
+  {{ isNew ? '🆕 Créer un nouvel événement' : '✏️ Modifier l\'événement' }}
+</h2>
+
+<!-- Spacer -->
+<div class="title-spacer"></div>
+
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="eventForm" (ngSubmit)="onSave()" class="dialog-form">
+
+    <!-- Titre -->
+    <div class="spacer"></div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titre de l'événement</mat-label>
+      <mat-icon matPrefix>
+        <img src="https://cdn-icons-png.flaticon.com/128/2620/2620953.png" alt="Titre Icon" width="20" />
+      </mat-icon>
+      <input matInput formControlName="titre" required />
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <mat-icon matPrefix>
+        <img src="https://cdn-icons-png.flaticon.com/128/1250/1250615.png" alt="Description Icon" width="20" />
+      </mat-icon>
+      <textarea matInput formControlName="description" rows="3" required></textarea>
+    </mat-form-field>
+
+    <!-- Date -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Date de l'événement</mat-label>
+      <mat-icon matPrefix>
+        <img src="https://cdn-icons-png.flaticon.com/128/747/747310.png" alt="Calendar Icon" width="18" />
+      </mat-icon>
+      <input matInput [matDatepicker]="picker" formControlName="date" required />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Lieu -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Lieu</mat-label>
+      <mat-icon matPrefix>
+        <img src="https://cdn-icons-png.flaticon.com/128/535/535239.png" alt="Lieu Icon" width="20" />
+      </mat-icon>
+      <input matInput formControlName="lieu" required />
+    </mat-form-field>
+
+    <!-- 🔽 ACTIONS MUST BE INSIDE FORM for (ngSubmit) to work -->
+    <mat-dialog-actions align="end" class="dialog-actions">
+      <button mat-flat-button color="warn" type="button" (click)="onCancel()">
+        <img src="https://cdn-icons-png.flaticon.com/128/1828/1828665.png" class="btn-icon" alt="Cancel" />
+        Annuler
+      </button>
+
+      <button *ngIf="!isNew" mat-stroked-button color="warn" type="button" (click)="onDelete()">
+        <img src="https://cdn-icons-png.flaticon.com/128/3221/3221897.png" class="btn-icon" alt="Delete" />
+        Supprimer
+      </button>
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="eventForm.invalid">
+        <img src="https://cdn-icons-png.flaticon.com/128/942/942748.png" class="btn-icon" alt="Save" />
+        {{ isNew ? 'Créer' : 'Mettre à jour' }}
+      </button>
+    </mat-dialog-actions>
+
+  </form>
+</mat-dialog-content>
