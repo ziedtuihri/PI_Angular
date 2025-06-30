@@ -4,7 +4,7 @@ import { FullComponent } from './layouts/full/full.component';
 import { EntrepriseListComponent } from './pages/ui-components/AdminUI/entreprise-list/entreprise-list.component';
 import { EventListComponent} from './pages/ui-components/AdminUI/events-list/event-list.component';
 import { EditEventDialogComponent} from './pages/ui-components/AdminUI/events-list/EditEventDialogComponent';
-import { EncadrantComponent} from './pages/ui-components/AdminUI/Encadrant/Encadrant.component';
+import { EncadrantComponent} from './pages/ui-components/AdminUI/Encadrant/encadrant.component';
 import { OffreComponent} from './pages/ui-components/AdminUI/Offre PFE/offre.component';
 import { EntrepriseViewComponent} from './pages/ui-components/EntrepriseUI/DashboardEntreprise/entreprise-view.component';
 import { EntrepriseProfileComponent} from './pages/ui-components/EntrepriseUI/MyProfile/entreprise-profile.component';
