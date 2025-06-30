@@ -12,7 +12,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: PI_Angular/main
+        working-directory: main
 
     steps:
       - name: Checkout code
