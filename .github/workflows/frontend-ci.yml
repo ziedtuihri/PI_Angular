@@ -2,7 +2,7 @@ name: Frontend CI
 
 on:
   push:
-    branches: [ "Zied" ]
+    branches: [ "siwar-devops" ]
   pull_request:
     types: [opened, synchronize, reopened]
 
