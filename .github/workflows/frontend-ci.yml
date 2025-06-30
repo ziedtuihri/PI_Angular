@@ -42,7 +42,15 @@ jobs:
         with:
           username: "siwarhmedi"
           password: "dckr_pat_Y1IxL8nvMfw2YGTXMZnFH9hhqno"
-
+      #SonarCloud
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2.2
+        with:
+          projectBaseDir: main
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: siwarhmedi_PI_Angular
+          SONAR_ORGANIZATION: siwarhmedii
       # Docker build & push
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
