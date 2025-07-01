@@ -1,4 +1,4 @@
-name: Build and Push Angular Docker Image
+name: Zied CI/CD Pipeline
 
 on:
   push:
