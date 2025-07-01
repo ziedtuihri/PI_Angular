@@ -1,22 +1,22 @@
-FROM node:16
+# Stage 1: Build Angular app
+FROM node:18 AS build
 
-LABEL maintainer="Zied Touahri <zied.touahri@esprit.tn>"
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
 
-RUN mkdir -p /home/node/app && chown -R node:node /home/node/app
-
-WORKDIR /home/node/app
-
-# Copy package files and install dependencies
-COPY package.json package-lock.json ./
-RUN npm ci --only=production
-
-# Copy the rest of the application source code
 COPY . .
+RUN npm run build -- --configuration production
 
-RUN chown -R node:node /home/node/app
+# Stage 2: Serve app with nginx
+FROM nginx:alpine
 
-USER node
+# Copy built files from previous stage
+COPY --from=build /app/dist/materialm /usr/share/nginx/html
 
-EXPOSE 9090
+# Optional: Add custom nginx config for SPA routing
+COPY nginx.conf /etc/nginx/nginx.conf
 
-CMD ["node", "server.js"]
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
