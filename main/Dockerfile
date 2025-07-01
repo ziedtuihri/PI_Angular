@@ -6,10 +6,11 @@ RUN mkdir -p /home/node/app && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app
 
-COPY package*.json ./
+# Copy package files and install dependencies
+COPY package.json package-lock.json ./
+RUN npm ci --only=production
 
-RUN npm install --production
-
+# Copy the rest of the application source code
 COPY . .
 
 RUN chown -R node:node /home/node/app
